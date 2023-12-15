@@ -149,6 +149,7 @@ const PropertyDetails = () => {
 
   const handleInputChange = (id) => {
     setInputText(id);
+    propertyNumber.current = 0;
     // setDataById(data.filter((item) => item.prop_id === id));
     dataById.current = data.filter((item) => item.prop_id === id);
     const currentData = dataById.current[propertyNumber.current];

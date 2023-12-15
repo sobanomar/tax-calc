@@ -11,8 +11,6 @@ Welcome to the Real Estate Property Tax Calculation App! This application helps 
 2. Install dependencies:
    ```bash
    npm install
-
-
 3. Start the application:
    ```bash
    npm start

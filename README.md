@@ -5,16 +5,18 @@ Welcome to the Real Estate Property Tax Calculation App! This application helps 
 ## Installation
 
 1. Clone the repository:
+   
    ```bash
    git clone https://github.com/sobanomar/real-estate-tax-app.git
    cd real-estate-tax-app
-2. Install dependencies:
+3. Install dependencies:
+
    ```bash
    npm install
-3. Start the application:
+4. Start the application:
+   
    ```bash
    npm start
-
 
 # Usage
 Open the app on your preferred device.

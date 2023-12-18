@@ -9,94 +9,97 @@ import {
   createDrawerNavigator,
 } from "@react-navigation/drawer";
 
-import PropertyDetails from "./screens/PropertyDetails";
-import Summary from "./screens/Summary";
-import ATRPlot from "./screens/ATRPlot";
-import RevenueAnalysis from "./screens/RevenueAnalysis";
+import PropertyDetails from "./src/screens/PropertyDetails";
+import Summary from "./src/screens/Summary";
+import ATRPlot from "./src/screens/ATRPlot";
+import RevenueAnalysis from "./src/screens/RevenueAnalysis";
+import { MyProvider } from "./src/context/DataContext";
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        drawerContent={(props) => {
-          return (
-            <SafeAreaView>
-              <View
-                style={{
-                  width: "100%",
-                  height: 90,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "rgb(224 224 255)",
-                  marginBottom: 10,
-                }}
-              >
-                <Text
+    <MyProvider>
+      <NavigationContainer>
+        <Drawer.Navigator
+          drawerContent={(props) => {
+            return (
+              <SafeAreaView>
+                <View
                   style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
+                    width: "100%",
+                    height: 90,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "rgb(224 224 255)",
+                    marginBottom: 10,
                   }}
                 >
-                  GOV PAK TAX APP
-                </Text>
-              </View>
-              <DrawerItemList {...props} />
-            </SafeAreaView>
-          );
-        }}
-        screenOptions={{
-          drawerStyle: {
-            backgroundColor: "#fff",
-            width: 250,
-          },
-          headerStyle: {
-            backgroundColor: "rgb(224 224 255)",
-          },
-          headerTintColor: "#111",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          drawerActiveTintColor: "blue",
-          drawerLabelStyle: {
-            color: "#111",
-          },
-        }}
-      >
-        <Drawer.Screen
-          name="PropertyDetails"
-          options={{
-            drawerLabel: "Property Details",
-            title: "Real Estate Property Tax App",
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    GOV PAK TAX APP
+                  </Text>
+                </View>
+                <DrawerItemList {...props} />
+              </SafeAreaView>
+            );
           }}
-          component={PropertyDetails}
-        />
-        <Drawer.Screen
-          name="Summary"
-          options={{
-            drawerLabel: "Summary",
-            title: "Real Estate Property Tax App",
+          screenOptions={{
+            drawerStyle: {
+              backgroundColor: "#fff",
+              width: 250,
+            },
+            headerStyle: {
+              backgroundColor: "rgb(224 224 255)",
+            },
+            headerTintColor: "#111",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            drawerActiveTintColor: "blue",
+            drawerLabelStyle: {
+              color: "#111",
+            },
           }}
-          component={Summary}
-        />
-        <Drawer.Screen
-          name="ATRPlot"
-          options={{
-            drawerLabel: "ATR Plot",
-            title: "Real Estate Property Tax App",
-          }}
-          component={ATRPlot}
-        />
-        <Drawer.Screen
-          name="RevenueAnalysis"
-          options={{
-            drawerLabel: "Revenue Analysis",
-            title: "Real Estate Property Tax App",
-          }}
-          component={RevenueAnalysis}
-        />
-      </Drawer.Navigator>
-    </NavigationContainer>
+        >
+          <Drawer.Screen
+            name="PropertyDetails"
+            options={{
+              drawerLabel: "Property Details",
+              title: "Real Estate Property Tax App",
+            }}
+            component={PropertyDetails}
+          />
+          <Drawer.Screen
+            name="Summary"
+            options={{
+              drawerLabel: "Summary",
+              title: "Real Estate Property Tax App",
+            }}
+            component={Summary}
+          />
+          <Drawer.Screen
+            name="ATRPlot"
+            options={{
+              drawerLabel: "ATR Plot",
+              title: "Real Estate Property Tax App",
+            }}
+            component={ATRPlot}
+          />
+          <Drawer.Screen
+            name="RevenueAnalysis"
+            options={{
+              drawerLabel: "Revenue Analysis",
+              title: "Real Estate Property Tax App",
+            }}
+            component={RevenueAnalysis}
+          />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </MyProvider>
   );
 }

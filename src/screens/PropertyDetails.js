@@ -1,0 +1,401 @@
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  Platform,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import Heading from "../components/Heading";
+import DataField from "../components/DataField";
+import InputField from "../components/InputField";
+import PreviousAndNextButton from "../components/PreviousAndNextButton";
+import Papa from "papaparse";
+import { Asset } from "expo-asset";
+import * as FileSystem from "expo-file-system";
+import { useMyContext } from "../context/DataContext";
+
+const PropertyDetails = ({ navigation }) => {
+  const [data, setData] = useState([]);
+  const [inputId, setInputId] = useState("");
+  const [userName, setUserName] = useState("");
+  const dataById = useRef();
+  const [isFetching, setisFetching] = useState(true);
+  const propertyNumber = useRef(0);
+  const [inputEnabled, setInputEnabled] = useState(true);
+  const [preferredTaxLiability, setPreferredTaxLiability] = useState(0);
+  const [currentTaxLiability, setCurrentTaxLiability] = useState(0);
+  const preferredATRValue = useRef(0);
+  const currentATRValue = useRef(0);
+  // data structure
+  const [formData, setFormData] = useState({
+    num: {
+      name: "Number Of Property",
+      value: "-",
+    },
+    locality_name: {
+      name: "Locality Name",
+      value: "-",
+    },
+    land_area_marla: {
+      name: "Land Area (Marla)",
+      value: "-",
+    },
+    built_area_sqft: {
+      name: "Built Area (sqft)",
+      value: "-",
+    },
+    onlyuse: {
+      name: "Use",
+      value: "-",
+    },
+    storeys: {
+      name: "Storeys",
+      value: "-",
+    },
+    prop_val: {
+      name: "Property Value",
+      value: "-",
+    },
+    rent_val: {
+      name: "Rent Value",
+      value: "-",
+    },
+    prop_id: {
+      name: "Property ID",
+      value: "-",
+    },
+  });
+
+  const { inputData, setInputData, idFilteredData } = useMyContext();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const csvAsset = Asset.fromModule(
+        require("../../assets/properties_data.csv")
+      );
+      await csvAsset.downloadAsync();
+      const localUri = csvAsset.localUri;
+
+      // Use expo-file-system for web and mobile
+      let content;
+
+      if (Platform.OS === "web") {
+        const response = await fetch(localUri);
+        content = await response.text();
+      } else {
+        const csvModule = await Asset.fromModule(
+          require("../assets/properties_data.csv")
+        ).downloadAsync();
+        content = await FileSystem.readAsStringAsync(csvModule.localUri);
+      }
+      // console.log(content);
+
+      const parsedData = Papa.parse(content, {
+        header: true,
+        skipEmptyLines: true,
+      }).data;
+      setData(parsedData);
+      setisFetching(false);
+      // console.log("Parsed Data: ", parsedData);
+    } catch (error) {
+      console.error("File Reading Error:", error.message);
+    }
+  };
+
+  const handleInputChange = (id) => {
+    setInputId(id);
+    propertyNumber.current = 0;
+    // setDataById(data.filter((item) => item.prop_id === id));
+    dataById.current = data.filter((item) => item.prop_id === id);
+    idFilteredData.current = dataById.current;
+    const currentData = dataById.current[propertyNumber.current];
+    updateData(currentData);
+  };
+
+  const handleInputName = (name) => {
+    setUserName(name);
+  };
+
+  const updateData = (data) => {
+    if (data) {
+      Object.keys(formData).map((fieldName) => {
+        setFormData((prevData) => {
+          return {
+            ...prevData,
+            [fieldName]: {
+              ...prevData[fieldName],
+              value: data[fieldName],
+            },
+          };
+        });
+      });
+    } else {
+      resetData();
+      // setFormData(noEntryData);
+    }
+  };
+
+  const resetData = () => {
+    Object.keys(formData).map((fieldName) => {
+      setFormData((prevData) => {
+        return {
+          ...prevData,
+          [fieldName]: {
+            ...prevData[fieldName],
+            value: "-",
+          },
+        };
+      });
+    });
+  };
+
+  const handlePrevious = () => {
+    // Logic for Previous button
+    propertyNumber.current -= 1;
+    updateData(dataById.current[propertyNumber.current]);
+  };
+
+  const handleNext = () => {
+    setInputEnabled(false);
+
+    const newData = { ...formData };
+
+    if (preferredTaxLiability > 0) {
+      newData.preferred_tax = {
+        name: "Preferred Tax Liability",
+        value: preferredTaxLiability,
+      };
+    }
+
+    setInputData((prevInputData) => {
+      const updatedData = [...prevInputData];
+      updatedData[propertyNumber.current] = newData;
+      return updatedData;
+    });
+
+    if (propertyNumber.current === 14) navigation.navigate("Summary");
+    if (propertyNumber.current < 14) {
+      setPreferredTaxLiability(0);
+      propertyNumber.current = propertyNumber.current + 1;
+      updateData(dataById.current[propertyNumber.current]);
+    }
+  };
+
+  if (isFetching) {
+    return (
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <ActivityIndicator
+          color="rgb(204, 204, 255)"
+          style={{ marginTop: 100 }}
+          size={"large"}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        {/* Heading */}
+        <Heading text={"Property Details"} />
+
+        {/* Input ID */}
+        <View
+          style={{
+            marginVertical: 10,
+            width: "90%",
+          }}
+        >
+          <Text
+            style={{
+              marginVertical: 10,
+              marginTop: 8,
+              fontSize: 17,
+              fontWeight: "bold",
+            }}
+          >
+            Enter Property ID:
+            <Text style={{ color: "red", fontSize: 20, fontWeight: 400 }}>
+              *
+            </Text>
+          </Text>
+          <TextInput
+            style={{
+              height: 40,
+              borderColor: !inputEnabled ? "grey" : "#000",
+              borderWidth: 1,
+              marginBottom: 10,
+              padding: 10,
+              borderRadius: 5,
+              color: !inputEnabled ? "grey" : "#000",
+            }}
+            placeholder="Type here..."
+            onChangeText={(id) => handleInputChange(id)}
+            keyboardType="numeric"
+            pointerEvents={inputEnabled ? "auto" : "none"}
+            editable={inputEnabled}
+            value={inputId.current}
+          />
+        </View>
+
+        {/* Input Name */}
+        <View
+          style={{
+            marginVertical: 10,
+            width: "90%",
+          }}
+        >
+          <Text
+            style={{
+              marginVertical: 10,
+              marginTop: 8,
+              fontSize: 17,
+              fontWeight: "bold",
+            }}
+          >
+            Enter your name:
+            <Text style={{ color: "red", fontSize: 20, fontWeight: 400 }}>
+              *
+            </Text>
+          </Text>
+          <TextInput
+            style={{
+              height: 40,
+              borderColor: !inputEnabled ? "grey" : "#000",
+              borderWidth: 1,
+              marginBottom: 10,
+              padding: 10,
+              borderRadius: 5,
+              color: !inputEnabled ? "grey" : "#000",
+            }}
+            placeholder="Type here..."
+            onChangeText={(name) => handleInputName(name)}
+            pointerEvents={inputEnabled ? "auto" : "none"}
+            editable={inputEnabled}
+            value={userName.current}
+          />
+        </View>
+
+        {/* Data Fields */}
+        <View
+          style={{
+            width: "90%",
+            marginVertical: 10,
+          }}
+        >
+          {Object.keys(formData).map((fieldName) => (
+            <DataField
+              key={fieldName}
+              name={formData[fieldName]?.name}
+              value={formData[fieldName]?.value}
+            />
+          ))}
+        </View>
+
+        {/* Property Tax Input */}
+        {preferredTaxLiability > 0 && (
+          <Text
+            style={{
+              marginTop: 30,
+              fontSize: 17,
+              fontWeight: "bold",
+              width: "90%",
+            }}
+          >{`پراپرٹی ${
+            propertyNumber.current + 1
+          } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم ${preferredTaxLiability} روپے کی اوسط ٹیکس کی شرح ${
+            preferredATRValue.current
+          } % ہے`}</Text>
+        )}
+        <View
+          style={{
+            marginVertical: 10,
+            alignItems: "center",
+            width: "90%",
+          }}
+        >
+          <InputField
+            editable={inputId.length === 0}
+            text={"آپ کی رائے میں اس پراپرٹی کا پراپرٹی ٹیکس کیا ہونا چاہیے؟"}
+            handleInputChange={(value) => {
+              preferredATRValue.current = (
+                (preferredTaxLiability / formData["prop_val"].value) *
+                100
+              ).toFixed(3);
+              setPreferredTaxLiability(value);
+            }}
+            value={
+              // formData[propertyNumber.current]?.preferred_tax?.value
+              preferredTaxLiability !== 0 ? preferredTaxLiability : ""
+            }
+            required={true}
+          />
+          <InputField
+            editable={inputId.length === 0}
+            text={
+              "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
+            }
+          />
+        </View>
+
+        {currentTaxLiability > 0 && (
+          <Text
+            style={{
+              marginTop: 30,
+              fontSize: 17,
+              fontWeight: "bold",
+              width: "90%",
+            }}
+          >{`پراپرٹی ${
+            propertyNumber.current + 1
+          } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم ${currentTaxLiability} روپے کی اوسط ٹیکس کی شرح ${
+            currentATRValue.current
+          } % ہے`}</Text>
+        )}
+        <View
+          style={{
+            marginVertical: 10,
+            alignItems: "center",
+            width: "90%",
+          }}
+        >
+          <InputField
+            editable={inputId.length === 0}
+            text={"آپ کی رائے میں اس پراپرٹی کا موجودہ پراپرٹی ٹیکس کیا ہے؟"}
+            handleInputChange={(value) => {
+              currentATRValue.current = (
+                (currentTaxLiability / formData["prop_val"].value) *
+                100
+              ).toFixed(3);
+              setCurrentTaxLiability(value);
+            }}
+            value={currentTaxLiability !== 0 ? currentTaxLiability : ""}
+          />
+        </View>
+
+        {/* Next Previous Button  */}
+        <PreviousAndNextButton
+          inputId={inputId}
+          handleNextPress={handleNext}
+          handlePreviousPress={handlePrevious}
+          propertyNumber={propertyNumber.current}
+          userName={userName}
+          isDisabled={
+            formData["num"].value === "-" ||
+            preferredTaxLiability === 0 ||
+            preferredTaxLiability === ""
+          }
+        />
+      </View>
+    </ScrollView>
+  );
+};
+
+export default PropertyDetails;

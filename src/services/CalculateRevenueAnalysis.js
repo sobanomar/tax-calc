@@ -1,27 +1,30 @@
 const url = "http://18.205.239.27:5000/analysis";
 
 // Assuming finalData.current is your data
-
-export const calculateRevenueAnalysis = (finalData) => {
+export const calculateRevenueAnalysis = async (finalData) => {
   const data = finalData;
 
-  // Make a POST request
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Add any other headers if needed
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((apiResponse) => {
-      // Store the response in the variable apiResponse
-      return apiResponse;
-      // You can use the apiResponse variable as needed
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Handle errors here
+  try {
+    // Make a POST request
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Add any other headers if needed
+      },
+      body: JSON.stringify(data),
     });
+
+    // Check if the request was successful
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Parse and return the JSON data
+    const jsonData = await response.json();
+    return jsonData;
+  } catch (error) {
+    console.error("Error :", error.message);
+    // Handle errors here
+  }
 };

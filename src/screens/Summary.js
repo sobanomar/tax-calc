@@ -37,7 +37,7 @@ const Summary = ({ navigation }) => {
   }, [inputData]);
 
   const calculateATR = async () => {
-    // console.log("InputData: ", inputData);
+    console.log("InputData: ", inputData);
     const tempATR = [];
     const tempProp = [];
     const tempAggregatedValues = [];

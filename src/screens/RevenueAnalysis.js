@@ -4,6 +4,7 @@ import { useMyContext } from "../context/DataContext";
 import { BarChart } from "react-native-chart-kit";
 import { generateArray3ForEachPair } from "../Utils/GenerateFinalArray";
 import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
+import Heading from "../components/Heading";
 
 const RevenueAnalysis = () => {
   const { inputData, idFilteredData } = useMyContext();
@@ -24,34 +25,49 @@ const RevenueAnalysis = () => {
 
     // Log the result
   }, [inputData, idFilteredData]);
+
   useEffect(() => {
-    const response = calculateRevenueAnalysis(finalData.current);
-    console.log(response);
-    setIsCalculatingRevenue(false);
-    setApiResponse(response);
+    const fetchData = async () => {
+      try {
+        // Assuming finalData.current is your data
+        const response = await calculateRevenueAnalysis(finalData.current);
+        console.log("response: ", response);
 
-    apiResponse.total_revenue && apiResponse?.total_revenue[0] > 5.45
-      ? setIsGreater(true)
-      : setIsGreater(false);
+        setIsCalculatingRevenue(false);
+        setApiResponse(response);
 
-    const [secondValue, firstValue, thirdValue] = apiResponse.total_revenue;
-    const roundedValues = apiResponse.total_revenue.map((value) =>
-      value.toFixed(2)
-    );
+        if (response.total_revenue && response.total_revenue[0] > 5.45) {
+          setIsGreater(true);
+        }
 
-    setTotalRevenue(roundedValues);
+        if (response.total_revenue) {
+          const [secondValue, firstValue, thirdValue] = response?.total_revenue;
+          const roundedValues = response?.total_revenue.map((value) =>
+            value.toFixed(2)
+          );
+        }
 
-    const chartData = [
-      { value: firstValue, label: "1st Value" },
-      { value: secondValue, label: "2nd Value" },
-    ];
+        setTotalRevenue(roundedValues);
 
-    setChartData(chartData);
-  }, []);
+        const chartData = [
+          { value: firstValue, label: "1st Value" },
+          { value: secondValue, label: "2nd Value" },
+        ];
+
+        setChartData(chartData);
+      } catch (error) {
+        console.error("Error outside:", error.message);
+        // Handle errors here
+      }
+    };
+
+    fetchData();
+  }, [finalData.current]); // Include finalData.current as a dependency if needed
 
   if (isCalculatingRevenue) {
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
+        <Heading text={"Revenue Analysis"} />
         <ActivityIndicator
           color="rgb(204, 204, 255)"
           style={{ marginTop: 100 }}
@@ -64,6 +80,7 @@ const RevenueAnalysis = () => {
 
   return (
     <View style={styles.container}>
+      <Heading text={"Revenue Analysis"} />
       <Text style={styles.text}>
         <Text>گزشتہ سال لاہور سے پراپرٹی ٹیکس کی مد میں </Text>
         <Text style={styles.blueText}>

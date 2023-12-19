@@ -199,15 +199,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 30,
-    padding: 16,
   },
   text: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
     lineHeight: 24,
-    letterSpacing: -2,
+    marginVertical: 10,
   },
   blueText: {
     color: "blue",

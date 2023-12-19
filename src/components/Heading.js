@@ -6,7 +6,7 @@ const Heading = ({ text }) => {
     <View>
       <Text
         style={{
-          marginVertical: 20,
+          marginVertical: 30,
           fontSize: 30,
           fontWeight: "300",
         }}

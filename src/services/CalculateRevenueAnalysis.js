@@ -240,7 +240,7 @@ export const calculateRevenueAnalysis = async (finalData) => {
         "Content-Type": "application/json",
         // Add any other headers if needed
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(finalData),
     });
 
     // Check if the request was successful

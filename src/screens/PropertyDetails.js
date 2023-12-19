@@ -35,34 +35,34 @@ const PropertyDetails = ({ navigation }) => {
       name: "Number Of Property",
       value: "-",
     },
-    locality_name: {
-      name: "Locality Name",
-      value: "-",
-    },
-    land_area_marla: {
-      name: "Land Area (Marla)",
-      value: "-",
-    },
-    built_area_sqft: {
-      name: "Built Area (sqft)",
-      value: "-",
-    },
+    // locality_name: {
+    //   name: "Locality Name",
+    //   value: "-",
+    // },
+    // land_area_marla: {
+    //   name: "Land Area (Marla)",
+    //   value: "-",
+    // },
+    // built_area_sqft: {
+    //   name: "Built Area (sqft)",
+    //   value: "-",
+    // },
     onlyuse: {
       name: "Use",
       value: "-",
     },
-    storeys: {
-      name: "Storeys",
-      value: "-",
-    },
+    // storeys: {
+    //   name: "Storeys",
+    //   value: "-",
+    // },
     prop_val: {
       name: "Property Value",
       value: "-",
     },
-    rent_val: {
-      name: "Rent Value",
-      value: "-",
-    },
+    // rent_val: {
+    //   name: "Rent Value",
+    //   value: "-",
+    // },
     prop_id: {
       name: "Property ID",
       value: "-",
@@ -72,7 +72,7 @@ const PropertyDetails = ({ navigation }) => {
   const { inputData, setInputData, idFilteredData } = useMyContext();
 
   useEffect(() => {
-    const propertiesData = require("../../assets/properties_data.json");
+    const propertiesData = require("../../assets/11_values.json");
     setData(propertiesData);
     // fetchData();
   }, []);
@@ -182,8 +182,8 @@ const PropertyDetails = ({ navigation }) => {
       return updatedData;
     });
 
-    if (propertyNumber.current === 14) navigation.navigate("Summary");
-    if (propertyNumber.current < 14) {
+    if (propertyNumber.current === 10) navigation.navigate("Summary");
+    if (propertyNumber.current < 10) {
       setPreferredTaxLiability(0);
       propertyNumber.current = propertyNumber.current + 1;
       updateData(dataById.current[propertyNumber.current]);
@@ -310,11 +310,19 @@ const PropertyDetails = ({ navigation }) => {
               fontWeight: "bold",
               width: "90%",
             }}
-          >{`پراپرٹی ${
-            propertyNumber.current + 1
-          } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم ${preferredTaxLiability} روپے کی اوسط ٹیکس کی شرح ${
-            preferredATRValue.current
-          } % ہے`}</Text>
+          >
+            {`پراپرٹی ${
+              propertyNumber.current + 1
+            } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
+            <Text
+              style={{ color: "red" }}
+            >{`${preferredTaxLiability} روپے`}</Text>
+            {` کی اوسط ٹیکس کی شرح `}
+            <Text
+              style={{ color: "red" }}
+            >{`${preferredATRValue.current} %`}</Text>
+            {` ہے`}
+          </Text>
         )}
         <View
           style={{
@@ -356,11 +364,17 @@ const PropertyDetails = ({ navigation }) => {
               fontWeight: "bold",
               width: "90%",
             }}
-          >{`پراپرٹی ${
-            propertyNumber.current + 1
-          } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم ${currentTaxLiability} روپے کی اوسط ٹیکس کی شرح ${
-            currentATRValue.current
-          } % ہے`}</Text>
+          >
+            {`پراپرٹی ${
+              propertyNumber.current + 1
+            } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
+            <Text style={{ color: "red" }}>{`${currentTaxLiability}`}روپے</Text>
+            {`  کی اوسط ٹیکس کی شرح `}
+            <Text
+              style={{ color: "red" }}
+            >{`${currentATRValue.current} %`}</Text>
+            {` ہے`}
+          </Text>
         )}
         <View
           style={{

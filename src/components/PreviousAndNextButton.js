@@ -55,7 +55,7 @@ const PreviousAndNextButton = ({
         }}
         disabled={nextButtonDisabled || isDisabled}
       >
-        {propertyNumber < 14 ? "Submit & Next " : "Submit"}
+        {propertyNumber < 10 ? "Submit & Next " : "Submit"}
         <Icon name="angle-right" size={15} style={{ marginLeft: 5 }} />
       </Button>
     </View>

@@ -5,6 +5,8 @@ import { BarChart } from "react-native-chart-kit";
 import { generateArray3ForEachPair } from "../Utils/GenerateFinalArray";
 import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
 import Heading from "../components/Heading";
+import RangeSliderInput from "../components/RangeSliderInput";
+import { ScrollView } from "react-native-gesture-handler";
 
 const RevenueAnalysis = () => {
   const { inputData, idFilteredData } = useMyContext();
@@ -18,10 +20,12 @@ const RevenueAnalysis = () => {
 
   useEffect(() => {
     // Create Array 3 for each corresponding pair
-    finalData.current = generateArray3ForEachPair(
-      idFilteredData.current,
-      inputData
-    );
+    if (idFilteredData.current && inputData) {
+      finalData.current = generateArray3ForEachPair(
+        idFilteredData.current,
+        inputData
+      );
+    }
 
     // Log the result
   }, [inputData, idFilteredData]);
@@ -48,8 +52,8 @@ const RevenueAnalysis = () => {
         setTotalRevenue(roundedValues);
 
         const chartData = [
-          { value: firstValue, label: "1st Value" },
-          { value: secondValue, label: "2nd Value" },
+          { value: firstValue.toFixed(2), label: "1st Value" },
+          { value: secondValue.toFixed(2), label: "2nd Value" },
         ];
 
         setChartData(chartData);
@@ -77,119 +81,124 @@ const RevenueAnalysis = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Heading text={"Revenue Analysis"} />
-      <Text style={styles.text}>
-        <Text>گزشتہ سال لاہور سے پراپرٹی ٹیکس کی مد میں </Text>
-        <Text style={styles.blueText}>
-          {totalRevenue[1]} ارب روپے اکٹھے کئے گئے۔
+    <ScrollView>
+      <View style={styles.container}>
+        <Heading text={"Revenue Analysis"} />
+        <Text style={styles.text}>
+          <Text>گزشتہ سال لاہور سے پراپرٹی ٹیکس کی مد میں </Text>
+          <Text style={styles.blueText}>
+            {totalRevenue[1]} ارب روپے اکٹھے کئے گئے۔
+          </Text>
+          <Text>
+            {
+              "آپ کے دیے گئے جوابات کے مطابق، ہمارا اندازہ ہے کہ آپ کے تجویز کردہ ٹیکس پلان کے تحت "
+            }
+          </Text>
+          <Text
+            style={
+              apiResponse?.total_revenue && apiResponse?.total_revenue[0] > 5.45
+                ? styles.greenText
+                : styles.redText
+            }
+          >
+            {totalRevenue[0]} بلین روپے
+          </Text>
+          <Text>{"  جمع ہونگے۔\nاس سے "}</Text>
+          <Text
+            style={
+              apiResponse?.total_revenue && apiResponse?.total_revenue[0] > 5.45
+                ? styles.greenText
+                : styles.redText
+            }
+          >
+            {totalRevenue[2]} ارب روپے
+          </Text>
+          <Text>
+            {apiResponse?.total_revenue &&
+            apiResponse?.total_revenue[0] > 5.45 ? (
+              <>
+                <Text> کے</Text>
+                <Text style={styles.greenText}> اضافی فنڈز</Text>
+                <Text> جمع ہونگے۔</Text>
+              </>
+            ) : (
+              <>
+                <Text> کا</Text>
+                <Text style={styles.redText}> شارٹ فال</Text>
+                <Text> ہو گا۔</Text>
+              </>
+            )}
+          </Text>
         </Text>
-        <Text>
-          {
-            "آپ کے دیے گئے جوابات کے مطابق، ہمارا اندازہ ہے کہ آپ کے تجویز کردہ ٹیکس پلان کے تحت "
-          }
-        </Text>
-        <Text
-          style={
-            apiResponse.total_revenue && apiResponse.total_revenue[0] > 5.45
-              ? styles.greenText
-              : styles.redText
-          }
-        >
-          {totalRevenue[0]} بلین روپے
-        </Text>
-        <Text>{"  جمع ہونگے۔\nاس سے "}</Text>
-        <Text
-          style={
-            apiResponse.total_revenue && apiResponse.total_revenue[0] > 5.45
-              ? styles.greenText
-              : styles.redText
-          }
-        >
-          {totalRevenue[2]} ارب روپے
-        </Text>
-        <Text>
-          {apiResponse.total_revenue && apiResponse.total_revenue[0] > 5.45 ? (
-            <>
-              <Text> کے</Text>
-              <Text style={styles.greenText}> اضافی فنڈز</Text>
-              <Text> جمع ہونگے۔</Text>
-            </>
-          ) : (
-            <>
-              <Text> کا</Text>
-              <Text style={styles.redText}> شارٹ فال</Text>
-              <Text> ہو گا۔</Text>
-            </>
-          )}
-        </Text>
-      </Text>
-      {isGreater ? (
-        <BarChart
-          data={{
-            labels: chartData.map((item) => item.label),
-            datasets: [
-              {
-                data: chartData.map((item) => item.value),
-                colors: [
-                  (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
-                  (opacity = 0.7) => `rgba(0, 255, 0,${opacity})`,
-                ],
-              },
-            ],
-          }}
-          width={350}
-          height={300}
-          fromZero={true}
-          yAxisInterval={20}
-          chartConfig={{
-            backgroundGradientFrom: "#fff",
-            backgroundGradientTo: "#fff",
-            color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
-            decimalPlaces: 2,
-            propsForLabels: { fontWeight: "bold", color: "red" },
-            barRadius: 5,
-            barPercentage: 2.5,
-          }}
-          showBarTops={false}
-          withCustomBarColorFromData={true}
-          showValuesOnTopOfBars={true}
-          style={{ ...styles.chart, borderRadius: 16, padding: 10 }}
-        />
-      ) : (
-        <BarChart
-          data={{
-            labels: chartData.map((item) => item.label),
-            datasets: [
-              {
-                data: chartData.map((item) => item.value),
-                colors: [
-                  (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
-                  (opacity = 0.7) => `rgba(255, 0, 0,${opacity})`,
-                ],
-              },
-            ],
-          }}
-          width={350}
-          height={300}
-          fromZero={true}
-          yAxisInterval={20}
-          chartConfig={{
-            backgroundGradientFrom: "#fff",
-            backgroundGradientTo: "#fff",
-            color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
-            decimalPlaces: 2,
-            propsForLabels: { fontWeight: "bold", color: "red" },
-            barRadius: 5,
-            barPercentage: 2.5,
-          }}
-          showBarTops={false}
-          withCustomBarColorFromData={true}
-          showValuesOnTopOfBars={true}
-          style={{ ...styles.chart, borderRadius: 16, padding: 10 }}
-        />
-      )}
-    </View>
+        {isGreater ? (
+          <BarChart
+            data={{
+              labels: chartData.map((item) => item.label),
+              datasets: [
+                {
+                  data: chartData.map((item) => item.value),
+                  colors: [
+                    (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
+                    (opacity = 0.7) => `rgba(0, 255, 0,${opacity})`,
+                  ],
+                },
+              ],
+            }}
+            width={350}
+            height={300}
+            fromZero={true}
+            yAxisInterval={20}
+            chartConfig={{
+              backgroundGradientFrom: "#fff",
+              backgroundGradientTo: "#fff",
+              color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
+              decimalPlaces: 2,
+              propsForLabels: { fontWeight: "bold", color: "red" },
+              barRadius: 5,
+              barPercentage: 2.5,
+            }}
+            showBarTops={false}
+            withCustomBarColorFromData={true}
+            showValuesOnTopOfBars={true}
+            style={{ ...styles.chart, borderRadius: 16, padding: 10 }}
+          />
+        ) : (
+          <BarChart
+            data={{
+              labels: chartData.map((item) => item.label),
+              datasets: [
+                {
+                  data: chartData.map((item) => item.value),
+                  colors: [
+                    (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
+                    (opacity = 0.7) => `rgba(255, 0, 0,${opacity})`,
+                  ],
+                },
+              ],
+            }}
+            width={350}
+            height={300}
+            fromZero={true}
+            yAxisInterval={20}
+            chartConfig={{
+              backgroundGradientFrom: "#fff",
+              backgroundGradientTo: "#fff",
+              color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
+              decimalPlaces: 2,
+              propsForLabels: { fontWeight: "bold", color: "red" },
+              barRadius: 5,
+              barPercentage: 2.5,
+            }}
+            showBarTops={false}
+            withCustomBarColorFromData={true}
+            showValuesOnTopOfBars={true}
+            style={{ ...styles.chart, borderRadius: 16, padding: 10 }}
+          />
+        )}
+
+        <RangeSliderInput />
+      </View>
+    </ScrollView>
   );
 };
 

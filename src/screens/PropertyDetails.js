@@ -22,7 +22,7 @@ const PropertyDetails = ({ navigation }) => {
   const [inputId, setInputId] = useState("");
   const [userName, setUserName] = useState("");
   const dataById = useRef();
-  const [isFetching, setisFetching] = useState(true);
+  const [isFetching, setisFetching] = useState(false);
   const propertyNumber = useRef(0);
   const [inputEnabled, setInputEnabled] = useState(true);
   const [preferredTaxLiability, setPreferredTaxLiability] = useState(0);
@@ -72,48 +72,50 @@ const PropertyDetails = ({ navigation }) => {
   const { inputData, setInputData, idFilteredData } = useMyContext();
 
   useEffect(() => {
-    fetchData();
+    const propertiesData = require("../../assets/properties_data.json");
+    setData(propertiesData);
+    // fetchData();
   }, []);
 
   const fetchData = async () => {
-    try {
-      const csvAsset = Asset.fromModule(
-        require("../../assets/properties_data.csv")
-      );
-      await csvAsset.downloadAsync();
-      const localUri = csvAsset.localUri;
-
-      // Use expo-file-system for web and mobile
-      let content;
-
-      if (Platform.OS === "web") {
-        const response = await fetch(localUri);
-        content = await response.text();
-      } else {
-        const csvModule = await Asset.fromModule(
-          require("../assets/properties_data.csv")
-        ).downloadAsync();
-        content = await FileSystem.readAsStringAsync(csvModule.localUri);
-      }
-      // console.log(content);
-
-      const parsedData = Papa.parse(content, {
-        header: true,
-        skipEmptyLines: true,
-      }).data;
-      setData(parsedData);
-      setisFetching(false);
-      // console.log("Parsed Data: ", parsedData);
-    } catch (error) {
-      console.error("File Reading Error:", error.message);
-    }
+    //   try {
+    //     const csvAsset = Asset.fromModule(
+    //       require("../../assets/properties_data.csv")
+    //     );
+    //     await csvAsset.downloadAsync();
+    //     const localUri = csvAsset.localUri;
+    //     // Use expo-file-system for web and mobile
+    //     let content;
+    //     if (Platform.OS === "web") {
+    //       const response = await fetch(localUri);
+    //       content = await response.text();
+    //     } else {
+    //       const csvModule = await Asset.fromModule(
+    //         require("../assets/properties_data.csv")
+    //       ).downloadAsync();
+    //       content = await FileSystem.readAsStringAsync(csvModule.localUri);
+    //     }
+    //     // console.log(content);
+    //     const parsedData = Papa.parse(content, {
+    //       header: true,
+    //       skipEmptyLines: true,
+    //     }).data;
+    //     setData(parsedData);
+    //     setisFetching(false);
+    //     // console.log("Parsed Data: ", parsedData);
+    //   } catch (error) {
+    //     console.error("File Reading Error:", error.message);
+    //   }
   };
 
   const handleInputChange = (id) => {
     setInputId(id);
     propertyNumber.current = 0;
     // setDataById(data.filter((item) => item.prop_id === id));
-    dataById.current = data.filter((item) => item.prop_id === id);
+    dataById.current = data.filter((item) => {
+      const idNumber = parseInt(id);
+      return item.prop_id === idNumber;
+    });
     idFilteredData.current = dataById.current;
     const currentData = dataById.current[propertyNumber.current];
     updateData(currentData);
@@ -335,13 +337,14 @@ const PropertyDetails = ({ navigation }) => {
               // formData[propertyNumber.current]?.preferred_tax?.value
               preferredTaxLiability !== 0 ? preferredTaxLiability : ""
             }
-            required={true}
+            // required={true}
           />
           <InputField
             editable={inputId.length === 0}
             text={
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
+            handleInputChange={(value) => console.log(value)}
           />
         </View>
 

@@ -107,9 +107,9 @@ const Summary = ({ navigation }) => {
                           borderBottomColor: "grey",
                         }}
                       >
-                        {Object.keys(inputData[0]).map((item) => (
+                        {Object.keys(inputData[0]).map((item, index) => (
                           <Text
-                            key={item}
+                            key={`${item}-${index}`}
                             style={{
                               margin: 10,
                               fontSize: 15,
@@ -127,7 +127,7 @@ const Summary = ({ navigation }) => {
                       <View>
                         {inputData.map((item, index) => (
                           <View
-                            key={Object.keys(item)}
+                            key={`${item}-${index}`}
                             style={{
                               flexDirection: "row",
                               borderBottomWidth: 1,
@@ -135,8 +135,8 @@ const Summary = ({ navigation }) => {
                               alignItems: "center",
                             }}
                           >
-                            {Object.keys(item).map((data) => (
-                              <View key={data}>
+                            {Object.keys(item, index).map((data) => (
+                              <View key={`${item}-${index}-${data}`}>
                                 {data !== "preferred_tax" ? (
                                   <Text
                                     style={{

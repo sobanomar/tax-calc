@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { formatPropVal } from "../Utils/FormatPropertyValue";
 
 const DataField = ({ name, value }) => {
   return (
@@ -26,7 +27,9 @@ const DataField = ({ name, value }) => {
           width: "45% ",
         }}
       >
-        {value}
+        {name === "Property Value" || name === "Rent Value"
+          ? formatPropVal(value)
+          : value}
       </Text>
     </View>
   );

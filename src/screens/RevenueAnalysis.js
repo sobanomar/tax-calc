@@ -31,7 +31,7 @@ const RevenueAnalysis = () => {
       try {
         // Assuming finalData.current is your data
         const response = await calculateRevenueAnalysis(finalData.current);
-        console.log("response: ", response);
+        console.log("response: ", response.total_revenue);
 
         setIsCalculatingRevenue(false);
         setApiResponse(response);
@@ -39,13 +39,11 @@ const RevenueAnalysis = () => {
         if (response.total_revenue && response.total_revenue[0] > 5.45) {
           setIsGreater(true);
         }
-
-        if (response.total_revenue) {
-          const [secondValue, firstValue, thirdValue] = response?.total_revenue;
-          const roundedValues = response?.total_revenue.map((value) =>
-            value.toFixed(2)
-          );
-        }
+        var roundedValues;
+        const [secondValue, firstValue, thirdValue] = response?.total_revenue;
+        roundedValues = response?.total_revenue.map((value) =>
+          value.toFixed(2)
+        );
 
         setTotalRevenue(roundedValues);
 
@@ -70,7 +68,7 @@ const RevenueAnalysis = () => {
         <Heading text={"Revenue Analysis"} />
         <ActivityIndicator
           color="rgb(204, 204, 255)"
-          style={{ marginTop: 100 }}
+          style={{ marginVertical: 40 }}
           size={"large"}
         />
         <Text>Calculating Revenue Analysis...</Text>
@@ -91,9 +89,25 @@ const RevenueAnalysis = () => {
             "آپ کے دیے گئے جوابات کے مطابق، ہمارا اندازہ ہے کہ آپ کے تجویز کردہ ٹیکس پلان کے تحت "
           }
         </Text>
-        <Text style={styles.greenText}>{totalRevenue[0]} بلین روپے</Text>
+        <Text
+          style={
+            apiResponse.total_revenue && apiResponse.total_revenue[0] > 5.45
+              ? styles.greenText
+              : styles.redText
+          }
+        >
+          {totalRevenue[0]} بلین روپے
+        </Text>
         <Text>{"  جمع ہونگے۔\nاس سے "}</Text>
-        <Text style={styles.greenText}>{totalRevenue[2]} ارب روپے</Text>
+        <Text
+          style={
+            apiResponse.total_revenue && apiResponse.total_revenue[0] > 5.45
+              ? styles.greenText
+              : styles.redText
+          }
+        >
+          {totalRevenue[2]} ارب روپے
+        </Text>
         <Text>{"  کے اضافی فنڈز جمع ہونگے۔"}</Text>
       </Text>
       {isGreater ? (

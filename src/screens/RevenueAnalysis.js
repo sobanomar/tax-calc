@@ -13,8 +13,9 @@ import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
 import Heading from "../components/Heading";
 import RangeSliderInput from "../components/RangeSliderInput";
 import { ScrollView } from "react-native-gesture-handler";
+import { Button } from "react-native-paper";
 
-const RevenueAnalysis = () => {
+const RevenueAnalysis = ({ navigation }) => {
   const { inputData, idFilteredData } = useMyContext();
 
   const [chartData, setChartData] = useState([]);
@@ -26,6 +27,8 @@ const RevenueAnalysis = () => {
   const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
     useState(false);
   const finalData = useRef();
+  const [reCalculateRevenueAnalysis, setReCalculateRevenueAnalysis] =
+    useState(false);
 
   useEffect(() => {
     // Create Array 3 for each corresponding pair
@@ -39,6 +42,12 @@ const RevenueAnalysis = () => {
     // Log the result
   }, [inputData, idFilteredData]);
 
+  const handleReload = () => {
+    console.log("reload");
+    setIsCalculatingRevenue(true);
+    setReCalculateRevenueAnalysis(!reCalculateRevenueAnalysis);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,6 +60,8 @@ const RevenueAnalysis = () => {
           const data = await response.json();
 
           setIsCalculatingRevenue(false);
+          setIsErrorCalculatingRevenue(false);
+          console.log(data);
           setApiResponse(data);
 
           if (data.total_revenue && data.total_revenue[0] > 5.45) {
@@ -85,7 +96,7 @@ const RevenueAnalysis = () => {
     };
 
     fetchData();
-  }, [finalData.current]); // Include finalData.current as a dependency if needed
+  }, [finalData.current, reCalculateRevenueAnalysis]); // Include finalData.current as a dependency if needed
 
   if (isCalculatingRevenue) {
     return (
@@ -107,6 +118,17 @@ const RevenueAnalysis = () => {
         <Heading text={"Revenue Analysis"} />
         <Text style={{ padding: 5 }}>Error Calculating Revenue Analysis</Text>
         <Text style={{ color: "red", padding: 5 }}>{errorData}</Text>
+        <Button
+          onPress={handleReload}
+          mode="contained"
+          labelStyle={{ color: "#000" }}
+          style={{
+            backgroundColor: "rgb(204, 204, 255)",
+            marginVertical: 20,
+          }}
+        >
+          Retry Calculating Revenue Analysis
+        </Button>
       </View>
     );
   }

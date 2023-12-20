@@ -11,7 +11,7 @@ export function checkDataTypes(data) {
   for (const key in sampleObject) {
     if (sampleObject.hasOwnProperty(key)) {
       const dataType = typeof sampleObject[key];
-      console.log(`${key}: ${dataType}`);
+      // console.log(`${key}: ${dataType}`);
     }
   }
 }

@@ -41,7 +41,7 @@ export default function App() {
                       fontWeight: "bold",
                     }}
                   >
-                    GOV PAK TAX APP
+                    PROP TAX APP
                   </Text>
                 </View>
                 <DrawerItemList {...props} />

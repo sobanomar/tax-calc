@@ -249,10 +249,11 @@ export const calculateRevenueAnalysis = async (finalData) => {
     }
 
     // Parse and return the JSON data
-    const jsonData = await response.json();
-    return jsonData;
+    // const jsonData = await response.json();
+    return response;
   } catch (error) {
     console.error("Error :", error.message);
+    return error.message;
     // Handle errors here
   }
 };

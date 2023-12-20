@@ -26,7 +26,7 @@ const IndividualSlider = ({ text, value, setValue }) => {
           style={styles.slider}
           minimumValue={1}
           maximumValue={100}
-          step={10}
+          step={2}
           minimumTrackTintColor="#3498db"
           maximumTrackTintColor="#bdc3c7"
           thumbTintColor="#3498db"

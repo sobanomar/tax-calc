@@ -16,6 +16,9 @@ const RevenueAnalysis = () => {
   const [isGreater, setIsGreater] = useState(false);
   const [apiResponse, setApiResponse] = useState();
   const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(true);
+  const [errorData, setErrorData] = useState(true);
+  const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
+    useState(false);
   const finalData = useRef();
 
   useEffect(() => {
@@ -35,30 +38,41 @@ const RevenueAnalysis = () => {
       try {
         // Assuming finalData.current is your data
         const response = await calculateRevenueAnalysis(finalData.current);
-        console.log("response: ", response.total_revenue);
 
-        setIsCalculatingRevenue(false);
-        setApiResponse(response);
+        if (response.ok) {
+          // Legitimate response
+          const data = await response.json();
 
-        if (response.total_revenue && response.total_revenue[0] > 5.45) {
-          setIsGreater(true);
+          setIsCalculatingRevenue(false);
+          setApiResponse(data);
+
+          if (data.total_revenue && data.total_revenue[0] > 5.45) {
+            setIsGreater(true);
+          }
+          var roundedValues;
+          const [secondValue, firstValue, thirdValue] = data?.total_revenue;
+          roundedValues = data?.total_revenue.map((value) => value.toFixed(2));
+
+          setTotalRevenue(roundedValues);
+
+          const chartData = [
+            { value: firstValue.toFixed(2), label: "1st Value" },
+            { value: secondValue.toFixed(2), label: "2nd Value" },
+          ];
+
+          setChartData(chartData);
+          // Perform rendering logic here
+        } else {
+          // Error response
+          const error = response;
+          console.error("Error response:", error);
+          setErrorData(error);
+          setIsCalculatingRevenue(false);
+          setIsErrorCalculatingRevenue(true);
         }
-        var roundedValues;
-        const [secondValue, firstValue, thirdValue] = response?.total_revenue;
-        roundedValues = response?.total_revenue.map((value) =>
-          value.toFixed(2)
-        );
-
-        setTotalRevenue(roundedValues);
-
-        const chartData = [
-          { value: firstValue.toFixed(2), label: "1st Value" },
-          { value: secondValue.toFixed(2), label: "2nd Value" },
-        ];
-
-        setChartData(chartData);
       } catch (error) {
-        console.error("Error outside:", error.message);
+        console.error("Error :", error.message);
+
         // Handle errors here
       }
     };
@@ -76,6 +90,16 @@ const RevenueAnalysis = () => {
           size={"large"}
         />
         <Text>Calculating Revenue Analysis...</Text>
+      </View>
+    );
+  }
+
+  if (errorData) {
+    return (
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Heading text={"Revenue Analysis"} />
+        <Text style={{ padding: 5 }}>Error Calculating Revenue Analysis</Text>
+        <Text style={{ color: "red", padding: 5 }}>{errorData}</Text>
       </View>
     );
   }

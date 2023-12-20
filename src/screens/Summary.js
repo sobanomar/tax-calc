@@ -6,6 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
   TextInput,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Papa from "papaparse";
@@ -18,6 +19,7 @@ import { useMyContext } from "../context/DataContext";
 import ATRGraphChart from "../components/ATRGraphChart";
 
 import Icon from "react-native-vector-icons/FontAwesome";
+import { formatPropVal } from "../Utils/FormatPropertyValue";
 
 const Summary = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -37,7 +39,7 @@ const Summary = ({ navigation }) => {
   }, [inputData]);
 
   const calculateATR = async () => {
-    console.log("InputData: ", inputData);
+    // console.log("InputData: ", inputData);
     const tempATR = [];
     const tempProp = [];
     const tempAggregatedValues = [];
@@ -86,12 +88,19 @@ const Summary = ({ navigation }) => {
               <ATRGraphChart color={"blue"} />
             </View>
             {inputData && inputData.length > 0 && (
-              <View style={{ marginVertical: 20, alignItems: "center" }}>
+              <View
+                style={{
+                  marginVertical: 20,
+                  alignItems: "center",
+                }}
+              >
                 <Heading text={"Data"} />
                 <ScrollView
                   horizontal
                   style={{
-                    width: 400,
+                    width:
+                      Dimensions.get("window").width -
+                      Dimensions.get("window").width / 10,
                     backgroundColor: "#fff",
                     borderRadius: 16,
                     padding: 10,
@@ -114,7 +123,10 @@ const Summary = ({ navigation }) => {
                               margin: 10,
                               fontSize: 15,
                               fontWeight: 500,
-                              width: 80,
+                              width:
+                                (Dimensions.get("window").width -
+                                  Dimensions.get("window").width / 10) /
+                                10,
                               textAlign: "center",
                             }}
                           >
@@ -143,11 +155,17 @@ const Summary = ({ navigation }) => {
                                       margin: 10,
                                       fontSize: 15,
                                       fontWeight: 400,
-                                      width: 80,
+                                      width:
+                                        (Dimensions.get("window").width -
+                                          Dimensions.get("window").width / 10) /
+                                        10,
+
                                       textAlign: "center",
                                     }}
                                   >
-                                    {item[data].value}
+                                    {data === "prop_val" || data === "rent_val"
+                                      ? formatPropVal(item[data].value)
+                                      : item[data].value}
                                   </Text>
                                 ) : (
                                   <TextInput

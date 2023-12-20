@@ -6,6 +6,7 @@ import {
   Platform,
   TouchableOpacity,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Heading from "../components/Heading";
@@ -35,34 +36,34 @@ const PropertyDetails = ({ navigation }) => {
       name: "Number Of Property",
       value: "-",
     },
-    // locality_name: {
-    //   name: "Locality Name",
-    //   value: "-",
-    // },
-    // land_area_marla: {
-    //   name: "Land Area (Marla)",
-    //   value: "-",
-    // },
-    // built_area_sqft: {
-    //   name: "Built Area (sqft)",
-    //   value: "-",
-    // },
+    locality_name: {
+      name: "Locality Name",
+      value: "-",
+    },
+    land_area_marla: {
+      name: "Land Area (Marla)",
+      value: "-",
+    },
+    built_area_sqft: {
+      name: "Built Area (sqft)",
+      value: "-",
+    },
     onlyuse: {
       name: "Use",
       value: "-",
     },
-    // storeys: {
-    //   name: "Storeys",
-    //   value: "-",
-    // },
+    storeys: {
+      name: "Storeys",
+      value: "-",
+    },
     prop_val: {
       name: "Property Value",
       value: "-",
     },
-    // rent_val: {
-    //   name: "Rent Value",
-    //   value: "-",
-    // },
+    rent_val: {
+      name: "Rent Value",
+      value: "-",
+    },
     prop_id: {
       name: "Property ID",
       value: "-",
@@ -72,7 +73,7 @@ const PropertyDetails = ({ navigation }) => {
   const { inputData, setInputData, idFilteredData } = useMyContext();
 
   useEffect(() => {
-    const propertiesData = require("../../assets/11_values.json");
+    const propertiesData = require("../../assets/final_data.json");
     setData(propertiesData);
     // fetchData();
   }, []);
@@ -302,35 +303,36 @@ const PropertyDetails = ({ navigation }) => {
         </View>
 
         {/* Property Tax Input */}
-        {preferredTaxLiability > 0 && (
-          <Text
-            style={{
-              marginTop: 30,
-              fontSize: 17,
-              fontWeight: "bold",
-              width: "90%",
-            }}
-          >
-            {`پراپرٹی ${
-              propertyNumber.current + 1
-            } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
-            <Text
-              style={{ color: "red" }}
-            >{`${preferredTaxLiability} روپے`}</Text>
-            {` کی اوسط ٹیکس کی شرح `}
-            <Text
-              style={{ color: "red" }}
-            >{`${preferredATRValue.current} %`}</Text>
-            {` ہے`}
-          </Text>
-        )}
         <View
           style={{
-            marginVertical: 10,
+            marginVertical: 20,
             alignItems: "center",
-            width: "90%",
           }}
         >
+          {preferredTaxLiability > 0 && (
+            <Text
+              style={{
+                marginTop: 30,
+                fontSize: 17,
+                fontWeight: "bold",
+                width: "90%",
+                textAlign: "center",
+              }}
+            >
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
+              <Text
+                style={{ color: "red" }}
+              >{`${preferredTaxLiability} روپے`}</Text>
+              {` کی اوسط ٹیکس کی شرح `}
+              <Text
+                style={{ color: "red" }}
+              >{`${preferredATRValue.current} %`}</Text>
+              {` ہے`}
+            </Text>
+          )}
+
           <InputField
             editable={inputId.length === 0}
             text={"آپ کی رائے میں اس پراپرٹی کا پراپرٹی ٹیکس کیا ہونا چاہیے؟"}
@@ -354,35 +356,30 @@ const PropertyDetails = ({ navigation }) => {
             }
             handleInputChange={(value) => console.log(value)}
           />
-        </View>
 
-        {currentTaxLiability > 0 && (
-          <Text
-            style={{
-              marginTop: 30,
-              fontSize: 17,
-              fontWeight: "bold",
-              width: "90%",
-            }}
-          >
-            {`پراپرٹی ${
-              propertyNumber.current + 1
-            } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
-            <Text style={{ color: "red" }}>{`${currentTaxLiability}`}روپے</Text>
-            {`  کی اوسط ٹیکس کی شرح `}
+          {currentTaxLiability > 0 && (
             <Text
-              style={{ color: "red" }}
-            >{`${currentATRValue.current} %`}</Text>
-            {` ہے`}
-          </Text>
-        )}
-        <View
-          style={{
-            marginVertical: 10,
-            alignItems: "center",
-            width: "90%",
-          }}
-        >
+              style={{
+                marginTop: 30,
+                fontSize: 17,
+                fontWeight: "bold",
+                width: "90%",
+                textAlign: "center",
+              }}
+            >
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
+              <Text style={{ color: "red" }}>
+                {`${currentTaxLiability}`}روپے
+              </Text>
+              {`  کی اوسط ٹیکس کی شرح `}
+              <Text
+                style={{ color: "red" }}
+              >{`${currentATRValue.current} %`}</Text>
+              {` ہے`}
+            </Text>
+          )}
           <InputField
             editable={inputId.length === 0}
             text={"آپ کی رائے میں اس پراپرٹی کا موجودہ پراپرٹی ٹیکس کیا ہے؟"}
@@ -396,8 +393,10 @@ const PropertyDetails = ({ navigation }) => {
             value={currentTaxLiability !== 0 ? currentTaxLiability : ""}
           />
         </View>
+      </View>
 
-        {/* Next Previous Button  */}
+      {/* Next Previous Button  */}
+      <View>
         <PreviousAndNextButton
           inputId={inputId}
           handleNextPress={handleNext}

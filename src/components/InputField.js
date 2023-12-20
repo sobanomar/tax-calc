@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Dimensions } from "react-native";
 import React from "react";
 
 const InputField = ({
@@ -12,11 +12,13 @@ const InputField = ({
     <View
       style={{
         marginVertical: 10,
+        width:
+          Dimensions.get("window").width - Dimensions.get("window").width / 10,
       }}
     >
       <Text
         style={{
-          marginVertical: 10,
+          marginVertical: 15,
           marginTop: 8,
           fontSize: 17,
           fontWeight: "bold",

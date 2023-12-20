@@ -356,6 +356,7 @@ const PropertyDetails = ({ navigation }) => {
               // formData[propertyNumber.current]?.preferred_tax?.value
               preferredTaxLiability !== 0 ? preferredTaxLiability : ""
             }
+            keyboardType="numeric"
             // required={true}
           />
           <InputField
@@ -364,7 +365,7 @@ const PropertyDetails = ({ navigation }) => {
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
             handleInputChange={(value) => {
-              setNoPreferredTaxLiability(parseInt(value));
+              setNoPreferredTaxLiability(value);
             }}
           />
 
@@ -399,9 +400,10 @@ const PropertyDetails = ({ navigation }) => {
                 (currentTaxLiability / formData["prop_val"].value) *
                 100
               ).toFixed(3);
-              setCurrentTaxLiability(parseInt(value));
+              setCurrentTaxLiability(value);
             }}
             value={currentTaxLiability !== 0 ? currentTaxLiability : ""}
+            keyboardType="numeric"
           />
         </View>
       </View>

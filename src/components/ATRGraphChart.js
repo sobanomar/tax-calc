@@ -24,6 +24,7 @@ const ATRGraphChart = ({ color }) => {
               : (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         }}
+        bezier
         style={{ borderRadius: 16 }}
       />
     </View>

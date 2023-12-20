@@ -178,6 +178,13 @@ const PropertyDetails = ({ navigation }) => {
       };
     }
 
+    if (currentTaxLiability > 0) {
+      newData.current_tax = {
+        name: "Current Tax Liability",
+        value: currentTaxLiability,
+      };
+    }
+
     setInputData((prevInputData) => {
       const updatedData = [...prevInputData];
       updatedData[propertyNumber.current] = newData;
@@ -187,6 +194,7 @@ const PropertyDetails = ({ navigation }) => {
     if (propertyNumber.current === 10) navigation.navigate("Summary");
     if (propertyNumber.current < 10) {
       setPreferredTaxLiability(0);
+      setCurrentTaxLiability(0);
       propertyNumber.current = propertyNumber.current + 1;
       updateData(dataById.current[propertyNumber.current]);
     }
@@ -241,7 +249,7 @@ const PropertyDetails = ({ navigation }) => {
               color: !inputEnabled ? "grey" : "#000",
             }}
             placeholder="Type here..."
-            onChangeText={(id) => handleInputChange(id)}
+            onChangeText={handleInputChange}
             keyboardType="numeric"
             pointerEvents={inputEnabled ? "auto" : "none"}
             editable={inputEnabled}
@@ -280,7 +288,7 @@ const PropertyDetails = ({ navigation }) => {
               color: !inputEnabled ? "grey" : "#000",
             }}
             placeholder="Type here..."
-            onChangeText={(name) => handleInputName(name)}
+            onChangeText={handleInputName}
             pointerEvents={inputEnabled ? "auto" : "none"}
             editable={inputEnabled}
             value={userName.current}

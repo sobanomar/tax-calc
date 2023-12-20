@@ -45,7 +45,9 @@ const Summary = ({ navigation }) => {
     const tempAggregatedValues = [];
     inputData &&
       inputData.map((item) => {
-        tempATR.push((item.preferred_tax.value / item.prop_val.value) * 100);
+        tempATR.push(
+          (item?.preferred_tax?.value / item?.prop_val?.value) * 100
+        );
         tempProp.push(item.prop_val.value);
         atrValue.current = tempATR;
         propValue.current = tempProp;
@@ -123,10 +125,7 @@ const Summary = ({ navigation }) => {
                               margin: 10,
                               fontSize: 15,
                               fontWeight: 500,
-                              width:
-                                (Dimensions.get("window").width -
-                                  Dimensions.get("window").width / 10) /
-                                10,
+                              width: 80,
                               textAlign: "center",
                             }}
                           >
@@ -155,11 +154,7 @@ const Summary = ({ navigation }) => {
                                       margin: 10,
                                       fontSize: 15,
                                       fontWeight: 400,
-                                      width:
-                                        (Dimensions.get("window").width -
-                                          Dimensions.get("window").width / 10) /
-                                        10,
-
+                                      width: 80,
                                       textAlign: "center",
                                     }}
                                   >
@@ -182,6 +177,7 @@ const Summary = ({ navigation }) => {
                                       borderColor: "gray",
                                     }}
                                     onChange={(e) => {
+                                      console.log(inputData[index]);
                                       const value = e.target.value;
                                       setInputData((prevData) => {
                                         const newData = [...prevData];

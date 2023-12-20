@@ -27,6 +27,7 @@ const PropertyDetails = ({ navigation }) => {
   const propertyNumber = useRef(0);
   const [inputEnabled, setInputEnabled] = useState(true);
   const [preferredTaxLiability, setPreferredTaxLiability] = useState(0);
+  const [noPreferredTaxLiability, setNoPreferredTaxLiability] = useState(0);
   const [currentTaxLiability, setCurrentTaxLiability] = useState(0);
   const preferredATRValue = useRef(0);
   const currentATRValue = useRef(0);
@@ -354,7 +355,9 @@ const PropertyDetails = ({ navigation }) => {
             text={
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
-            handleInputChange={(value) => console.log(value)}
+            handleInputChange={(value) => {
+              setNoPreferredTaxLiability(parseInt(value));
+            }}
           />
 
           {currentTaxLiability > 0 && (
@@ -388,7 +391,7 @@ const PropertyDetails = ({ navigation }) => {
                 (currentTaxLiability / formData["prop_val"].value) *
                 100
               ).toFixed(3);
-              setCurrentTaxLiability(value);
+              setCurrentTaxLiability(parseInt(value));
             }}
             value={currentTaxLiability !== 0 ? currentTaxLiability : ""}
           />
@@ -405,8 +408,9 @@ const PropertyDetails = ({ navigation }) => {
           userName={userName}
           isDisabled={
             formData["num"].value === "-" ||
-            preferredTaxLiability === 0 ||
-            preferredTaxLiability === ""
+            (noPreferredTaxLiability !== -99
+              ? preferredTaxLiability === 0 || preferredTaxLiability === ""
+              : false)
           }
         />
       </View>

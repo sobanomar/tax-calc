@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useMyContext } from "../context/DataContext";
 import { BarChart } from "react-native-chart-kit";
@@ -38,6 +44,7 @@ const RevenueAnalysis = () => {
       try {
         // Assuming finalData.current is your data
         const response = await calculateRevenueAnalysis(finalData.current);
+        console.log(response.ok);
 
         if (response.ok) {
           // Legitimate response
@@ -94,7 +101,7 @@ const RevenueAnalysis = () => {
     );
   }
 
-  if (errorData) {
+  if (isErrorCalculatingRevenue) {
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
         <Heading text={"Revenue Analysis"} />
@@ -168,7 +175,10 @@ const RevenueAnalysis = () => {
                 },
               ],
             }}
-            width={350}
+            width={
+              Dimensions.get("window").width -
+              Dimensions.get("window").width / 10
+            }
             height={300}
             fromZero={true}
             yAxisInterval={20}
@@ -200,7 +210,10 @@ const RevenueAnalysis = () => {
                 },
               ],
             }}
-            width={350}
+            width={
+              Dimensions.get("window").width -
+              Dimensions.get("window").width / 10
+            }
             height={300}
             fromZero={true}
             yAxisInterval={20}
@@ -232,6 +245,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     textAlign: "center",
@@ -239,6 +253,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 24,
     marginVertical: 10,
+    width: "80%",
   },
   blueText: {
     color: "blue",

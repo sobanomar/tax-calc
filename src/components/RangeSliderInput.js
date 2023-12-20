@@ -1,4 +1,4 @@
-import { View, Picker, StyleSheet, Text } from "react-native";
+import { View, Picker, StyleSheet, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
 import AdditionalFund from "./AdditionalFund";
 import ShortFall from "./ShortFall";
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    width: "90%",
+    width: Dimensions.get("window").width - Dimensions.get("window").width / 10,
   },
   picker: {
     width: 200,

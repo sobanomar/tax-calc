@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import Slider from "@react-native-community/slider";
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   slider: {
-    width: 300,
+    width: Dimensions.get("window").width - Dimensions.get("window").width / 3,
     height: 20,
   },
 });

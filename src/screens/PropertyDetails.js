@@ -17,6 +17,7 @@ import Papa from "papaparse";
 import { Asset } from "expo-asset";
 import * as FileSystem from "expo-file-system";
 import { useMyContext } from "../context/DataContext";
+import { getFormattedDate } from "../Utils/getFormattedDate";
 
 const PropertyDetails = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -71,11 +72,22 @@ const PropertyDetails = ({ navigation }) => {
     },
   });
 
-  const { inputData, setInputData, idFilteredData } = useMyContext();
+  const {
+    inputData,
+    setInputData,
+    idFilteredData,
+    startTimeDash2,
+    endTimeDash2,
+  } = useMyContext();
 
   useEffect(() => {
-    const propertiesData = require("../../assets/final_data.json");
+    const propertiesData = require("../../assets/properties_data.json");
     setData(propertiesData);
+
+    startTimeDash2.current = getFormattedDate();
+    console.log("Start Time ", startTimeDash2.current);
+    console.log("Last End Time ", endTimeDash2.current);
+
     // fetchData();
   }, []);
 
@@ -368,7 +380,6 @@ const PropertyDetails = ({ navigation }) => {
               setNoPreferredTaxLiability(value);
             }}
           />
-
           {currentTaxLiability > 0 && (
             <Text
               style={{

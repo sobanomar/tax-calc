@@ -31,7 +31,7 @@ export function generateArray3ForEachPair(arr1, arr2) {
     array3List.push(array3);
   }
 
-  checkDataTypes(array3List);
+  // checkDataTypes(array3List);
 
   return array3List;
 }

@@ -22,8 +22,8 @@ const RevenueAnalysis = ({ navigation }) => {
   const [totalRevenue, setTotalRevenue] = useState([]);
   const [isGreater, setIsGreater] = useState(false);
   const [apiResponse, setApiResponse] = useState();
-  const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(true);
-  const [errorData, setErrorData] = useState(true);
+  const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(false);
+  const [errorData, setErrorData] = useState(false);
   const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
     useState(false);
   const finalData = useRef();
@@ -112,26 +112,26 @@ const RevenueAnalysis = ({ navigation }) => {
     );
   }
 
-  if (isErrorCalculatingRevenue) {
-    return (
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <Heading text={"Revenue Analysis"} />
-        <Text style={{ padding: 5 }}>Error Calculating Revenue Analysis</Text>
-        <Text style={{ color: "red", padding: 5 }}>{errorData}</Text>
-        <Button
-          onPress={handleReload}
-          mode="contained"
-          labelStyle={{ color: "#000" }}
-          style={{
-            backgroundColor: "rgb(204, 204, 255)",
-            marginVertical: 20,
-          }}
-        >
-          Retry Calculating Revenue Analysis
-        </Button>
-      </View>
-    );
-  }
+  // if (isErrorCalculatingRevenue) {
+  //   return (
+  //     <View style={{ flex: 1, alignItems: "center" }}>
+  //       <Heading text={"Revenue Analysis"} />
+  //       <Text style={{ padding: 5 }}>Error Calculating Revenue Analysis</Text>
+  //       <Text style={{ color: "red", padding: 5 }}>{errorData}</Text>
+  //       <Button
+  //         onPress={handleReload}
+  //         mode="contained"
+  //         labelStyle={{ color: "#000" }}
+  //         style={{
+  //           backgroundColor: "rgb(204, 204, 255)",
+  //           marginVertical: 20,
+  //         }}
+  //       >
+  //         Retry Calculating Revenue Analysis
+  //       </Button>
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView>

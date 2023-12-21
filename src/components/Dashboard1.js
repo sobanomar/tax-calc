@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ScrollView,
   View,
@@ -11,10 +11,18 @@ import * as FileSystem from "expo-file-system";
 import axios from "axios";
 import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useMyContext } from "../context/DataContext";
+import { getFormattedDate } from "../Utils/getFormattedDate";
 
 const Dashboard1 = ({ navigation }) => {
   const [csvData, setCsvData] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { startTimeDash1, endTimeDash1 } = useMyContext();
+
+  useEffect(() => {
+    startTimeDash1.current = getFormattedDate();
+  }, []);
 
   const generateCSVContent = () => {
     const formattedCSVData =
@@ -63,7 +71,7 @@ const Dashboard1 = ({ navigation }) => {
       handleDownloadCSV();
     } else {
     }
-
+    endTimeDash1.current = getFormattedDate();
     navigation.navigate("HomeStack");
   };
 

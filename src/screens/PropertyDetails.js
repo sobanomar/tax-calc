@@ -85,13 +85,8 @@ const PropertyDetails = ({ navigation }) => {
     setData(propertiesData);
 
     startTimeDash2.current = getFormattedDate();
-<<<<<<< HEAD
     // console.log("Start Time ", startTimeDash2.current);
     // console.log("Last End Time ", endTimeDash2.current);
-=======
-    console.log("Start Time ", startTimeDash2.current);
-    console.log("Last End Time ", endTimeDash2.current);
->>>>>>> 6ad17a633f133ed13980b498cf1aac717d1c27be
 
     // fetchData();
   }, []);

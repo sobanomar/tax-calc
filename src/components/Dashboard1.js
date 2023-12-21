@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Heading from "../components/Heading";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ScrollView,
   View,
@@ -16,12 +17,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ATRGraphChart from "../components/ATRGraphChart";
 import { formatPropVal } from "../Utils/FormatPropertyValue";
 import { LineChart } from "react-native-chart-kit";
+import { useMyContext } from "../context/DataContext";
+import { getFormattedDate } from "../Utils/getFormattedDate";
 
 const Dashboard1 = ({ navigation }) => {
   const [inputId, setInputId] = useState("");
   const [csvData, setCsvData] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
+
+  const { startTimeDash1, endTimeDash1 } = useMyContext();
+
+  useEffect(() => {
+    startTimeDash1.current = getFormattedDate();
+  }, []);
 
   const generateCSVContent = () => {
     const formattedCSVData =
@@ -65,6 +74,8 @@ const Dashboard1 = ({ navigation }) => {
       // handleDownloadCSV();
     } else {
     }
+    endTimeDash1.current = getFormattedDate();
+    navigation.navigate("HomeStack");
   };
 
   const [inputValues, setInputValues] = useState({

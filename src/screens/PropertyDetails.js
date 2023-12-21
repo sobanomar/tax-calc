@@ -81,7 +81,7 @@ const PropertyDetails = ({ navigation }) => {
   } = useMyContext();
 
   useEffect(() => {
-    const propertiesData = require("../../assets/properties_data.json");
+    const propertiesData = require("../../assets/final_data.json");
     setData(propertiesData);
 
     startTimeDash2.current = getFormattedDate();

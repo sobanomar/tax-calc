@@ -18,6 +18,7 @@ import { formatPropVal } from "../Utils/FormatPropertyValue";
 import { LineChart } from "react-native-chart-kit";
 import { useMyContext } from "../context/DataContext";
 import { getFormattedDate } from "../Utils/getFormattedDate";
+import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
 
 const Dashboard1 = ({ navigation }) => {
   const [inputId, setInputId] = useState("");
@@ -73,8 +74,6 @@ const Dashboard1 = ({ navigation }) => {
       // handleDownloadCSV();
     } else {
     }
-    endTimeDash1.current = getFormattedDate();
-    navigation.navigate("HomeStack");
   };
 
   const [inputValues, setInputValues] = useState({
@@ -258,6 +257,31 @@ const Dashboard1 = ({ navigation }) => {
             />
             <Text
               style={{
+                marginVertical: 10,
+                marginTop: 8,
+                fontSize: 17,
+                fontWeight: "bold",
+              }}
+            >
+              Enumerator Name:
+              <Text style={{ color: "red", fontSize: 20, fontWeight: 400 }}>
+                *
+              </Text>
+            </Text>
+            <TextInput
+              style={{
+                height: 40,
+                borderWidth: 1,
+                marginBottom: 10,
+                padding: 10,
+                borderRadius: 5,
+              }}
+              placeholder="Type here..."
+              onChangeText={handleInputChange1}
+              keyboardType="numeric"
+            />
+            <Text
+              style={{
                 color: "black",
                 marginTop: 50,
                 fontSize: 25,
@@ -359,7 +383,7 @@ const Dashboard1 = ({ navigation }) => {
                       }}
                     >
                       <Text style={{ color: "red" }}>
-                        (PKR) {inputValues[house]}
+                        (PKR) {formatNumberWithCommas(inputValues[house])}
                       </Text>
                       <Text>{" پہ اوسط ٹیکس کی شرح "}</Text>
                       <Text style={{ color: "red" }}>{taxRates[house]}%</Text>
@@ -413,6 +437,9 @@ const Dashboard1 = ({ navigation }) => {
               <>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Heading text={"ATR vs Prop Value"} />
+                  <Text style={{ marginVertical: 10 }}>
+                    اوسط پروپرٹی ٹیکس کی شرح / گھر کی قیمت (کڑوڑوں میں){" "}
+                  </Text>
                   <View>
                     <LineChart
                       data={{
@@ -428,7 +455,6 @@ const Dashboard1 = ({ navigation }) => {
                         Dimensions.get("window").width -
                         Dimensions.get("window").width / 10
                       }
-                      yAxisLabel=""
                       chartConfig={{
                         backgroundGradientFrom: "#ffffff",
                         backgroundGradientTo: "#ffffff",
@@ -466,7 +492,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   propertyCard: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

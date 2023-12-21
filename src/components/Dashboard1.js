@@ -224,35 +224,56 @@ const Dashboard1 = ({ navigation }) => {
     }
   };
 
-
-  const allWithinTolerance = (estimatedValues, actualValues, tolerancePercentages) => {
+  const allWithinTolerance = (
+    estimatedValues,
+    actualValues,
+    tolerancePercentages
+  ) => {
     return estimatedValues.every((estimate, index) => {
-      const lowerLimit = (100 - tolerancePercentages[index]) * actualValues[index] / 100;
-      const upperLimit = (100 + tolerancePercentages[index]) * actualValues[index] / 100;
+      const lowerLimit =
+        ((100 - tolerancePercentages[index]) * actualValues[index]) / 100;
+      const upperLimit =
+        ((100 + tolerancePercentages[index]) * actualValues[index]) / 100;
       return estimate >= lowerLimit && estimate <= upperLimit;
     });
   };
 
   const calculateWaffles = (inputValues) => {
-    console.log("Hello")
     // Replace these with your actual input handling logic
-    const userEstimates = [parseInt(inputValues[0]), parseInt(inputValues[1]), parseInt(inputValues[2]),
-    parseInt(inputValues[3]), parseInt(inputValues[4])];
+    const userEstimates = [
+      parseInt(inputValues.house1),
+      parseInt(inputValues.house2),
+      parseInt(inputValues.house3),
+      parseInt(inputValues.house4),
+      parseInt(inputValues.house5),
+    ];
+    console.log(userEstimates);
 
     // Assume actual values or calculate them as needed
-    const actualValues = [240.0271655, 3842.914515, 16789.82083, 33363.96191, 52856.36066];
+    const actualValues = [
+      240.0271655, 3842.914515, 16789.82083, 33363.96191, 52856.36066,
+    ];
 
     // Define tolerance percentages for each house
     const tolerancePercentages = [10, 10, 10, 10, 10];
 
     // Calculate waffle tickets based on tolerance levels
+    let answer = null;
     if (allWithinTolerance(userEstimates, actualValues, tolerancePercentages)) {
-      return 2;
-    } else if (allWithinTolerance(userEstimates, actualValues, Array(userEstimates.length).fill(20))) {
-      return 1;
+      answer = 2;
+    } else if (
+      allWithinTolerance(
+        userEstimates,
+        actualValues,
+        Array(userEstimates.length).fill(20)
+      )
+    ) {
+      answer = 1;
     } else {
-      return 0;
+      answer = 0;
     }
+    console.log(answer);
+    return answer;
   };
 
   return (
@@ -466,9 +487,23 @@ const Dashboard1 = ({ navigation }) => {
             )}
             {isSubmitted && (
               <>
-                <Text style={{ marginVertical: 10 }}>
-                  "آپکے جوابات صحیح جوابات سے {'20'} فیصد سے زیادہ مختلف ہیں اس لیئے آپکو کوئی مزید ٹکٹ نہیں ملے گا۔ {'20'}"
-                </Text>
+                {calculateWaffles(inputValues) === 2 ? (
+                  <Text style={styles.propertyText}>
+                    "آپکے جوابات صحیح جوابات سے صرف 10 فیصد مختلف ہیں اس لیئے
+                    آپکو مزید 2 ٹکٹس دیئے جا رہے ہیں۔"
+                  </Text>
+                ) : calculateWaffles(inputValues) === 1 ? (
+                  <Text style={styles.propertyText}>
+                    "آپکے جوابات صحیح جوابات سے صرف 20 فیصد مختلف ہیں اس لیئے
+                    آپکو مزید 1 ٹکٹس دیئے جا رہے ہیں۔"
+                  </Text>
+                ) : (
+                  <Text style={styles.propertyText}>
+                    آپکے جوابات صحیح جوابات سے 20 فیصد سے زیادہ مختلف ہیں اس
+                    لیئے آپکو کوئی مزید ٹکٹ نہیں ملے گا ۔
+                  </Text>
+                )}
+
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Heading text={"ATR vs Prop Value"} />
                   <Text style={{ marginVertical: 10 }}>
@@ -548,6 +583,7 @@ const styles = StyleSheet.create({
   },
   propertyText: {
     textAlign: "center",
+    marginVertical: 10,
     // add other styles for text if needed
   },
 });

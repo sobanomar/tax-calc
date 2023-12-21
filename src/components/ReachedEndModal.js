@@ -3,9 +3,15 @@ import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { getFormattedDate } from "../Utils/getFormattedDate";
+import { useMyContext } from "../context/DataContext";
 
 const ReachedEndModal = () => {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { startTimeDash2, endTimeDash2 } = useMyContext();
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -13,7 +19,11 @@ const ReachedEndModal = () => {
 
   const handleOkPress = () => {
     // Additional logic to handle 'Okay' button press
+    endTimeDash2.current = getFormattedDate();
+    console.log("Start Time ", startTimeDash2.current);
+    console.log("End Time ", endTimeDash2.current);
     toggleModal();
+    navigation.navigate("HomeStack");
   };
 
   return (

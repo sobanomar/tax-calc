@@ -5,12 +5,26 @@ const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
   const [inputData, setInputData] = useState([]);
-  const chartData = useRef();
-  const idFilteredData = useRef();
+  const chartData = useRef(null);
+  const idFilteredData = useRef(null);
+
+  const startTimeDash1 = useRef(null);
+  const endTimeDash1 = useRef(null);
+  const startTimeDash2 = useRef(null);
+  const endTimeDash2 = useRef(null);
 
   return (
     <MyContext.Provider
-      value={{ inputData, setInputData, chartData, idFilteredData }}
+      value={{
+        inputData,
+        setInputData,
+        chartData,
+        idFilteredData,
+        startTimeDash1,
+        endTimeDash1,
+        startTimeDash2,
+        endTimeDash2,
+      }}
     >
       {children}
     </MyContext.Provider>

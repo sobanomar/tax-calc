@@ -177,20 +177,20 @@ const Summary = ({ navigation }) => {
                                       borderColor: "gray",
                                     }}
                                     onChange={(e) => {
-                                      console.log(inputData[index]);
                                       const value = e.target.value;
                                       setInputData((prevData) => {
                                         const newData = [...prevData];
+
                                         newData[index] = {
                                           ...newData[index],
-                                          [data]: { value },
+                                          [data]: {
+                                            name: "Preferred Tax Liability",
+                                            value,
+                                          },
                                         };
                                         return newData;
                                       });
                                     }}
-                                    // onChange={(value) =>
-                                    //   console.log(value.target.value)
-                                    // }
                                     defaultValue={item[data].value}
                                   />
                                 )}

@@ -23,7 +23,7 @@ const RevenueAnalysis = ({ navigation }) => {
   const [isGreater, setIsGreater] = useState(false);
   const [apiResponse, setApiResponse] = useState();
   const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(true);
-  const [errorData, setErrorData] = useState(true);
+  const [errorData, setErrorData] = useState(false);
   const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
     useState(false);
   const finalData = useRef();
@@ -31,6 +31,7 @@ const RevenueAnalysis = ({ navigation }) => {
     useState(false);
 
   useEffect(() => {
+    console.log(Dimensions.get("window").width);
     // Create Array 3 for each corresponding pair
     if (idFilteredData.current && inputData) {
       finalData.current = generateArray3ForEachPair(
@@ -187,9 +188,11 @@ const RevenueAnalysis = ({ navigation }) => {
           <BarChart
             data={{
               labels: chartData.map((item) => item.label),
+              // labels: ["1st Value", "2nd Value"],
               datasets: [
                 {
                   data: chartData.map((item) => item.value),
+                  // data: [100, 200],
                   colors: [
                     (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
                     (opacity = 0.7) => `rgba(0, 255, 0,${opacity})`,
@@ -211,7 +214,7 @@ const RevenueAnalysis = ({ navigation }) => {
               decimalPlaces: 2,
               propsForLabels: { fontWeight: "bold", color: "red" },
               barRadius: 5,
-              barPercentage: 2.5,
+              barPercentage: Dimensions.get("window").width / 160,
             }}
             showBarTops={false}
             withCustomBarColorFromData={true}
@@ -246,7 +249,7 @@ const RevenueAnalysis = ({ navigation }) => {
               decimalPlaces: 2,
               propsForLabels: { fontWeight: "bold", color: "red" },
               barRadius: 5,
-              barPercentage: 2.5,
+              barPercentage: Dimensions.get("window").width / 160,
             }}
             showBarTops={false}
             withCustomBarColorFromData={true}

@@ -224,6 +224,37 @@ const Dashboard1 = ({ navigation }) => {
     }
   };
 
+
+  const allWithinTolerance = (estimatedValues, actualValues, tolerancePercentages) => {
+    return estimatedValues.every((estimate, index) => {
+      const lowerLimit = (100 - tolerancePercentages[index]) * actualValues[index] / 100;
+      const upperLimit = (100 + tolerancePercentages[index]) * actualValues[index] / 100;
+      return estimate >= lowerLimit && estimate <= upperLimit;
+    });
+  };
+
+  const calculateWaffles = (inputValues) => {
+    console.log("Hello")
+    // Replace these with your actual input handling logic
+    const userEstimates = [parseInt(inputValues[0]), parseInt(inputValues[1]), parseInt(inputValues[2]),
+    parseInt(inputValues[3]), parseInt(inputValues[4])];
+
+    // Assume actual values or calculate them as needed
+    const actualValues = [240.0271655, 3842.914515, 16789.82083, 33363.96191, 52856.36066];
+
+    // Define tolerance percentages for each house
+    const tolerancePercentages = [10, 10, 10, 10, 10];
+
+    // Calculate waffle tickets based on tolerance levels
+    if (allWithinTolerance(userEstimates, actualValues, tolerancePercentages)) {
+      return 2;
+    } else if (allWithinTolerance(userEstimates, actualValues, Array(userEstimates.length).fill(20))) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -435,6 +466,9 @@ const Dashboard1 = ({ navigation }) => {
             )}
             {isSubmitted && (
               <>
+                <Text style={{ marginVertical: 10 }}>
+                  "آپکے جوابات صحیح جوابات سے {'20'} فیصد سے زیادہ مختلف ہیں اس لیئے آپکو کوئی مزید ٹکٹ نہیں ملے گا۔ {'20'}"
+                </Text>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Heading text={"ATR vs Prop Value"} />
                   <Text style={{ marginVertical: 10 }}>

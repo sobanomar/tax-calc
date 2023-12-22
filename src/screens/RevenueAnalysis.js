@@ -169,7 +169,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-              apiResponse?.total_revenue[0] > 5.45 ? (
+            apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

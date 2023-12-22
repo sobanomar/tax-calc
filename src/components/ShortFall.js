@@ -2,17 +2,16 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
-import { useMyContext } from "../context/DataContext";
 
 const ShortFall = () => {
-  const { survey_funds_values, setsurvey_funds_values } = useMyContext();
-  const handleSliderChange = (index, value) => {
-    const newadditional_funds_values = [...survey_funds_values];
-    newadditional_funds_values[index] = value;
-    setsurvey_funds_values(newadditional_funds_values);
-  };
-
-
+  const [first, setfirst] = useState(0);
+  const [second, setSecond] = useState(0);
+  const [third, setThird] = useState(0);
+  const [fourth, setFourth] = useState(0);
+  const [fifth, setFifth] = useState(0);
+  const [sixth, setSixth] = useState(0);
+  const [seventh, setSeventh] = useState(0);
+  const [eighth, setEighth] = useState(0);
   return (
     <View
       style={{
@@ -29,26 +28,26 @@ const ShortFall = () => {
 
       <IndividualSlider
         text={"سہولیات پر اخراجات کو کم کرنا "}
-        value={survey_funds_values[0]}
-        setValue={(value) => handleSliderChange(0, value)}
+        value={first}
+        setValue={setfirst}
       />
       <IndividualSlider
         text={"صوبائی/وفاقی حکومت سے مزید بجٹ سپورٹ کی درخواست کرنا "}
-        value={survey_funds_values[1]}
-        setValue={(value) => handleSliderChange(1, value)}
+        value={second}
+        setValue={setSecond}
       />
       <IndividualSlider
         text={"مزید بین الاقو امی قرض حاصل کرنا"}
-        value={survey_funds_values[2]}
-        setValue={(value) => handleSliderChange(2, value)}
+        value={third}
+        setValue={setThird}
       />
       <IndividualSlider
         text={"پراپرٹی ٹیکس میں اضافہ "}
-        value={survey_funds_values[3]}
-        setValue={(value) => handleSliderChange(3, value)}
+        value={fourth}
+        setValue={setFourth}
       />
 
-      {survey_funds_values[3] > 0 && (
+      {fourth > 0 && (
         <>
           <Text style={styles.text}>
             آپ جو اضافی ٹیکس بڑھائیں گے، ان میں سے آپ درج ذیل میں سے کتنا فیصد
@@ -56,27 +55,27 @@ const ShortFall = () => {
           </Text>
           <IndividualSlider
             text={"زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ"}
-            value={survey_funds_values[4]}
-            setValue={(value) => handleSliderChange(4, value)}
+            value={fifth}
+            setValue={setFifth}
           />
           <IndividualSlider
             text={
               "درمیانی/کم قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ "
             }
-            value={survey_funds_values[5]}
-            setValue={(value) => handleSliderChange(5, value)}
+            value={sixth}
+            setValue={setSixth}
           />
           <IndividualSlider
             text={"زیادہ قیمت والی تجارتی جائیدادوں پر ٹیکس کی شرح میں اضافہ"}
-            value={survey_funds_values[6]}
-            setValue={(value) => handleSliderChange(6, value)}
+            value={seventh}
+            setValue={setSeventh}
           />
           <IndividualSlider
             text={
               "درمیانے/کم قیمت والی تجارتی جائیدادوں پر ٹیکس کی شرح میں اضافہ"
             }
-            value={survey_funds_values[7]}
-            setValue={(value) => handleSliderChange(7, value)}
+            value={eighth}
+            setValue={setEighth}
           />
         </>
       )}

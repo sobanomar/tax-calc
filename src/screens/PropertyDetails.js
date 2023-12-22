@@ -13,12 +13,16 @@ import Heading from "../components/Heading";
 import DataField from "../components/DataField";
 import InputField from "../components/InputField";
 import PreviousAndNextButton from "../components/PreviousAndNextButton";
+import Papa from "papaparse";
+import { Asset } from "expo-asset";
+import * as FileSystem from "expo-file-system";
 import { useMyContext } from "../context/DataContext";
 import { getFormattedDate } from "../Utils/getFormattedDate";
 import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
 
 const PropertyDetails = ({ navigation }) => {
   const [data, setData] = useState([]);
+  const [inputId, setInputId] = useState("");
   const [userName, setUserName] = useState("");
   const dataById = useRef();
   const [isFetching, setisFetching] = useState(false);
@@ -75,8 +79,6 @@ const PropertyDetails = ({ navigation }) => {
     idFilteredData,
     startTimeDash2,
     endTimeDash2,
-    dashboardId_2,
-    setDashboardId_2
   } = useMyContext();
 
   useEffect(() => {
@@ -122,7 +124,7 @@ const PropertyDetails = ({ navigation }) => {
   };
 
   const handleInputChange = (id) => {
-    setDashboardId_2(id);
+    setInputId(id);
     propertyNumber.current = 0;
     // setDataById(data.filter((item) => item.prop_id === id));
     dataById.current = data.filter((item) => {
@@ -264,7 +266,7 @@ const PropertyDetails = ({ navigation }) => {
             keyboardType="numeric"
             pointerEvents={inputEnabled ? "auto" : "none"}
             editable={inputEnabled}
-            value={dashboardId_2.current}
+            value={inputId.current}
           />
         </View>
 
@@ -353,7 +355,7 @@ const PropertyDetails = ({ navigation }) => {
           )}
 
           <InputField
-            editable={dashboardId_2.length === 0}
+            editable={inputId.length === 0}
             text={"آپ کی رائے میں اس پراپرٹی کا پراپرٹی ٹیکس کیا ہونا چاہیے؟"}
             handleInputChange={(value) => {
               preferredATRValue.current = (
@@ -370,7 +372,7 @@ const PropertyDetails = ({ navigation }) => {
           // required={true}
           />
           <InputField
-            editable={dashboardId_2.length === 0}
+            editable={inputId.length === 0}
             text={
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
@@ -401,7 +403,7 @@ const PropertyDetails = ({ navigation }) => {
             </Text>
           )}
           <InputField
-            editable={dashboardId_2.length === 0}
+            editable={inputId.length === 0}
             text={"آپ کی رائے میں اس پراپرٹی کا موجودہ پراپرٹی ٹیکس کیا ہے؟"}
             handleInputChange={(value) => {
               currentATRValue.current = (
@@ -419,7 +421,7 @@ const PropertyDetails = ({ navigation }) => {
       {/* Next Previous Button  */}
       <View>
         <PreviousAndNextButton
-          inputId={dashboardId_2}
+          inputId={inputId}
           handleNextPress={handleNext}
           handlePreviousPress={handlePrevious}
           propertyNumber={propertyNumber.current}

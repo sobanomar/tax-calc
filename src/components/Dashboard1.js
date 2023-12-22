@@ -50,8 +50,6 @@ const Dashboard1 = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    // console.log(taxRates, inputValues);
-
     if (isFormFilled) {
       const data = {
         Prop_id: inputId,
@@ -65,10 +63,18 @@ const Dashboard1 = ({ navigation }) => {
       axios.post(
         "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
         data
-      );
-      setIsSubmitted(true);
-      // handleDownloadCSV();
-    } else {
+      )
+        .then(response => {
+          console.log("Data saved successfully:", response.data);
+          setIsSubmitted(true);
+          // handleDownloadCSV();
+        })
+        .catch(error => {
+          alert("Error saving data. Please submit again.");
+        });
+
+    }
+    else {
     }
   };
 

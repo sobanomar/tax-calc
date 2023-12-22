@@ -49,9 +49,16 @@ const Dashboard1 = ({ navigation }) => {
     setCsvData(csvContent);
   };
 
+  const handleSetEndTime = () => {
+    return getFormattedDate();
+
+  };
+
   const handleSubmit = () => {
     if (isFormFilled) {
       const data = {
+        start_date_time: startTimeDash1.current,
+        end_date_time: handleSetEndTime(),
         Prop_id: inputId,
         Enumerator_name: userName,
         House1: inputValues.house1,
@@ -65,7 +72,7 @@ const Dashboard1 = ({ navigation }) => {
         data
       )
         .then(response => {
-          console.log("Data saved successfully:", response.data);
+          console.log("Data saved successfully:");
           setIsSubmitted(true);
           // handleDownloadCSV();
         })
@@ -362,7 +369,7 @@ const Dashboard1 = ({ navigation }) => {
               }}
               placeholder="Type here..."
               onChangeText={handleInputChange2}
-              keyboardType="numeric"
+              keyboardType="default"
               value={userName.current}
             />
             <Text

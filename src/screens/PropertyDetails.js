@@ -285,7 +285,7 @@ const PropertyDetails = ({ navigation }) => {
               fontWeight: "bold",
             }}
           >
-            Enter your name:
+            Enumerator Name:
             <Text style={{ color: "red", fontSize: 20, fontWeight: 400 }}>
               *
             </Text>

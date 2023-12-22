@@ -247,8 +247,6 @@ const Dashboard1 = ({ navigation }) => {
       parseInt(inputValues.house4),
       parseInt(inputValues.house5),
     ];
-    console.log(userEstimates);
-
     // Assume actual values or calculate them as needed
     const actualValues = [
       240.0271655, 3842.914515, 16789.82083, 33363.96191, 52856.36066,
@@ -272,8 +270,35 @@ const Dashboard1 = ({ navigation }) => {
     } else {
       answer = 0;
     }
-    console.log(answer);
     return answer;
+  };
+
+
+  const linearRegression = (taxRates) => {
+    const yValues = [parseFloat(taxRates.house1),
+    parseFloat(taxRates.house2),
+    parseFloat(taxRates.house3),
+    parseFloat(taxRates.house4),
+    parseFloat(taxRates.house5)];
+    const xValues = [1, 2, 3, 4, 5];
+    const n = yValues.length;
+    let sumX = 0;
+    let sumY = 0;
+    let sumXY = 0;
+    let sumXX = 0;
+
+    for (let i = 0; i < n; i++) {
+      sumX += xValues[i];
+      sumY += yValues[i];
+      sumXY += xValues[i] * yValues[i];
+      sumXX += xValues[i] * xValues[i];
+    }
+    const rawSlope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const slope = parseFloat(rawSlope.toFixed(3));
+    const intercept = (sumY - slope * sumX) / n;
+    const slopeSign = Math.sign(slope);
+
+    return { slopeSign };
   };
 
   return (
@@ -487,27 +512,48 @@ const Dashboard1 = ({ navigation }) => {
             )}
             {isSubmitted && (
               <>
+                {linearRegression(taxRates).slopeSign === 1 ? (
+                  <Text style={[styles.propertyText, {
+                    color: "red",
+                    marginTop: 50,
+                    fontSize: 23,
+                  }]}>
+                    "آپکے مطابق لاہور میں زیادہ قیمت زیادہ ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ زیادہ ہے"                  </Text>
+                ) : linearRegression(taxRates).slopeSign === 0 ? (
+                  <Text style={[styles.propertyText, {
+                    color: "red",
+                    marginTop: 50,
+                    fontSize: 23,
+                  }]}>
+                    "آپکے مطابق لاہور میں زیادہ قیمت کم ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ کم ہے"                  </Text>
+                ) : linearRegression(taxRates).slopeSign === -1 ? (
+                  <Text style={[styles.propertyText, {
+                    color: "red",
+                    marginTop: 50,
+                    fontSize: 23,
+                  }]}>
+                    "آپکے مطابق لاہور میں زیادہ قیمت یکساں ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ یکساں ہے"                  </Text>
+                ) : null}
                 {calculateWaffles(inputValues) === 2 ? (
-                  <Text style={styles.propertyText}>
+                  <Text style={[styles.propertyText, { marginBottom: 100 }]}>
                     "آپکے جوابات صحیح جوابات سے صرف 10 فیصد مختلف ہیں اس لیئے
                     آپکو مزید 2 ٹکٹس دیئے جا رہے ہیں۔"
                   </Text>
                 ) : calculateWaffles(inputValues) === 1 ? (
-                  <Text style={styles.propertyText}>
+                  <Text style={[styles.propertyText, { marginBottom: 100 }]}>
                     "آپکے جوابات صحیح جوابات سے صرف 20 فیصد مختلف ہیں اس لیئے
                     آپکو مزید 1 ٹکٹس دیئے جا رہے ہیں۔"
                   </Text>
                 ) : (
-                  <Text style={styles.propertyText}>
+                  <Text style={[styles.propertyText, { marginBottom: 100 }]}>
                     آپکے جوابات صحیح جوابات سے 20 فیصد سے زیادہ مختلف ہیں اس
                     لیئے آپکو کوئی مزید ٹکٹ نہیں ملے گا ۔
                   </Text>
                 )}
 
                 <View style={{ flex: 1, alignItems: "center" }}>
-                  <Heading text={"ATR vs Prop Value"} />
-                  <Text style={{ marginVertical: 10 }}>
-                    اوسط پروپرٹی ٹیکس کی شرح / گھر کی قیمت (کڑوڑوں میں){" "}
+                  <Text style={{ marginVertical: 10, fontSize: 20 }}>
+                    گھر کی قیمت (کڑوڑوں میں). / اوسط پروپرٹی ٹیکس  کی شرح{" "}
                   </Text>
                   <View>
                     <LineChart

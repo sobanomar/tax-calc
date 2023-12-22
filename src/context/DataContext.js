@@ -8,7 +8,9 @@ export const MyProvider = ({ children }) => {
   const chartData = useRef(null);
   const idFilteredData = useRef(null);
   const [dashboardId_2, setDashboardId_2] = useState("");
+  const [namedash2, setNameDash2] = useState("");
   const [selectedValue, setSelectedValue] = useState(null);
+  const data_dash1 = useRef(null);
 
   const startTimeDash1 = useRef(null);
   const endTimeDash1 = useRef(null);
@@ -19,6 +21,9 @@ export const MyProvider = ({ children }) => {
   return (
     <MyContext.Provider
       value={{
+        namedash2,
+        setNameDash2,
+        data_dash1,
         selectedValue,
         setSelectedValue,
         dashboardId_2,

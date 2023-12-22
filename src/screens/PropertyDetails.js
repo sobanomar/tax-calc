@@ -19,7 +19,6 @@ import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
 
 const PropertyDetails = ({ navigation }) => {
   const [data, setData] = useState([]);
-  const [userName, setUserName] = useState("");
   const dataById = useRef();
   const [isFetching, setisFetching] = useState(false);
   const propertyNumber = useRef(0);
@@ -76,7 +75,10 @@ const PropertyDetails = ({ navigation }) => {
     startTimeDash2,
     endTimeDash2,
     dashboardId_2,
-    setDashboardId_2
+    setDashboardId_2,
+    namedash2,
+    setNameDash2,
+
   } = useMyContext();
 
   useEffect(() => {
@@ -84,8 +86,6 @@ const PropertyDetails = ({ navigation }) => {
     setData(propertiesData);
 
     startTimeDash2.current = getFormattedDate();
-    // console.log("Start Time ", startTimeDash2.current);
-    // console.log("Last End Time ", endTimeDash2.current);
 
     // fetchData();
   }, []);
@@ -135,7 +135,7 @@ const PropertyDetails = ({ navigation }) => {
   };
 
   const handleInputName = (name) => {
-    setUserName(name);
+    setNameDash2(name);
   };
 
   const updateData = (data) => {
@@ -302,7 +302,7 @@ const PropertyDetails = ({ navigation }) => {
             onChangeText={handleInputName}
             pointerEvents={inputEnabled ? "auto" : "none"}
             editable={inputEnabled}
-            value={userName.current}
+            value={namedash2.current}
           />
         </View>
 
@@ -423,7 +423,7 @@ const PropertyDetails = ({ navigation }) => {
           handleNextPress={handleNext}
           handlePreviousPress={handlePrevious}
           propertyNumber={propertyNumber.current}
-          userName={userName}
+          userName={namedash2}
           isDisabled={
             formData["num"].value === "-" ||
             (noPreferredTaxLiability !== "-99"

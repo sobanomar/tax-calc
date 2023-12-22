@@ -27,7 +27,7 @@ const Dashboard1 = ({ navigation }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
 
-  const { startTimeDash1, endTimeDash1 } = useMyContext();
+  const { startTimeDash1, endTimeDash1, data_dash1 } = useMyContext();
 
   useEffect(() => {
     startTimeDash1.current = getFormattedDate();
@@ -67,21 +67,8 @@ const Dashboard1 = ({ navigation }) => {
         House4: inputValues.house4,
         House5: inputValues.house5,
       };
-      axios.post(
-        "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
-        data
-      )
-        .then(response => {
-          console.log("Data saved successfully:");
-          setIsSubmitted(true);
-          // handleDownloadCSV();
-        })
-        .catch(error => {
-          alert("Error saving data. Please submit again.");
-        });
-
-    }
-    else {
+      data_dash1.current = data
+      setIsSubmitted(true);
     }
   };
 

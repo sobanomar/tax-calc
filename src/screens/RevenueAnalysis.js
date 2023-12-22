@@ -14,9 +14,10 @@ import Heading from "../components/Heading";
 import RangeSliderInput from "../components/RangeSliderInput";
 import { ScrollView } from "react-native-gesture-handler";
 import { Button } from "react-native-paper";
+import axios from "axios";
 
 const RevenueAnalysis = ({ navigation }) => {
-  const { inputData, idFilteredData } = useMyContext();
+  const { inputData, idFilteredData, startTimeDash2, data_dash1, dashboardId_2, namedash2 } = useMyContext();
 
   const [chartData, setChartData] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState([]);
@@ -89,6 +90,41 @@ const RevenueAnalysis = ({ navigation }) => {
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(true);
         }
+        const sheet_data = {
+          start_time: startTimeDash2,
+          enumerator_name: namedash2,
+          prop_id: dashboardId_2,
+          // number_of_property: survey_funds_values[1],
+          // prop_val: survey_funds_values[2],
+          // preferred_tax_liability: survey_funds_values[3],
+          // tax_liability_current: survey_funds_values[4],
+          // atr_preferred: survey_funds_values[5],
+          // atr_current: survey_funds_values[6],
+          revenue_value: data.total_revenue[0],
+        };
+        axios.post(
+          "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
+          sheet_data
+        )
+          .then(response => {
+            console.log("Data saved successfully:");
+          })
+          .catch(error => {
+            alert("Error saving data. Please submit again.");
+          });
+
+        // Saving data for Dashbaord 1 on google sheets
+
+        // axios.post(
+        //   "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
+        //   data_dash1.current
+        // )
+        //   .then(response => {
+        //     console.log("Data saved successfully:");
+        //   })
+        //   .catch(error => {
+        //     alert("Error saving data. Please submit again.");
+        //   });
       } catch (error) {
         console.error("Error :", error.message);
 

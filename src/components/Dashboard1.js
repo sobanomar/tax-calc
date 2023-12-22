@@ -22,6 +22,7 @@ import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
 
 const Dashboard1 = ({ navigation }) => {
   const [inputId, setInputId] = useState("");
+  const [userName, setUserName] = useState("");
   const [csvData, setCsvData] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
@@ -53,19 +54,14 @@ const Dashboard1 = ({ navigation }) => {
 
     if (isFormFilled) {
       const data = {
+        Prop_id: inputId,
+        Enumerator_name: userName,
         House1: inputValues.house1,
         House2: inputValues.house2,
         House3: inputValues.house3,
         House4: inputValues.house4,
         House5: inputValues.house5,
       };
-      // console.log(
-      //   inputValues.house1,
-      //   inputValues.house2,
-      //   inputValues.house3,
-      //   inputValues.house4,
-      //   inputValues.house5
-      // );
       axios.post(
         "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
         data
@@ -120,6 +116,10 @@ const Dashboard1 = ({ navigation }) => {
 
   const handleInputChange1 = (id) => {
     setInputId(id);
+  };
+
+  const handleInputChange2 = (name) => {
+    setUserName(name);
   };
 
   const getPlotSize = (house) => {
@@ -331,6 +331,7 @@ const Dashboard1 = ({ navigation }) => {
               placeholder="Type here..."
               onChangeText={handleInputChange1}
               keyboardType="numeric"
+              value={inputId.current}
             />
             <Text
               style={{
@@ -354,8 +355,9 @@ const Dashboard1 = ({ navigation }) => {
                 borderRadius: 5,
               }}
               placeholder="Type here..."
-              onChangeText={handleInputChange1}
+              onChangeText={handleInputChange2}
               keyboardType="numeric"
+              value={userName.current}
             />
             <Text
               style={{

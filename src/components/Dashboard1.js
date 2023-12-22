@@ -457,18 +457,14 @@ const Dashboard1 = ({ navigation }) => {
                         marginVertical: 10,
                         fontWeight: "bold",
                         textAlign: "center",
+                        fontSize: 18,
+                        color: "black"
                       }}
                     >
-                      <Text style={{ color: "red" }}>
-                        (PKR) {formatNumberWithCommas(inputValues[house])}
-                      </Text>
-                      <Text>{" پہ اوسط ٹیکس کی شرح "}</Text>
-                      <Text style={{ color: "red" }}>{taxRates[house]}%</Text>
-                      <Text>
-                        {` گھر ${house.substring(
-                          5
-                        )} کے لئے آپ کے مطابق بتائے گئے ٹیکس`}
-                      </Text>
+                      گھر {house.substring(5)} کے لئے آپ کے مطابق بتائے گئے ٹیکس
+                      <Text style={{ color: "red" }}> {formatNumberWithCommas(inputValues[house])} (PKR) </Text>
+                      پہ اوسط ٹیکس کی شرح
+                      <Text style={{ color: "red" }}> {taxRates[house]}% </Text>  ہے
                     </Text>
                   )}
                   <TextInput
@@ -553,7 +549,7 @@ const Dashboard1 = ({ navigation }) => {
 
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Text style={{ marginVertical: 10, fontSize: 20 }}>
-                    گھر کی قیمت (کڑوڑوں میں). / اوسط پروپرٹی ٹیکس  کی شرح{" "}
+                    گھر کی قیمت (کڑوڑوں میں) / اوسط پروپرٹی ٹیکس  کی شرح{" "}
                   </Text>
                   <View>
                     <LineChart

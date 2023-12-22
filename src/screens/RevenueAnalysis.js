@@ -21,6 +21,7 @@ const RevenueAnalysis = ({ navigation }) => {
     inputData,
     idFilteredData,
     startTimeDash2,
+    endTimeDash1,
     data_dash1,
     dashboardId_2,
     namedash2,
@@ -99,17 +100,6 @@ const RevenueAnalysis = ({ navigation }) => {
         }
 
         // Saving data for Dashbaord 1 on google sheets
-
-        // axios.post(
-        //   "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
-        //   data_dash1.current
-        // )
-        //   .then(response => {
-        //     console.log("Data saved successfully:");
-        //   })
-        //   .catch(error => {
-        //     alert("Error saving data. Please submit again.");
-        //   });
       } catch (error) {
         console.error("Error :", error.message);
 
@@ -134,7 +124,7 @@ const RevenueAnalysis = ({ navigation }) => {
         const item2 = inputData[i];
 
         const data1 = {
-          start_time: startTimeDash2.current,
+          start_time: endTimeDash1.current,
           enumerator_name: namedash2,
           prop_id: parseInt(item2.prop_id.value),
           number_of_property: parseInt(item2.num.value),
@@ -155,6 +145,18 @@ const RevenueAnalysis = ({ navigation }) => {
       }
 
       console.log("Sheet Data: ", sheet_data);
+
+      axios
+        .post(
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84",
+          data_dash1.current
+        )
+        .then((response) => {
+          console.log("Data saved successfully:");
+        })
+        .catch((error) => {
+          alert("Error saving data. Please submit again.");
+        });
 
       axios
         .post(

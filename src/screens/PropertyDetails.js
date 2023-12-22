@@ -66,6 +66,14 @@ const PropertyDetails = ({ navigation }) => {
       name: "Property ID",
       value: "-",
     },
+    preferred_tax: {
+      name: "Preferred Tax liability",
+      value: 0,
+    },
+    current_tax: {
+      name: "Current Tax Liability",
+      value: 0,
+    },
   });
 
   const {
@@ -182,17 +190,11 @@ const PropertyDetails = ({ navigation }) => {
     const newData = { ...formData };
 
     if (preferredTaxLiability > 0) {
-      newData.preferred_tax = {
-        name: "Preferred Tax Liability",
-        value: preferredTaxLiability,
-      };
+      newData.preferred_tax.value = preferredTaxLiability;
     }
 
     if (currentTaxLiability > 0) {
-      newData.current_tax = {
-        name: "Current Tax Liability",
-        value: currentTaxLiability,
-      };
+      newData.current_tax.value = currentTaxLiability;
     }
 
     setInputData((prevInputData) => {

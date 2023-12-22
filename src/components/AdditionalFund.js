@@ -2,16 +2,16 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
+import { useMyContext } from "../context/DataContext";
 
 const AdditionalFund = () => {
-  const [first, setfirst] = useState(0);
-  const [second, setSecond] = useState(0);
-  const [third, setThird] = useState(0);
-  const [fourth, setFourth] = useState(0);
-  const [fifth, setFifth] = useState(0);
-  const [sixth, setSixth] = useState(0);
-  const [seventh, setSeventh] = useState(0);
-  const [eighth, setEighth] = useState(0);
+  const { survey_funds_values, setsurvey_funds_values } = useMyContext();
+  const handleSliderChange = (index, value) => {
+    const newadditional_funds_values = [...survey_funds_values];
+    newadditional_funds_values[index] = value;
+    setsurvey_funds_values(newadditional_funds_values);
+  };
+
   return (
     <View
       style={{
@@ -27,26 +27,26 @@ const AdditionalFund = () => {
 
       <IndividualSlider
         text={"عوامی سہولیات پر اخراجات میں اضافہ"}
-        value={first}
-        setValue={setfirst}
+        value={survey_funds_values[0]}
+        setValue={(value) => handleSliderChange(0, value)}
       />
       <IndividualSlider
         text={"صوبائی/وفاقی حکومت سے بجٹ سپورٹ میں کمی"}
-        value={second}
-        setValue={setSecond}
+        value={survey_funds_values[1]}
+        setValue={(value) => handleSliderChange(1, value)}
       />
       <IndividualSlider
         text={"بین الاقوامی ڈونرز کے واجب الاداقرض کی ادائیگی "}
-        value={third}
-        setValue={setThird}
+        value={survey_funds_values[2]}
+        setValue={(value) => handleSliderChange(2, value)}
       />
       <IndividualSlider
         text={"پراپرٹی ٹیکس کم کرنا"}
-        value={fourth}
-        setValue={setFourth}
+        value={survey_funds_values[3]}
+        setValue={(value) => handleSliderChange(3, value)}
       />
 
-      {fourth > 0 && (
+      {survey_funds_values[3] > 0 && (
         <>
           <Text style={styles.text}>
             آپ جو ٹیکس کم کریں گے ان میں سے آپ درج ذیل ٹیکسوں میں سے کتنے فیصد
@@ -54,27 +54,27 @@ const AdditionalFund = () => {
           </Text>
           <IndividualSlider
             text={"زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کم کرنا"}
-            value={fifth}
-            setValue={setFifth}
+            value={survey_funds_values[4]}
+            setValue={(value) => handleSliderChange(4, value)}
           />
           <IndividualSlider
             text={
               "درمیانی/کم قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کو کم کرنا"
             }
-            value={sixth}
-            setValue={setSixth}
+            value={survey_funds_values[5]}
+            setValue={(value) => handleSliderChange(5, value)}
           />
           <IndividualSlider
             text={"اعلی قیمت والی تجارتی جائیدادوں پر ٹیکس کی شرح کو کم کرن"}
-            value={seventh}
-            setValue={setSeventh}
+            value={survey_funds_values[6]}
+            setValue={(value) => handleSliderChange(6, value)}
           />
           <IndividualSlider
             text={
               "درمیانے/کم قیمت والی تجارتی جائیدادوں پر ٹیکس کی شرح میں اضافہ"
             }
-            value={eighth}
-            setValue={setEighth}
+            value={survey_funds_values[7]}
+            setValue={(value) => handleSliderChange(7, value)}
           />
         </>
       )}

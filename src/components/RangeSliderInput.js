@@ -1,10 +1,11 @@
 import { View, Picker, StyleSheet, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
 import AdditionalFund from "./AdditionalFund";
+import { useMyContext } from "../context/DataContext";
 import ShortFall from "./ShortFall";
 
 const RangeSliderInput = () => {
-  const [selectedValue, setSelectedValue] = useState(null);
+  const { selectedValue, setSelectedValue } = useMyContext();
   const [showSlider, setShowSlider] = useState(false);
 
   return (

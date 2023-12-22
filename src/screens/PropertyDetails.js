@@ -78,7 +78,6 @@ const PropertyDetails = ({ navigation }) => {
     setDashboardId_2,
     namedash2,
     setNameDash2,
-
   } = useMyContext();
 
   useEffect(() => {
@@ -339,11 +338,12 @@ const PropertyDetails = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${propertyNumber.current + 1
-                } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
-              <Text
-                style={{ color: "red" }}
-              >{`${formatNumberWithCommas(preferredTaxLiability)} روپے`}</Text>
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
+              <Text style={{ color: "red" }}>{`${formatNumberWithCommas(
+                preferredTaxLiability
+              )} روپے`}</Text>
               {` کی اوسط ٹیکس کی شرح `}
               <Text
                 style={{ color: "red" }}
@@ -367,7 +367,7 @@ const PropertyDetails = ({ navigation }) => {
               preferredTaxLiability !== 0 ? preferredTaxLiability : ""
             }
             keyboardType="numeric"
-          // required={true}
+            // required={true}
           />
           <InputField
             editable={dashboardId_2.length === 0}
@@ -388,8 +388,9 @@ const PropertyDetails = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${propertyNumber.current + 1
-                } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>
                 {`${currentTaxLiability}`}روپے
               </Text>

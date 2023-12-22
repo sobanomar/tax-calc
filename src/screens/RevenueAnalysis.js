@@ -17,12 +17,19 @@ import { Button } from "react-native-paper";
 import axios from "axios";
 
 const RevenueAnalysis = ({ navigation }) => {
-  const { inputData, idFilteredData, startTimeDash2, data_dash1, dashboardId_2, namedash2 } = useMyContext();
+  const {
+    inputData,
+    idFilteredData,
+    startTimeDash2,
+    data_dash1,
+    dashboardId_2,
+    namedash2,
+  } = useMyContext();
 
   const [chartData, setChartData] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState([]);
   const [isGreater, setIsGreater] = useState(false);
-  const [apiResponse, setApiResponse] = useState();
+  const [apiResponse, setApiResponse] = useState(null);
   const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(true);
   const [errorData, setErrorData] = useState(false);
   const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
@@ -32,7 +39,7 @@ const RevenueAnalysis = ({ navigation }) => {
     useState(false);
 
   useEffect(() => {
-    console.log(Dimensions.get("window").width);
+    // console.log(Dimensions.get("window").width);
     // Create Array 3 for each corresponding pair
     if (idFilteredData.current && inputData) {
       finalData.current = generateArray3ForEachPair(
@@ -45,7 +52,7 @@ const RevenueAnalysis = ({ navigation }) => {
   }, [inputData, idFilteredData]);
 
   const handleReload = () => {
-    console.log("reload");
+    // console.log("reload");
     setIsCalculatingRevenue(true);
     setReCalculateRevenueAnalysis(!reCalculateRevenueAnalysis);
   };
@@ -55,7 +62,7 @@ const RevenueAnalysis = ({ navigation }) => {
       try {
         // Assuming finalData.current is your data
         const response = await calculateRevenueAnalysis(finalData.current);
-        console.log(response.ok);
+        // console.log(response.ok);
 
         if (response.ok) {
           // Legitimate response
@@ -63,7 +70,7 @@ const RevenueAnalysis = ({ navigation }) => {
 
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(false);
-          console.log(data);
+          // console.log(data);
           setApiResponse(data);
 
           if (data.total_revenue && data.total_revenue[0] > 5.45) {
@@ -90,28 +97,6 @@ const RevenueAnalysis = ({ navigation }) => {
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(true);
         }
-        const sheet_data = {
-          start_time: startTimeDash2,
-          enumerator_name: namedash2,
-          prop_id: dashboardId_2,
-          // number_of_property: survey_funds_values[1],
-          // prop_val: survey_funds_values[2],
-          // preferred_tax_liability: survey_funds_values[3],
-          // tax_liability_current: survey_funds_values[4],
-          // atr_preferred: survey_funds_values[5],
-          // atr_current: survey_funds_values[6],
-          revenue_value: data.total_revenue[0],
-        };
-        axios.post(
-          "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
-          sheet_data
-        )
-          .then(response => {
-            console.log("Data saved successfully:");
-          })
-          .catch(error => {
-            alert("Error saving data. Please submit again.");
-          });
 
         // Saving data for Dashbaord 1 on google sheets
 
@@ -133,7 +118,59 @@ const RevenueAnalysis = ({ navigation }) => {
     };
 
     fetchData();
-  }, [finalData.current, reCalculateRevenueAnalysis]); // Include finalData.current as a dependency if needed
+  }, []); // Include finalData.current as a dependency if needed
+
+  useEffect(() => {
+    const postOnSheet = () => {
+      const sheet_data = [];
+
+      for (
+        let i = 0;
+        i < Math.min(idFilteredData.current.length, inputData.length);
+        i++
+      ) {
+        console.log(startTimeDash2.current);
+        const item1 = idFilteredData.current[i];
+        const item2 = inputData[i];
+
+        const data1 = {
+          start_time: startTimeDash2.current,
+          enumerator_name: namedash2,
+          prop_id: parseInt(item2.prop_id.value),
+          number_of_property: parseInt(item2.num.value),
+          prop_val: parseInt(item2.prop_val.value),
+          preferred_tax_liability: parseInt(item2.preferred_tax.value),
+          tax_liability_current: parseInt(item2.current_tax.value),
+          atr_preferred:
+            (parseFloat(item2.preferred_tax.value) /
+              parseFloat(item1.prop_val)) *
+            100,
+          atr_current:
+            (parseFloat(item2.current_tax.value) / parseFloat(item1.prop_val)) *
+            100,
+          revenue_value: apiResponse.total_revenue[0],
+        };
+
+        sheet_data.push(data1);
+      }
+
+      console.log("Sheet Data: ", sheet_data);
+
+      axios
+        .post(
+          "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
+          sheet_data
+        )
+        .then((response) => {
+          console.log("Data saved successfully:");
+        })
+        .catch((error) => {
+          alert("Error saving data. Please submit again.");
+        });
+    };
+
+    apiResponse && postOnSheet();
+  }, [apiResponse]);
 
   if (isCalculatingRevenue) {
     return (
@@ -205,7 +242,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-              apiResponse?.total_revenue[0] > 5.45 ? (
+            apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

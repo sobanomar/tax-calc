@@ -6,6 +6,7 @@ export const calculateRevenueAnalysis = async (finalData) => {
 
   try {
     // Make a POST request
+    console.log("Calculating...");
     const response = await fetch(url, {
       method: "POST",
       headers: {

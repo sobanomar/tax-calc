@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions, View, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { useMyContext } from "../context/DataContext";
 
@@ -30,7 +30,7 @@ const ATRGraphChart = ({ color }) => {
       <View style={{ position: "absolute", left: -55, top: 130, transform: [{ rotate: '-90deg' }] }}>
         <Text>ATR Value</Text>
       </View>
-      <Text style={{ alignSelf: "center", marginBottom: 15 }}>Property Value (in Crores)</Text>
+      <Text style={{ alignSelf: "center", marginTop: 15 }}>Property Value (in Crores)</Text>
 
     </View>
   );

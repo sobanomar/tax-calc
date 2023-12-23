@@ -1,7 +1,7 @@
-import { View, Picker, StyleSheet, Text, Dimensions } from "react-native";
 import React, { useState } from "react";
-import AdditionalFund from "./AdditionalFund";
+import { Dimensions, Picker, StyleSheet, Text, View } from "react-native";
 import { useMyContext } from "../context/DataContext";
+import AdditionalFund from "./AdditionalFund";
 import ShortFall from "./ShortFall";
 
 const RangeSliderInput = () => {

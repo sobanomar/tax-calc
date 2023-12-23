@@ -1,20 +1,20 @@
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
   ActivityIndicator,
   Dimensions,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { useMyContext } from "../context/DataContext";
 import { BarChart } from "react-native-chart-kit";
-import { generateArray3ForEachPair } from "../Utils/GenerateFinalArray";
-import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
-import Heading from "../components/Heading";
-import RangeSliderInput from "../components/RangeSliderInput";
 import { ScrollView } from "react-native-gesture-handler";
 import { Button } from "react-native-paper";
-import axios from "axios";
+import { generateArray3ForEachPair } from "../Utils/GenerateFinalArray";
+import Heading from "../components/Heading";
+import RangeSliderInput from "../components/RangeSliderInput";
+import { useMyContext } from "../context/DataContext";
+import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
 
 const RevenueAnalysis = ({ navigation }) => {
   const {

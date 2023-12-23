@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { Text, View } from "react-native";
 import { formatPropVal } from "../Utils/FormatPropertyValue";
 
 const DataField = ({ name, value }) => {

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
-import { BlurView } from "expo-blur";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { BlurView } from "expo-blur";
+import React, { useState } from "react";
+import { Modal, StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { getFormattedDate } from "../Utils/getFormattedDate";
 import { useMyContext } from "../context/DataContext";
-import axios from "axios";
 
 const ReachedEndModal = () => {
   const navigation = useNavigation();

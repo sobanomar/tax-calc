@@ -1,22 +1,16 @@
-import {
-  View,
-  Text,
-  Platform,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  TextInput,
-  Dimensions,
-} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import Papa from "papaparse";
-import { Asset } from "expo-asset";
-import * as FileSystem from "expo-file-system";
-import { LineChart } from "react-native-chart-kit";
-import Heading from "../components/Heading";
-import { Button, DataTable } from "react-native-paper";
-import { useMyContext } from "../context/DataContext";
+import {
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { Button } from "react-native-paper";
 import ATRGraphChart from "../components/ATRGraphChart";
+import Heading from "../components/Heading";
+import { useMyContext } from "../context/DataContext";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import { formatPropVal } from "../Utils/FormatPropertyValue";
@@ -110,7 +104,6 @@ const Summary = ({ navigation }) => {
                 >
                   <ScrollView horizontal>
                     <View>
-                      {/* Table Headings */}
                       <View
                         style={{
                           flexDirection: "row",
@@ -134,7 +127,6 @@ const Summary = ({ navigation }) => {
                         ))}
                       </View>
 
-                      {/* Table Data */}
                       <View>
                         {inputData.map((item, index) => (
                           <View

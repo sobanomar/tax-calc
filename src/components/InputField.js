@@ -1,5 +1,5 @@
-import { View, Text, TextInput, Dimensions } from "react-native";
 import React from "react";
+import { Dimensions, Text, TextInput, View } from "react-native";
 
 const InputField = ({
   text,

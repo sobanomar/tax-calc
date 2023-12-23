@@ -37,7 +37,12 @@ export default function App() {
   return (
     <MyProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="HomeStack" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          initialRouteName="HomeStack"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
           <Stack.Screen name="HomeStack" component={HomeStack} />
           <Stack.Screen name="Dashboard1" component={Dashboard1} />
           <Stack.Screen name="Dashboard2" component={Dashboard2} />

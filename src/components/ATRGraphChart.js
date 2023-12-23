@@ -27,10 +27,10 @@ const ATRGraphChart = ({ color }) => {
         bezier
         style={{ borderRadius: 16 }}
       />
-      <View style={{ position: "absolute", left: -25, top: 130, transform: [{ rotate: '-90deg' }] }}>
+      <View style={{ position: "absolute", left: -55, top: 130, transform: [{ rotate: '-90deg' }] }}>
         <Text>ATR Value</Text>
       </View>
-      <Text style={{ alignSelf: "center", marginBottom: 10 }}>Property Value (in Crores)</Text>
+      <Text style={{ alignSelf: "center", marginBottom: 15 }}>Property Value (in Crores)</Text>
 
     </View>
   );

@@ -21,7 +21,6 @@ const RevenueAnalysis = ({ navigation }) => {
     inputData,
     idFilteredData,
     startTimeDash2,
-    endTimeDash1,
     data_dash1,
     dashboardId_2,
     namedash2,
@@ -98,8 +97,6 @@ const RevenueAnalysis = ({ navigation }) => {
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(true);
         }
-
-        // Saving data for Dashbaord 1 on google sheets
       } catch (error) {
         console.error("Error :", error.message);
 
@@ -124,7 +121,7 @@ const RevenueAnalysis = ({ navigation }) => {
         const item2 = inputData[i];
 
         const data1 = {
-          start_time: endTimeDash1.current,
+          start_time: startTimeDash2.current,
           enumerator_name: namedash2,
           prop_id: parseInt(item2.prop_id.value),
           number_of_property: parseInt(item2.num.value),
@@ -145,22 +142,23 @@ const RevenueAnalysis = ({ navigation }) => {
       }
 
       console.log("Sheet Data: ", sheet_data);
+      // Saving data for Dashbaord 1 on google sheets1
 
-      axios
-        .post(
-          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84",
-          data_dash1.current
-        )
-        .then((response) => {
+      axios.post(
+        "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet1",
+        data_dash1.current
+      )
+        .then(response => {
           console.log("Data saved successfully:");
         })
-        .catch((error) => {
+        .catch(error => {
           alert("Error saving data. Please submit again.");
         });
 
+      // Saving data for Dashbaord 2 on google sheets2
       axios
         .post(
-          "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet2",
           sheet_data
         )
         .then((response) => {
@@ -244,7 +242,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-            apiResponse?.total_revenue[0] > 5.45 ? (
+              apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

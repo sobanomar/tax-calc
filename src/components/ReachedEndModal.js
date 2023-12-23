@@ -25,11 +25,11 @@ const ReachedEndModal = () => {
       medium_residential: survey_funds_values[5],
       high_commercial: survey_funds_values[6],
       medium_commercial: survey_funds_values[7],
-      end_date_time: getFormattedDate()
+      end_survey_time: getFormattedDate()
     };
-
+    // Saving data for Survey on google sheets3
     axios.post(
-      "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
+      "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
       data
     )
       .then(response => {

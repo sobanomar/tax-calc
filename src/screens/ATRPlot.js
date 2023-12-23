@@ -11,7 +11,7 @@ const ATRPlot = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Heading text={"ATR Plot"} />
+          <Heading text={"Updated ATR vs Prop Value"} />
           <ATRGraphChart color={"red"} />
           <View style={{ alignItems: "center", marginVertical: 10 }}>
             <Button

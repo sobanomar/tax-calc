@@ -16,7 +16,9 @@ export const MyProvider = ({ children }) => {
   const endTimeDash1 = useRef(null);
   const startTimeDash2 = useRef(null);
   const endTimeDash2 = useRef(null);
-  const [survey_funds_values, setsurvey_funds_values] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [survey_funds_values, setsurvey_funds_values] = useState([
+    0, 0, 0, 0, 0, 0, 0, 0,
+  ]);
 
   return (
     <MyContext.Provider

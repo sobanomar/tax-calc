@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import React from "react";
 import Slider from "@react-native-community/slider";
+import React from "react";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 
 const IndividualSlider = ({ text, value, setValue }) => {
   const formatPercentage = (value) => {

@@ -1,5 +1,5 @@
+import React from "react";
 import { View } from "react-native";
-import React, { useEffect } from "react";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 

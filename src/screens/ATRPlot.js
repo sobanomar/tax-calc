@@ -1,9 +1,9 @@
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import React from "react";
-import Heading from "../components/Heading";
-import ATRGraphChart from "../components/ATRGraphChart";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
+import ATRGraphChart from "../components/ATRGraphChart";
+import Heading from "../components/Heading";
 
 const ATRPlot = ({ navigation }) => {
   const handleNextPress = () => navigation.navigate("RevenueAnalysis");

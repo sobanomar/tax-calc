@@ -1,21 +1,18 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
+  ActivityIndicator,
+  ScrollView,
   Text,
   TextInput,
-  ScrollView,
-  Platform,
-  TouchableOpacity,
-  ActivityIndicator,
-  Dimensions,
+  View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import Heading from "../components/Heading";
+import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
+import { getFormattedDate } from "../Utils/getFormattedDate";
 import DataField from "../components/DataField";
+import Heading from "../components/Heading";
 import InputField from "../components/InputField";
 import PreviousAndNextButton from "../components/PreviousAndNextButton";
 import { useMyContext } from "../context/DataContext";
-import { getFormattedDate } from "../Utils/getFormattedDate";
-import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
 
 const PropertyDetails = ({ navigation }) => {
   const [data, setData] = useState([]);

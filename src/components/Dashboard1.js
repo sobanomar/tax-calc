@@ -1,24 +1,22 @@
-import Heading from "../components/Heading";
-import React, { useContext, useEffect, useState } from "react";
+import * as FileSystem from "expo-file-system";
+import React, { useEffect, useState } from "react";
 import {
+  Dimensions,
+  Image,
   ScrollView,
-  View,
+  StyleSheet,
   Text,
   TextInput,
-  Image,
-  StyleSheet,
-  Dimensions,
+  View,
 } from "react-native";
-import * as FileSystem from "expo-file-system";
-import axios from "axios";
+import { LineChart } from "react-native-chart-kit";
 import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ATRGraphChart from "../components/ATRGraphChart";
 import { formatPropVal } from "../Utils/FormatPropertyValue";
-import { LineChart } from "react-native-chart-kit";
-import { useMyContext } from "../context/DataContext";
-import { getFormattedDate } from "../Utils/getFormattedDate";
 import { formatNumberWithCommas } from "../Utils/formatNumberWithCommas";
+import { getFormattedDate } from "../Utils/getFormattedDate";
+import Heading from "../components/Heading";
+import { useMyContext } from "../context/DataContext";
 
 const Dashboard1 = ({ navigation }) => {
   const [inputId, setInputId] = useState("");

@@ -1,8 +1,8 @@
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
-import { useMyContext } from "../context/DataContext";
 
 const AdditionalFund = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();

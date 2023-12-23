@@ -110,6 +110,7 @@ const RevenueAnalysis = ({ navigation }) => {
   useEffect(() => {
     const postOnSheet = () => {
       const sheet_data = [];
+      const start_time = startTimeDash2.current
 
       for (
         let i = 0;
@@ -121,7 +122,7 @@ const RevenueAnalysis = ({ navigation }) => {
         const item2 = inputData[i];
 
         const data1 = {
-          start_time: startTimeDash2.current,
+          start_time: start_time,
           enumerator_name: namedash2,
           prop_id: parseInt(item2.prop_id.value),
           number_of_property: parseInt(item2.num.value),
@@ -267,8 +268,8 @@ const RevenueAnalysis = ({ navigation }) => {
                   data: chartData.map((item) => item.value),
                   // data: [100, 200],
                   colors: [
-                    (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
-                    (opacity = 0.7) => `rgba(0, 255, 0,${opacity})`,
+                    (opacity = 1) => `rgba(0, 0, 255,${opacity})`,
+                    (opacity = 1) => `rgba(0, 255, 0,${opacity})`,
                   ],
                 },
               ],
@@ -283,7 +284,7 @@ const RevenueAnalysis = ({ navigation }) => {
             chartConfig={{
               backgroundGradientFrom: "#fff",
               backgroundGradientTo: "#fff",
-              color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               decimalPlaces: 2,
               propsForLabels: { fontWeight: "bold", color: "red" },
               barRadius: 5,
@@ -302,8 +303,8 @@ const RevenueAnalysis = ({ navigation }) => {
                 {
                   data: chartData.map((item) => item.value),
                   colors: [
-                    (opacity = 0.7) => `rgba(0, 0, 255,${opacity})`,
-                    (opacity = 0.7) => `rgba(255, 0, 0,${opacity})`,
+                    (opacity = 1) => `rgba(0, 0, 255,${opacity})`,
+                    (opacity = 1) => `rgba(255, 0, 0,${opacity})`,
                   ],
                 },
               ],

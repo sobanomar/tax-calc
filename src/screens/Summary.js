@@ -80,7 +80,7 @@ const Summary = ({ navigation }) => {
         {data && (
           <View style={{ flex: 1, alignItems: "center" }}>
             <View style={{ flex: 1, alignItems: "center" }}>
-              <Heading text={"ATR vs Prop Value"} />
+              <Heading text={"Original ATR vs Prop Value"} />
               <ATRGraphChart color={"blue"} />
             </View>
             {inputData && inputData.length > 0 && (

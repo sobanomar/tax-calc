@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   View,
+  StyleSheet
 } from "react-native";
 import { Button } from "react-native-paper";
 import ATRGraphChart from "../components/ATRGraphChart";
@@ -22,7 +23,7 @@ const Summary = ({ navigation }) => {
   const aggregatedPropValues = useRef([]);
   const aggregatedAtrValues = useRef([]);
 
-  const { inputData, setInputData, chartData } = useMyContext();
+  const { inputData, setInputData, chartData, urduText1, urduText2, urduText3, urduText4, idFilteredData, urduTextForAtr } = useMyContext();
 
   useEffect(() => {
     calculateATR();
@@ -74,11 +75,65 @@ const Summary = ({ navigation }) => {
     ],
   };
 
+  const linearRegression = (xValues, yValues) => {
+    if (xValues && yValues) {
+      xValues = Array.isArray(xValues) ? xValues.map(item => item?.prop_val) : [];
+
+    } else {
+      console.error("xValues or yValues is null or undefined");
+    }
+    const n = yValues.length;
+    let sumX = 0;
+    let sumY = 0;
+    let sumXY = 0;
+    let sumXX = 0;
+
+    for (let i = 0; i < n; i++) {
+      sumX += xValues[i];
+      sumY += yValues[i];
+      sumXY += xValues[i] * yValues[i];
+      sumXX += xValues[i] * xValues[i];
+    }
+    const rawSlope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const slope = parseFloat(rawSlope.toFixed(10));
+    const intercept = (sumY - slope * sumX) / n;
+    const slopeSign = Math.sign(slope);
+    return { slopeSign };
+  };
+
+  urduTextForAtr.current = linearRegression(idFilteredData.current, atrValue.current).slopeSign
+
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         {data && (
           <View style={{ flex: 1, alignItems: "center" }}>
+            {urduTextForAtr.current === 1 ? (
+              <Text style={[styles.propertyText, {
+                color: "red",
+                marginTop: 50,
+                fontSize: 23,
+              }]}>
+                {urduText1} {urduText2}
+              </Text>
+            ) : urduTextForAtr.current === -1 ? (
+              <Text style={[styles.propertyText, {
+                color: "red",
+                marginTop: 50,
+                fontSize: 23,
+              }]}>
+                {urduText1} {urduText3}
+              </Text>
+            ) : urduTextForAtr.current === 0 ? (
+              <Text style={[styles.propertyText, {
+                color: "red",
+                marginTop: 50,
+                fontSize: 23,
+              }]}>
+                {urduText1} {urduText4}
+              </Text>
+            ) : null}
             <View style={{ flex: 1, alignItems: "center" }}>
               <Heading text={"Original ATR vs Prop Value"} />
               <ATRGraphChart color={"blue"} />
@@ -213,5 +268,14 @@ const Summary = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+
+const styles = StyleSheet.create({
+  propertyText: {
+    textAlign: "center",
+    marginVertical: 10,
+    // add other styles for text if needed
+  },
+});
 
 export default Summary;

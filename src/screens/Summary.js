@@ -23,7 +23,7 @@ const Summary = ({ navigation }) => {
   const aggregatedPropValues = useRef([]);
   const aggregatedAtrValues = useRef([]);
   const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
-  const { inputData, setInputData, chartData, urduText1, urduText2, urduText3, urduText4, idFilteredData, urduTextForAtr, setsurvey_funds_values } = useMyContext();
+  const { inputData, setInputData, chartData, urduText1, urduText2, urduText3, urduText4, idFilteredData, urduTextForAtr, setsurvey_funds_values, setSelectedValue } = useMyContext();
   const [isUIReady, setIsUIReady] = useState(false);
   useEffect(() => {
     calculateATR();
@@ -66,6 +66,7 @@ const Summary = ({ navigation }) => {
   };
 
   const handleNextPress = () => {
+    setSelectedValue(null)
     setsurvey_funds_values(initialSliderValues)
     navigation.navigate("ATRPlot");
   };

@@ -15,6 +15,7 @@ import Heading from "../components/Heading";
 import RangeSliderInput from "../components/RangeSliderInput";
 import { useMyContext } from "../context/DataContext";
 import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const RevenueAnalysis = ({ navigation }) => {
   const {
@@ -110,7 +111,7 @@ const RevenueAnalysis = ({ navigation }) => {
     fetchData();
   }, []); // Include finalData.current as a dependency if needed
 
-  const start_time = startTimeDash2.current
+  const start_time = startTimeDash2.current;
 
   useEffect(() => {
     const postOnSheet = () => {
@@ -209,8 +210,8 @@ const RevenueAnalysis = ({ navigation }) => {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View>
         <Heading text={"Revenue Analysis"} />
         <Text style={styles.text}>
           <Text>گزشتہ سال لاہور سے پراپرٹی ٹیکس کی مد میں </Text>
@@ -243,7 +244,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-              apiResponse?.total_revenue[0] > 5.45 ? (
+            apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

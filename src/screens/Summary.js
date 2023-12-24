@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   View,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { Button } from "react-native-paper";
 import ATRGraphChart from "../components/ATRGraphChart";
@@ -23,7 +23,17 @@ const Summary = ({ navigation }) => {
   const aggregatedPropValues = useRef([]);
   const aggregatedAtrValues = useRef([]);
 
-  const { inputData, setInputData, chartData, urduText1, urduText2, urduText3, urduText4, idFilteredData, urduTextForAtr } = useMyContext();
+  const {
+    inputData,
+    setInputData,
+    chartData,
+    urduText1,
+    urduText2,
+    urduText3,
+    urduText4,
+    idFilteredData,
+    urduTextForAtr,
+  } = useMyContext();
 
   useEffect(() => {
     calculateATR();
@@ -77,8 +87,9 @@ const Summary = ({ navigation }) => {
 
   const linearRegression = (xValues, yValues) => {
     if (xValues && yValues) {
-      xValues = Array.isArray(xValues) ? xValues.map(item => item?.prop_val) : [];
-
+      xValues = Array.isArray(xValues)
+        ? xValues.map((item) => item?.prop_val)
+        : [];
     } else {
       console.error("xValues or yValues is null or undefined");
     }
@@ -101,158 +112,181 @@ const Summary = ({ navigation }) => {
     return { slopeSign };
   };
 
-  urduTextForAtr.current = linearRegression(idFilteredData.current, atrValue.current).slopeSign
-
+  urduTextForAtr.current = linearRegression(
+    idFilteredData.current,
+    atrValue.current
+  ).slopeSign;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        {data && (
-          <View style={{ flex: 1, alignItems: "center" }}>
-            {urduTextForAtr.current === 1 ? (
-              <Text style={[styles.propertyText, {
-                color: "red",
-                marginTop: 50,
-                fontSize: 23,
-              }]}>
-                {urduText1} {urduText2}
-              </Text>
-            ) : urduTextForAtr.current === -1 ? (
-              <Text style={[styles.propertyText, {
-                color: "red",
-                marginTop: 50,
-                fontSize: 23,
-              }]}>
-                {urduText1} {urduText3}
-              </Text>
-            ) : urduTextForAtr.current === 0 ? (
-              <Text style={[styles.propertyText, {
-                color: "red",
-                marginTop: 50,
-                fontSize: 23,
-              }]}>
-                {urduText1} {urduText4}
-              </Text>
-            ) : null}
+        <View>
+          <Text>Hello</Text>
+          {/* {data && (
             <View style={{ flex: 1, alignItems: "center" }}>
-              <Heading text={"Original ATR vs Prop Value"} />
-              <ATRGraphChart color={"blue"} />
-            </View>
-            {inputData && inputData.length > 0 && (
-              <View
-                style={{
-                  marginVertical: 20,
-                  alignItems: "center",
-                }}
-              >
-                <Heading text={"Data"} />
-                <ScrollView
-                  horizontal
-                  style={{
-                    width:
-                      Dimensions.get("window").width -
-                      Dimensions.get("window").width / 10,
-                    backgroundColor: "#fff",
-                    borderRadius: 16,
-                    padding: 10,
-                  }}
+              {urduTextForAtr.current === 1 ? (
+                <Text
+                  style={[
+                    styles.propertyText,
+                    {
+                      color: "red",
+                      marginTop: 50,
+                      fontSize: 23,
+                    },
+                  ]}
                 >
-                  <ScrollView horizontal>
-                    <View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          borderBottomWidth: 2,
-                          borderBottomColor: "grey",
-                        }}
-                      >
-                        {Object.keys(inputData[0]).map((item, index) => (
-                          <Text
-                            key={`${item}-${index}`}
-                            style={{
-                              margin: 10,
-                              fontSize: 15,
-                              fontWeight: 500,
-                              width: 80,
-                              textAlign: "center",
-                            }}
-                          >
-                            {inputData[0][item].name}
-                          </Text>
-                        ))}
-                      </View>
-
-                      <View>
-                        {inputData.map((item, index) => (
+                  {urduText1} {urduText2}
+                </Text>
+              ) : urduTextForAtr.current === -1 ? (
+                <Text
+                  style={[
+                    styles.propertyText,
+                    {
+                      color: "red",
+                      marginTop: 50,
+                      fontSize: 23,
+                    },
+                  ]}
+                >
+                  {urduText1} {urduText3}
+                </Text>
+              ) : urduTextForAtr.current === 0 ? (
+                <Text
+                  style={[
+                    styles.propertyText,
+                    {
+                      color: "red",
+                      marginTop: 50,
+                      fontSize: 23,
+                    },
+                  ]}
+                >
+                  {urduText1} {urduText4}
+                </Text>
+              ) : null}
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <Heading text={"Original ATR vs Prop Value"} />
+                <ATRGraphChart color={"blue"} />
+              </View>
+              <View>
+                {inputData && inputData.length > 0 && (
+                  <View
+                    style={{
+                      marginVertical: 20,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Heading text={"Data"} />
+                    <ScrollView
+                      horizontal
+                      style={{
+                        width:
+                          Dimensions.get("window").width -
+                          Dimensions.get("window").width / 10,
+                        backgroundColor: "#fff",
+                        borderRadius: 16,
+                        padding: 10,
+                      }}
+                    >
+                      <ScrollView horizontal>
+                        <View>
                           <View
-                            key={`${item}-${index}`}
                             style={{
                               flexDirection: "row",
-                              borderBottomWidth: 1,
+                              borderBottomWidth: 2,
                               borderBottomColor: "grey",
-                              alignItems: "center",
                             }}
                           >
-                            {Object.keys(item, index).map((data) => (
-                              <View key={`${item}-${index}-${data}`}>
-                                {data !== "preferred_tax" ? (
-                                  <Text
-                                    style={{
-                                      margin: 10,
-                                      fontSize: 15,
-                                      fontWeight: 400,
-                                      width: 80,
-                                      textAlign: "center",
-                                    }}
-                                  >
-                                    {data === "prop_val" || data === "rent_val"
-                                      ? formatPropVal(item[data].value)
-                                      : item[data].value}
-                                  </Text>
-                                ) : (
-                                  <TextInput
-                                    style={{
-                                      margin: 10,
-                                      fontSize: 15,
-                                      fontWeight: 400,
-                                      width: 80,
-                                      textAlign: "center",
-                                      backgroundColor: "rgb(224 224 255)",
-                                      borderRadius: 5,
-                                      padding: 10,
-                                      borderWidth: 1,
-                                      borderColor: "gray",
-                                    }}
-                                    onChange={(e) => {
-                                      const value = e.target.value;
-                                      setInputData((prevData) => {
-                                        const newData = [...prevData];
+                            {Object.keys(inputData[0]).map((item, index) => (
+                              <Text
+                                key={`${item}-${index}`}
+                                style={{
+                                  margin: 10,
+                                  fontSize: 15,
+                                  fontWeight: 500,
+                                  width: 80,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {inputData[0][item].name}
+                              </Text>
+                            ))}
+                          </View>
 
-                                        newData[index] = {
-                                          ...newData[index],
-                                          [data]: {
-                                            name: "Preferred Tax Liability",
-                                            value,
-                                          },
-                                        };
-                                        return newData;
-                                      });
-                                    }}
-                                    defaultValue={item[data].value}
-                                  />
-                                )}
+                          <View>
+                            {inputData.map((item, index) => (
+                              <View
+                                key={`${item}-${index}`}
+                                style={{
+                                  flexDirection: "row",
+                                  borderBottomWidth: 1,
+                                  borderBottomColor: "grey",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {Object.keys(item, index).map((data) => (
+                                  <View key={`${item}-${index}-${data}`}>
+                                    {data !== "preferred_tax" ? (
+                                      <Text
+                                        style={{
+                                          margin: 10,
+                                          fontSize: 15,
+                                          fontWeight: 400,
+                                          width: 80,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {data === "prop_val" ||
+                                        data === "rent_val"
+                                          ? formatPropVal(item[data].value)
+                                          : item[data].value}
+                                      </Text>
+                                    ) : (
+                                      <TextInput
+                                        style={{
+                                          margin: 10,
+                                          fontSize: 15,
+                                          fontWeight: 400,
+                                          width: 80,
+                                          textAlign: "center",
+                                          backgroundColor: "rgb(224 224 255)",
+                                          borderRadius: 5,
+                                          padding: 10,
+                                          borderWidth: 1,
+                                          borderColor: "gray",
+                                        }}
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+                                          setInputData((prevData) => {
+                                            const newData = [...prevData];
+
+                                            newData[index] = {
+                                              ...newData[index],
+                                              [data]: {
+                                                name: "Preferred Tax Liability",
+                                                value,
+                                              },
+                                            };
+                                            return newData;
+                                          });
+                                        }}
+                                        defaultValue={item[data].value}
+                                      />
+                                    )}
+                                  </View>
+                                ))}
                               </View>
                             ))}
                           </View>
-                        ))}
-                      </View>
-                    </View>
-                  </ScrollView>
-                </ScrollView>
+                        </View>
+                      </ScrollView>
+                    </ScrollView>
+                  </View>
+                )}
               </View>
-            )}
-          </View>
-        )}
+            </View>
+          )} */}
+        </View>
         <View style={{ alignItems: "center", marginVertical: 10 }}>
           <Button
             onPress={handleNextPress}
@@ -268,7 +302,6 @@ const Summary = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   propertyText: {

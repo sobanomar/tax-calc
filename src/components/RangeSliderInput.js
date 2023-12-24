@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Dimensions, Picker, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { useMyContext } from "../context/DataContext";
 import AdditionalFund from "./AdditionalFund";
 import ShortFall from "./ShortFall";
+import { Picker } from "@react-native-picker/picker";
 
 const RangeSliderInput = () => {
   const { selectedValue, setSelectedValue } = useMyContext();
@@ -20,9 +21,21 @@ const RangeSliderInput = () => {
         style={styles.picker}
         selectedValue={selectedValue}
       >
-        <Picker.Item label="Select an option" value={null} />
-        <Picker.Item label="اضافی فنڈ" value="اضافی فنڈ" />
-        <Picker.Item label="شارٹ فال" value="شارٹ فال" />
+        <Picker.Item
+          style={{ color: "#000" }}
+          label="Select an option"
+          value={null}
+        />
+        <Picker.Item
+          style={{ color: "#000" }}
+          label="اضافی فنڈ"
+          value="اضافی فنڈ"
+        />
+        <Picker.Item
+          style={{ color: "#000" }}
+          label="شارٹ فال"
+          value="شارٹ فال"
+        />
       </Picker>
       {showSlider && selectedValue === "اضافی فنڈ" && <AdditionalFund />}
       {showSlider && selectedValue === "شارٹ فال" && <ShortFall />}
@@ -38,10 +51,14 @@ const styles = StyleSheet.create({
   },
   picker: {
     width: 200,
+    height: 50,
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
+    flex: 1,
     marginBottom: 10,
+    backgroundColor: "#fff",
+    color: "#000",
   },
   text: {
     textAlign: "center",

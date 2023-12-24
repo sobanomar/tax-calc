@@ -47,7 +47,6 @@ const ReachedEndModal = () => {
   //   navigation.navigate("HomeStack");
   // };
   const handleOkPress = () => {
-    // setsurvey_funds_values(initialSliderValues);
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

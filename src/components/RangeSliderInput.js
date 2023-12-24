@@ -1,72 +1,86 @@
-import React, { useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { useMyContext } from "../context/DataContext";
-import AdditionalFund from "./AdditionalFund";
-import ShortFall from "./ShortFall";
-import { Picker } from "@react-native-picker/picker";
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
+import { useMyContext } from '../context/DataContext';
+import AdditionalFund from './AdditionalFund';
+import ShortFall from './ShortFall';
 
 const RangeSliderInput = () => {
   const { selectedValue, setSelectedValue } = useMyContext();
-  const [showSlider, setShowSlider] = useState(false);
+  const [options, setOptions] = useState([
+    { id: 1, label: 'اضافی فنڈ', value: 'اضافی فنڈ', selected: false },
+    { id: 2, label: 'شارٹ فال', value: 'شارٹ فال', selected: false },
+  ]);
+  const [showAdditionalFund, setShowAdditionalFund] = useState(false);
+  const [showShortFall, setShowShortFall] = useState(false);
+
+  const handleOptionPress = (option) => {
+    // Update the selected value in the context
+    setSelectedValue(option.value);
+
+    // Toggle the visibility of AdditionalFund and ShortFall based on the selected value
+    if (option.value === 'اضافی فنڈ') {
+      setShowAdditionalFund(true);
+      setShowShortFall(false);
+    } else if (option.value === 'شارٹ فال') {
+      setShowShortFall(true);
+      setShowAdditionalFund(false);
+    }
+
+    // Update the selected state for each option
+    setOptions((prevOptions) =>
+      prevOptions.map((prevOption) => ({
+        ...prevOption,
+        selected: prevOption.value === option.value,
+      }))
+    );
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>کیا آپکا شارٹ فال آیا یا اضافی فنڈ</Text>
-      <Picker
-        onValueChange={(itemValue, itemIndex) => {
-          console.log(itemValue);
-          setSelectedValue(itemValue);
-          setShowSlider(true);
-        }}
-        style={styles.picker}
-        selectedValue={selectedValue}
-      >
-        <Picker.Item
-          style={{ color: "#000" }}
-          label="Select an option"
-          value={null}
-        />
-        <Picker.Item
-          style={{ color: "#000" }}
-          label="اضافی فنڈ"
-          value="اضافی فنڈ"
-        />
-        <Picker.Item
-          style={{ color: "#000" }}
-          label="شارٹ فال"
-          value="شارٹ فال"
-        />
-      </Picker>
-      {showSlider && selectedValue === "اضافی فنڈ" && <AdditionalFund />}
-      {showSlider && selectedValue === "شارٹ فال" && <ShortFall />}
+
+      {/* Custom touchable elements for options */}
+      {options.map((option) => (
+        <TouchableOpacity
+          key={option.id}
+          style={[styles.button, option.selected && styles.selectedButton]}
+          onPress={() => handleOptionPress(option)}
+        >
+          <Text>{option.label}</Text>
+        </TouchableOpacity>
+      ))}
+
+      {/* Conditionally render AdditionalFund or ShortFall based on selected value */}
+      {showAdditionalFund && <AdditionalFund />}
+      {showShortFall && <ShortFall />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: Dimensions.get("window").width - Dimensions.get("window").width / 10,
-  },
-  picker: {
-    width: 200,
-    height: 50,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    flex: 1,
-    marginBottom: 10,
-    backgroundColor: "#fff",
-    color: "#000",
+    marginTop: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: Dimensions.get('window').width - Dimensions.get('window').width / 10,
   },
   text: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 17,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     lineHeight: 24,
     marginVertical: 20,
+  },
+  button: {
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    marginVertical: 5,
+  },
+  selectedButton: {
+    backgroundColor: 'green', // Change to your desired highlight color
   },
 });
 
 export default RangeSliderInput;
+

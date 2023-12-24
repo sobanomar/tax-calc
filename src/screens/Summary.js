@@ -201,56 +201,57 @@ const Summary = ({ navigation }) => {
                               alignItems: "center",
                             }}
                           >
-                            {/* {Object.keys(item, index).map((data) => (
-                              <View key={`${item}-${index}-${data}`}>
-                                {data !== "preferred_tax" ? (
-                                  <Text
-                                    style={{
-                                      margin: 10,
-                                      fontSize: 15,
-                                      fontWeight: 400,
-                                      width: 80,
-                                      textAlign: "center",
-                                    }}
-                                  >
-                                    {data === "prop_val" || data === "rent_val"
-                                      ? formatPropVal(item[data].value)
-                                      : item[data].value}
-                                  </Text>
-                                ) : (
-                                  <TextInput
-                                    style={{
-                                      margin: 10,
-                                      fontSize: 15,
-                                      fontWeight: 400,
-                                      width: 80,
-                                      textAlign: "center",
-                                      backgroundColor: "rgb(224 224 255)",
-                                      borderRadius: 5,
-                                      padding: 10,
-                                      borderWidth: 1,
-                                      borderColor: "gray",
-                                    }}
-                                    onChange={(e) => {
-                                      const value = e.target.value;
-                                      setInputData((prevData) => {
-                                        const newData = [...prevData];
-
-                                        newData[index] = {
-                                          ...newData[index],
-                                          [data]: {
-                                            name: "Preferred Tax Liability",
-                                            value,
-                                          },
-                                        };
-                                        return newData;
-                                      });
-                                    }}
-                                    defaultValue={item[data].value}
-                                  />
-                                )}
-                              </View>
-                            ))} */}
+                            {
+                              Object.keys(item, index).map((data) => (
+                                <View key={`${item}-${index}-${data}`}>
+                                  {data !== "preferred_tax" ? (
+                                    <Text
+                                      style={{
+                                        margin: 10,
+                                        fontSize: 15,
+                                        fontWeight: 400,
+                                        width: 80,
+                                        textAlign: "center",
+                                      }}
+                                    >
+                                      {data === "prop_val" || data === "rent_val"
+                                        ? formatPropVal(item[data].value)
+                                        : item[data].value}
+                                    </Text>
+                                  ) : (
+                                    <TextInput
+                                      style={{
+                                        margin: 10,
+                                        fontSize: 15,
+                                        fontWeight: 'normal',
+                                        width: 80,
+                                        textAlign: "center",
+                                        backgroundColor: "rgb(224 224 255)",
+                                        borderRadius: 5,
+                                        padding: 10,
+                                        borderWidth: 1,
+                                        borderColor: "gray",
+                                      }}
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+                                        setInputData((prevData) => {
+                                          const newData = [...prevData];
+                                          newData[index] = {
+                                            ...newData[index],
+                                            [data]: {
+                                              name: "Preferred Tax Liability",
+                                              value,
+                                            },
+                                          };
+                                          return newData;
+                                        });
+                                      }}
+                                      defaultValue={item[data].value}
+                                    />
+                                  )}
+                                </View>
+                              ))
+                            }
                           </View>
                         ))}
                       </View>

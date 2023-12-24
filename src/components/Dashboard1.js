@@ -510,7 +510,7 @@ const Dashboard1 = ({ navigation }) => {
               <>
                 {linearRegression(taxRates).slopeSign === 1 ? (
                   <Text style={[styles.propertyText, {
-                    color: "red",
+                    color: "green",
                     marginTop: 50,
                     fontSize: 23,
                   }]}>
@@ -524,7 +524,7 @@ const Dashboard1 = ({ navigation }) => {
                     "آپکے مطابق لاہور میں زیادہ قیمت کم ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ کم ہے"                  </Text>
                 ) : linearRegression(taxRates).slopeSign === -1 ? (
                   <Text style={[styles.propertyText, {
-                    color: "red",
+                    color: "black",
                     marginTop: 50,
                     fontSize: 23,
                   }]}>

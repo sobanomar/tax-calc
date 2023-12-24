@@ -24,9 +24,10 @@ const Summary = ({ navigation }) => {
   const aggregatedAtrValues = useRef([]);
   const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
   const { inputData, setInputData, chartData, urduText1, urduText2, urduText3, urduText4, idFilteredData, urduTextForAtr, setsurvey_funds_values } = useMyContext();
-
+  const [isUIReady, setIsUIReady] = useState(false);
   useEffect(() => {
     calculateATR();
+    setIsUIReady(true);
     // return () => {
     //   atrValue.current = [];
     //   propValue.current = [];
@@ -137,10 +138,14 @@ const Summary = ({ navigation }) => {
                 {urduText1} {urduText4}
               </Text>
             ) : null}
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <Heading text={"Original ATR vs Prop Value"} />
-              {/* <ATRGraphChart color={"blue"} /> */}
-            </View>
+            {isUIReady && (
+              <>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Heading text={"Original ATR vs Prop Value"} />
+                  <ATRGraphChart color={"blue"} />
+                </View>
+              </>
+            )}
             {inputData && inputData.length > 0 && (
               <View
                 style={{

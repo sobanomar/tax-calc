@@ -145,9 +145,6 @@ const RevenueAnalysis = ({ navigation }) => {
 
         sheet_data.push(data1);
       }
-
-      console.log("Sheet Data: ", sheet_data);
-
       axios
         .post(
           "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet1",

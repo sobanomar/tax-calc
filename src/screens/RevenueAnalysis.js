@@ -110,6 +110,8 @@ const RevenueAnalysis = ({ navigation }) => {
     fetchData();
   }, []); // Include finalData.current as a dependency if needed
 
+  const start_time = startTimeDash2.current
+
   useEffect(() => {
     const postOnSheet = () => {
       const sheet_data = [];
@@ -124,7 +126,7 @@ const RevenueAnalysis = ({ navigation }) => {
         const item2 = inputData[i];
 
         const data1 = {
-          start_time: endTimeDash1.current,
+          start_time: start_time,
           enumerator_name: namedash2,
           prop_id: parseInt(item2.prop_id.value),
           number_of_property: parseInt(item2.num.value),
@@ -148,7 +150,7 @@ const RevenueAnalysis = ({ navigation }) => {
 
       axios
         .post(
-          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84",
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet1",
           data_dash1.current
         )
         .then((response) => {
@@ -160,7 +162,7 @@ const RevenueAnalysis = ({ navigation }) => {
 
       axios
         .post(
-          "https://sheet.best/api/sheets/b18c47a7-0c1b-43d1-b159-331fae017dbe",
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet2",
           sheet_data
         )
         .then((response) => {
@@ -244,7 +246,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-            apiResponse?.total_revenue[0] > 5.45 ? (
+              apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

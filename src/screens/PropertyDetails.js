@@ -389,7 +389,7 @@ const PropertyDetails = ({ navigation }) => {
               {`پراپرٹی ${propertyNumber.current + 1
                 } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>
-                {`${currentTaxLiability}`}روپے
+                {`${formatNumberWithCommas(currentTaxLiability)}`} روپے
               </Text>
               {`  کی اوسط ٹیکس کی شرح `}
               <Text

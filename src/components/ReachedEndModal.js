@@ -7,12 +7,13 @@ import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getFormattedDate } from "../Utils/getFormattedDate";
 import { useMyContext } from "../context/DataContext";
+import { CommonActions } from '@react-navigation/native';
 
 const ReachedEndModal = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-
-  const { survey_funds_values, dashboardId_2, selectedValue } = useMyContext();
+  const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
+  const { survey_funds_values, dashboardId_2, selectedValue, setsurvey_funds_values } = useMyContext();
   const toggleModal = () => {
     const data = {
       prop_id: dashboardId_2,
@@ -42,8 +43,17 @@ const ReachedEndModal = () => {
   };
 
 
+  // const handleOkPress = () => {
+  //   navigation.navigate("HomeStack");
+  // };
   const handleOkPress = () => {
-    navigation.navigate("HomeStack");
+    // setsurvey_funds_values(initialSliderValues);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'HomeStack' }],
+      })
+    );
   };
 
   return (

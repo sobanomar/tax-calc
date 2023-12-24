@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   View,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { Button } from "react-native-paper";
 import ATRGraphChart from "../components/ATRGraphChart";
@@ -23,7 +23,19 @@ const Summary = ({ navigation }) => {
   const aggregatedPropValues = useRef([]);
   const aggregatedAtrValues = useRef([]);
   const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
-  const { inputData, setInputData, chartData, urduText1, urduText2, urduText3, urduText4, idFilteredData, urduTextForAtr, setsurvey_funds_values, setSelectedValue } = useMyContext();
+  const {
+    inputData,
+    setInputData,
+    chartData,
+    urduText1,
+    urduText2,
+    urduText3,
+    urduText4,
+    idFilteredData,
+    urduTextForAtr,
+    setsurvey_funds_values,
+    setSelectedValue,
+  } = useMyContext();
   const [isUIReady, setIsUIReady] = useState(false);
   useEffect(() => {
     calculateATR();
@@ -66,8 +78,8 @@ const Summary = ({ navigation }) => {
   };
 
   const handleNextPress = () => {
-    setSelectedValue(null)
-    setsurvey_funds_values(initialSliderValues)
+    setSelectedValue(null);
+    setsurvey_funds_values(initialSliderValues);
     navigation.navigate("ATRPlot");
   };
 
@@ -82,8 +94,9 @@ const Summary = ({ navigation }) => {
 
   const linearRegression = (xValues, yValues) => {
     if (xValues && yValues) {
-      xValues = Array.isArray(xValues) ? xValues.map(item => item?.prop_val) : [];
-
+      xValues = Array.isArray(xValues)
+        ? xValues.map((item) => item?.prop_val)
+        : [];
     } else {
       console.error("xValues or yValues is null or undefined");
     }
@@ -106,8 +119,10 @@ const Summary = ({ navigation }) => {
     return { slopeSign };
   };
 
-  urduTextForAtr.current = linearRegression(idFilteredData.current, atrValue.current).slopeSign
-
+  urduTextForAtr.current = linearRegression(
+    idFilteredData.current,
+    atrValue.current
+  ).slopeSign;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -115,27 +130,42 @@ const Summary = ({ navigation }) => {
         {data && (
           <View style={{ flex: 1, alignItems: "center" }}>
             {urduTextForAtr.current === 1 ? (
-              <Text style={[styles.propertyText, {
-                color: "red",
-                marginTop: 50,
-                fontSize: 23,
-              }]}>
+              <Text
+                style={[
+                  styles.propertyText,
+                  {
+                    color: "red",
+                    marginTop: 50,
+                    fontSize: 23,
+                  },
+                ]}
+              >
                 {urduText1} {urduText2}
               </Text>
             ) : urduTextForAtr.current === -1 ? (
-              <Text style={[styles.propertyText, {
-                color: "red",
-                marginTop: 50,
-                fontSize: 23,
-              }]}>
+              <Text
+                style={[
+                  styles.propertyText,
+                  {
+                    color: "red",
+                    marginTop: 50,
+                    fontSize: 23,
+                  },
+                ]}
+              >
                 {urduText1} {urduText3}
               </Text>
             ) : urduTextForAtr.current === 0 ? (
-              <Text style={[styles.propertyText, {
-                color: "red",
-                marginTop: 50,
-                fontSize: 23,
-              }]}>
+              <Text
+                style={[
+                  styles.propertyText,
+                  {
+                    color: "red",
+                    marginTop: 50,
+                    fontSize: 23,
+                  },
+                ]}
+              >
                 {urduText1} {urduText4}
               </Text>
             ) : null}
@@ -202,57 +232,55 @@ const Summary = ({ navigation }) => {
                               alignItems: "center",
                             }}
                           >
-                            {
-                              Object.keys(item, index).map((data) => (
-                                <View key={`${item}-${index}-${data}`}>
-                                  {data !== "preferred_tax" ? (
-                                    <Text
-                                      style={{
-                                        margin: 10,
-                                        fontSize: 15,
-                                        fontWeight: 400,
-                                        width: 80,
-                                        textAlign: "center",
-                                      }}
-                                    >
-                                      {data === "prop_val" || data === "rent_val"
-                                        ? formatPropVal(item[data].value)
-                                        : item[data].value}
-                                    </Text>
-                                  ) : (
-                                    <TextInput
-                                      style={{
-                                        margin: 10,
-                                        fontSize: 15,
-                                        fontWeight: 'normal',
-                                        width: 80,
-                                        textAlign: "center",
-                                        backgroundColor: "rgb(224 224 255)",
-                                        borderRadius: 5,
-                                        padding: 10,
-                                        borderWidth: 1,
-                                        borderColor: "gray",
-                                      }}
-                                      onChange={(e) => {
-                                        const value = e.target.value;
-                                        setInputData((prevData) => {
-                                          const newData = [...prevData];
-                                          newData[index] = {
-                                            ...newData[index],
-                                            [data]: {
-                                              name: "Preferred Tax Liability",
-                                              value,
-                                            },
-                                          };
-                                          return newData;
-                                        });
-                                      }}
-                                      defaultValue={item[data].value}
-                                    />
-                                  )}
-                                </View>
-                              ))
-                            }
+                            {Object.keys(item, index).map((data) => (
+                              <View key={`${item}-${index}-${data}`}>
+                                {data !== "preferred_tax" ? (
+                                  <Text
+                                    style={{
+                                      margin: 10,
+                                      fontSize: 15,
+                                      fontWeight: 400,
+                                      width: 80,
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    {data === "prop_val" || data === "rent_val"
+                                      ? formatPropVal(item[data].value)
+                                      : item[data].value}
+                                  </Text>
+                                ) : (
+                                  <TextInput
+                                    style={{
+                                      margin: 10,
+                                      fontSize: 15,
+                                      fontWeight: "normal",
+                                      width: 80,
+                                      textAlign: "center",
+                                      backgroundColor: "rgb(224 224 255)",
+                                      borderRadius: 5,
+                                      padding: 10,
+                                      borderWidth: 1,
+                                      borderColor: "gray",
+                                    }}
+                                    onChangeText={(e) => {
+                                      const value = e;
+                                      setInputData((prevData) => {
+                                        const newData = [...prevData];
+                                        newData[index] = {
+                                          ...newData[index],
+                                          [data]: {
+                                            name: "Preferred Tax Liability",
+                                            value,
+                                          },
+                                        };
+                                        return newData;
+                                      });
+                                    }}
+                                    defaultValue={item[data].value}
+                                  />
+                                )}
+                              </View>
+                            ))}
                           </View>
                         ))}
                       </View>
@@ -278,7 +306,6 @@ const Summary = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   propertyText: {

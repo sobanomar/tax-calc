@@ -22,7 +22,7 @@ const PropertyDetails = ({ navigation }) => {
   const propertyNumber = useRef(0);
   const [inputEnabled, setInputEnabled] = useState(true);
   const [preferredTaxLiability, setPreferredTaxLiability] = useState(0);
-  const [noPreferredTaxLiability, setNoPreferredTaxLiability] = useState(0);
+  const [noPreferredTaxLiability, setNoPreferredTaxLiability] = useState("0");
   const [currentTaxLiability, setCurrentTaxLiability] = useState(0);
   const preferredATRValue = useRef(0);
   const currentATRValue = useRef(0);
@@ -185,6 +185,7 @@ const PropertyDetails = ({ navigation }) => {
 
   const handleNext = () => {
     setInputEnabled(false);
+    setNoPreferredTaxLiability("0");
 
     const newData = { ...formData };
 
@@ -377,8 +378,9 @@ const PropertyDetails = ({ navigation }) => {
             }
             handleInputChange={(value) => {
               value === "-99" && setPreferredTaxLiability(0);
-              setNoPreferredTaxLiability(value);
+              setNoPreferredTaxLiability(value.toString());
             }}
+            value={noPreferredTaxLiability !== 0 ? noPreferredTaxLiability : ""}
           />
           {currentTaxLiability > 0 && (
             <Text

@@ -13,6 +13,7 @@ import Heading from "../components/Heading";
 import InputField from "../components/InputField";
 import PreviousAndNextButton from "../components/PreviousAndNextButton";
 import { useMyContext } from "../context/DataContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const PropertyDetails = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -127,7 +128,6 @@ const PropertyDetails = ({ navigation }) => {
   };
 
   const handleInputChange = (id) => {
-    console.log(id);
     setDashboardId_2(id);
     propertyNumber.current = 0;
     // setDataById(data.filter((item) => item.prop_id === id));
@@ -376,6 +376,7 @@ const PropertyDetails = ({ navigation }) => {
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
             handleInputChange={(value) => {
+              value === "-99" && setPreferredTaxLiability(0);
               setNoPreferredTaxLiability(value);
             }}
           />

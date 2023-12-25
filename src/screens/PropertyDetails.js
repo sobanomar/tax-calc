@@ -87,8 +87,8 @@ const PropertyDetails = ({ navigation }) => {
   } = useMyContext();
 
   useEffect(() => {
-    const propertiesData = require("../../assets/Prefillapp_pilot_data.json");
-    // const propertiesData = require("../../assets/final_data.json");
+    // const propertiesData = require("../../assets/Prefillapp_pilot_data.json");
+    const propertiesData = require("../../assets/final_data.json");
     setData(propertiesData);
 
     startTimeDash2.current = getFormattedDate();
@@ -340,9 +340,8 @@ const PropertyDetails = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${
-                propertyNumber.current + 1
-              } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${propertyNumber.current + 1
+                } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>{`${formatNumberWithCommas(
                 preferredTaxLiability
               )} روپے`}</Text>
@@ -369,7 +368,7 @@ const PropertyDetails = ({ navigation }) => {
               preferredTaxLiability !== 0 ? preferredTaxLiability : ""
             }
             keyboardType="numeric"
-            // required={true}
+          // required={true}
           />
           <InputField
             editable={dashboardId_2.length === 0}
@@ -392,9 +391,8 @@ const PropertyDetails = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${
-                propertyNumber.current + 1
-              } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${propertyNumber.current + 1
+                } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>
                 {`${formatNumberWithCommas(currentTaxLiability)}`} روپے
               </Text>

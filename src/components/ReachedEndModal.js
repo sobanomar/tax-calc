@@ -7,13 +7,18 @@ import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getFormattedDate } from "../Utils/getFormattedDate";
 import { useMyContext } from "../context/DataContext";
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions } from "@react-navigation/native";
 
 const ReachedEndModal = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
-  const { survey_funds_values, dashboardId_2, selectedValue, setsurvey_funds_values } = useMyContext();
+  const {
+    survey_funds_values,
+    dashboardId_2,
+    selectedValue,
+    setsurvey_funds_values,
+  } = useMyContext();
   const toggleModal = () => {
     const data = {
       prop_id: dashboardId_2,
@@ -26,22 +31,22 @@ const ReachedEndModal = () => {
       medium_residential: survey_funds_values[5],
       high_commercial: survey_funds_values[6],
       medium_commercial: survey_funds_values[7],
-      end_survey_time: getFormattedDate()
+      end_survey_time: getFormattedDate(),
     };
     // Saving data for Survey on google sheets3
-    axios.post(
-      "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
-      data
-    )
-      .then(response => {
+    axios
+      .post(
+        "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
+        data
+      )
+      .then((response) => {
         console.log("Data saved successfully:");
         setModalVisible(!modalVisible);
       })
-      .catch(error => {
+      .catch((error) => {
         alert("Error saving data. Please submit again.");
       });
   };
-
 
   // const handleOkPress = () => {
   //   navigation.navigate("HomeStack");
@@ -50,7 +55,7 @@ const ReachedEndModal = () => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: 'HomeStack' }],
+        routes: [{ name: "HomeStack" }],
       })
     );
   };
@@ -108,7 +113,6 @@ const ReachedEndModal = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "90%",

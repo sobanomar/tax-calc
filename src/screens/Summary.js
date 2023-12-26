@@ -53,11 +53,12 @@ const Summary = ({ navigation }) => {
     const tempAggregatedValues = [];
     inputData &&
       inputData.map((item) => {
+        const singelAtr = (item?.preferred_tax?.value / item?.prop_val?.value) * 100
         tempATR.push(
-          (item?.preferred_tax?.value / item?.prop_val?.value) * 100
+          isNaN(singelAtr) ? 0 : singelAtr
         );
         tempProp.push(item.prop_val.value);
-        atrValue.current = tempATR;
+        atrValue.current = tempATR
         propValue.current = tempProp;
       });
 

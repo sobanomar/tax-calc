@@ -292,7 +292,7 @@ const Dashboard1 = ({ navigation }) => {
       sumXX += xValues[i] * xValues[i];
     }
     const rawSlope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-    const slope = parseFloat(rawSlope.toFixed(3));
+    const slope = parseFloat(rawSlope.toFixed(7));
     const intercept = (sumY - slope * sumX) / n;
     const slopeSign = Math.sign(slope);
 
@@ -515,14 +515,14 @@ const Dashboard1 = ({ navigation }) => {
                     fontSize: 23,
                   }]}>
                     "آپکے مطابق لاہور میں زیادہ قیمت زیادہ ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ زیادہ ہے"                  </Text>
-                ) : linearRegression(taxRates).slopeSign === 0 ? (
+                ) : linearRegression(taxRates).slopeSign === -1 ? (
                   <Text style={[styles.propertyText, {
                     color: "red",
                     marginTop: 50,
                     fontSize: 23,
                   }]}>
                     "آپکے مطابق لاہور میں زیادہ قیمت کم ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ کم ہے"                  </Text>
-                ) : linearRegression(taxRates).slopeSign === -1 ? (
+                ) : linearRegression(taxRates).slopeSign === 0 ? (
                   <Text style={[styles.propertyText, {
                     color: "black",
                     marginTop: 50,

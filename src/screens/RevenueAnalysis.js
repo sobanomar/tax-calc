@@ -110,7 +110,7 @@ const RevenueAnalysis = ({ navigation }) => {
     fetchData();
   }, []); // Include finalData.current as a dependency if needed
 
-  const start_time = startTimeDash2.current
+  const start_time = startTimeDash2.current;
 
   useEffect(() => {
     const postOnSheet = () => {
@@ -243,7 +243,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-              apiResponse?.total_revenue[0] > 5.45 ? (
+            apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

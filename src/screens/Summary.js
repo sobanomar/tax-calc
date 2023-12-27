@@ -129,7 +129,7 @@ const Summary = ({ navigation }) => {
         <View
           style={{
             alignItems: "center",
-            marginHorizontal: 10,
+            marginHorizontal: "10%",
           }}
         >
           <Heading text={"Original ATR vs Prop Value"} />
@@ -144,7 +144,7 @@ const Summary = ({ navigation }) => {
                     color: "red",
                     marginVertical: 20,
                     fontSize: 23,
-                    marginHorizontal: 10,
+                    marginHorizontal: "10%",
                   },
                 ]}
               >
@@ -158,7 +158,7 @@ const Summary = ({ navigation }) => {
                     color: "red",
                     marginVertical: 20,
                     fontSize: 23,
-                    marginHorizontal: 10,
+                    marginHorizontal: "10%",
                   },
                 ]}
               >

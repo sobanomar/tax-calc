@@ -15,6 +15,7 @@ import Heading from "../components/Heading";
 import RangeSliderInput from "../components/RangeSliderInput";
 import { useMyContext } from "../context/DataContext";
 import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
+import { addEventListener } from "@react-native-community/netinfo";
 
 const RevenueAnalysis = ({ navigation }) => {
   const {
@@ -30,8 +31,10 @@ const RevenueAnalysis = ({ navigation }) => {
   const [chartData, setChartData] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState([]);
   const [isGreater, setIsGreater] = useState(false);
+  const [isConnectedToInternet, setIsConnectedToInternet] = useState(false);
   const [apiResponse, setApiResponse] = useState(null);
-  const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(true);
+  const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(false);
+  const [retry, setRetry] = useState(false);
   const [errorData, setErrorData] = useState(false);
   const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
     useState(false);
@@ -50,13 +53,22 @@ const RevenueAnalysis = ({ navigation }) => {
     }
 
     // Log the result
-  }, [inputData, idFilteredData]);
+  }, [inputData, idFilteredData, reCalculateRevenueAnalysis]);
 
   const handleReload = () => {
-    // console.log("reload");
-    setIsCalculatingRevenue(true);
     setReCalculateRevenueAnalysis(!reCalculateRevenueAnalysis);
   };
+
+  useEffect(() => {
+    const unsubscribe = addEventListener((state) => {
+      setIsConnectedToInternet(state.isConnected);
+      setIsCalculatingRevenue(state.isConnected);
+      if (state.isConnected) setRetry(!retry);
+    });
+
+    // Cleanup function
+    unsubscribe();
+  }, [reCalculateRevenueAnalysis]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,10 +80,9 @@ const RevenueAnalysis = ({ navigation }) => {
         if (response.ok) {
           // Legitimate response
           const data = await response.json();
-
+          // console.log("Response: ", data);
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(false);
-          // console.log(data);
           setApiResponse(data);
 
           if (data.total_revenue && data.total_revenue[0] > 5.45) {
@@ -84,8 +95,8 @@ const RevenueAnalysis = ({ navigation }) => {
           setTotalRevenue(roundedValues);
 
           const chartData = [
-            { value: firstValue.toFixed(2), label: "1st Value" },
-            { value: secondValue.toFixed(2), label: "2nd Value" },
+            { value: firstValue.toFixed(2), label: "Actual Value" },
+            { value: secondValue.toFixed(2), label: "Predicted Value" },
           ];
 
           setChartData(chartData);
@@ -107,8 +118,10 @@ const RevenueAnalysis = ({ navigation }) => {
       }
     };
 
-    fetchData();
-  }, []); // Include finalData.current as a dependency if needed
+    if (isConnectedToInternet) {
+      fetchData();
+    }
+  }, [isConnectedToInternet, retry]);
 
   const start_time = startTimeDash2.current;
 
@@ -121,7 +134,7 @@ const RevenueAnalysis = ({ navigation }) => {
         i < Math.min(idFilteredData.current.length, inputData.length);
         i++
       ) {
-        console.log(startTimeDash2.current);
+        // console.log(startTimeDash2.current);
         const item1 = idFilteredData.current[i];
         const item2 = inputData[i];
 
@@ -172,6 +185,27 @@ const RevenueAnalysis = ({ navigation }) => {
 
     apiResponse && postOnSheet();
   }, [apiResponse]);
+
+  if (!isConnectedToInternet && apiResponse === null) {
+    return (
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <Heading text={"Revenue Analysis"} />
+        <Text>You are not connected to Internet...</Text>
+        <Text>Check your internet connection</Text>
+        <Button
+          onPress={handleReload}
+          mode="contained"
+          labelStyle={{ color: "#000" }}
+          style={{
+            backgroundColor: "rgb(204, 204, 255)",
+            marginVertical: 20,
+          }}
+        >
+          Retry
+        </Button>
+      </View>
+    );
+  }
 
   if (isCalculatingRevenue) {
     return (

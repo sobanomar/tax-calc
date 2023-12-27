@@ -1,4 +1,4 @@
-const url = "http://18.205.239.27:5000/analysis";
+const url = "https://proptaxapp.com/analysis";
 
 // Assuming finalData.current is your data
 export const calculateRevenueAnalysis = async (finalData) => {

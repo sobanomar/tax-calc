@@ -92,40 +92,7 @@ const PropertyDetails = ({ navigation }) => {
     setData(propertiesData);
 
     startTimeDash2.current = getFormattedDate();
-
-    // fetchData();
   }, []);
-
-  const fetchData = async () => {
-    //   try {
-    //     const csvAsset = Asset.fromModule(
-    //       require("../../assets/properties_data.csv")
-    //     );
-    //     await csvAsset.downloadAsync();
-    //     const localUri = csvAsset.localUri;
-    //     // Use expo-file-system for web and mobile
-    //     let content;
-    //     if (Platform.OS === "web") {
-    //       const response = await fetch(localUri);
-    //       content = await response.text();
-    //     } else {
-    //       const csvModule = await Asset.fromModule(
-    //         require("../assets/properties_data.csv")
-    //       ).downloadAsync();
-    //       content = await FileSystem.readAsStringAsync(csvModule.localUri);
-    //     }
-    //     // console.log(content);
-    //     const parsedData = Papa.parse(content, {
-    //       header: true,
-    //       skipEmptyLines: true,
-    //     }).data;
-    //     setData(parsedData);
-    //     setisFetching(false);
-    //     // console.log("Parsed Data: ", parsedData);
-    //   } catch (error) {
-    //     console.error("File Reading Error:", error.message);
-    //   }
-  };
 
   const handleInputChange = (id) => {
     setDashboardId_2(id);
@@ -336,12 +303,13 @@ const PropertyDetails = ({ navigation }) => {
                 marginTop: 30,
                 fontSize: 17,
                 fontWeight: "bold",
-                width: "90%",
+                marginHorizontal: 20,
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${propertyNumber.current + 1
-                } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>{`${formatNumberWithCommas(
                 preferredTaxLiability
               )} روپے`}</Text>
@@ -368,7 +336,7 @@ const PropertyDetails = ({ navigation }) => {
               preferredTaxLiability !== 0 ? preferredTaxLiability : ""
             }
             keyboardType="numeric"
-          // required={true}
+            // required={true}
           />
           <InputField
             editable={dashboardId_2.length === 0}
@@ -387,12 +355,13 @@ const PropertyDetails = ({ navigation }) => {
                 marginTop: 30,
                 fontSize: 17,
                 fontWeight: "bold",
-                width: "90%",
+                marginHorizontal: 20,
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${propertyNumber.current + 1
-                } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>
                 {`${formatNumberWithCommas(currentTaxLiability)}`} روپے
               </Text>

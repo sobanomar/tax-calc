@@ -6,12 +6,12 @@ import { useMyContext } from "../context/DataContext";
 const ATRGraphChart = ({ color }) => {
   const { chartData } = useMyContext();
   return (
-    <View>
+    <View style={{ marginLeft: 10 }}>
       <LineChart
         data={chartData.current}
         height={300}
         width={
-          Dimensions.get("window").width - Dimensions.get("window").width / 10
+          Dimensions.get("window").width - Dimensions.get("window").width / 8
         }
         yAxisLabel=""
         chartConfig={{
@@ -27,11 +27,20 @@ const ATRGraphChart = ({ color }) => {
         bezier
         style={{ borderRadius: 16 }}
       />
-      <View style={{ position: "absolute", left: -55, top: 130, transform: [{ rotate: '-90deg' }] }}>
+      <View
+        style={{
+          position: "absolute",
+          left: -55,
+          top: 130,
+          transform: [{ rotate: "-90deg" }],
+          marginLeft: 10,
+        }}
+      >
         <Text>ATR Value</Text>
       </View>
-      <Text style={{ alignSelf: "center", marginTop: 15 }}>Property Value (in Crores)</Text>
-
+      <Text style={{ alignSelf: "center", marginTop: 5 }}>
+        Property Value (in Crores)
+      </Text>
     </View>
   );
 };

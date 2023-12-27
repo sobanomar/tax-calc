@@ -13,7 +13,6 @@ import Heading from "../components/Heading";
 import InputField from "../components/InputField";
 import PreviousAndNextButton from "../components/PreviousAndNextButton";
 import { useMyContext } from "../context/DataContext";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const PropertyDetails = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -196,7 +195,6 @@ const PropertyDetails = ({ navigation }) => {
       <View style={{ flex: 1, alignItems: "center" }}>
         {/* Heading */}
         <Heading text={"Property Details"} />
-
         {/* Input ID */}
         <View
           style={{
@@ -289,7 +287,6 @@ const PropertyDetails = ({ navigation }) => {
             />
           ))}
         </View>
-
         {/* Property Tax Input */}
         <View
           style={{

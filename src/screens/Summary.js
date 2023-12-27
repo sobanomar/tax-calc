@@ -128,7 +128,6 @@ const Summary = ({ navigation }) => {
       <ScrollView>
         <View
           style={{
-            flex: 1,
             alignItems: "center",
             marginHorizontal: 10,
           }}

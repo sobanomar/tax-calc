@@ -8,40 +8,58 @@ import { useMyContext } from "../context/DataContext";
 
 const ATRPlot = ({ navigation }) => {
   const handleNextPress = () => navigation.navigate("RevenueAnalysis");
-  const { urduText1, urduText2, urduText3, urduText4, urduTextForAtr } = useMyContext();
+  const { urduText1, urduText2, urduText3, urduText4, urduTextForAtr } =
+    useMyContext();
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View style={{ flex: 1, alignItems: "center" }}>
+          <Heading text={"Updated ATR vs Prop Value"} />
           {urduTextForAtr.current === 1 ? (
-            <Text style={[styles.propertyText, {
-              color: "red",
-              marginTop: 50,
-              fontSize: 23,
-            }]}>
+            <Text
+              style={[
+                styles.propertyText,
+                {
+                  color: "red",
+                  marginVertical: 20,
+                  fontSize: 23,
+                  marginHorizontal: 10,
+                },
+              ]}
+            >
               {urduText1} {urduText2}
             </Text>
           ) : urduTextForAtr.current === -1 ? (
-            <Text style={[styles.propertyText, {
-              color: "red",
-              marginTop: 50,
-              fontSize: 23,
-            }]}>
+            <Text
+              style={[
+                styles.propertyText,
+                {
+                  color: "red",
+                  marginVertical: 20,
+                  fontSize: 23,
+                  marginHorizontal: 10,
+                },
+              ]}
+            >
               {urduText1} {urduText3}
             </Text>
           ) : urduTextForAtr.current === 0 ? (
-            <Text style={[styles.propertyText, {
-              color: "red",
-              marginTop: 50,
-              fontSize: 23,
-            }]}>
+            <Text
+              style={[
+                styles.propertyText,
+                {
+                  color: "red",
+                  marginTop: 50,
+                  fontSize: 23,
+                },
+              ]}
+            >
               {urduText1} {urduText4}
             </Text>
           ) : null}
-          <Heading text={"Updated ATR vs Prop Value"} />
           <ATRGraphChart color={"red"} />
-          <View style={{ alignItems: "center", marginVertical: 10 }}>
+          <View style={{ alignItems: "center", marginVertical: 30 }}>
             <Button
               onPress={handleNextPress}
               style={{ backgroundColor: "rgb(204, 204, 255)" }}
@@ -57,7 +75,6 @@ const ATRPlot = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   propertyText: {

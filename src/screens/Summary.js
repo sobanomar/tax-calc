@@ -47,18 +47,16 @@ const Summary = ({ navigation }) => {
   }, [inputData]);
 
   const calculateATR = async () => {
-    // console.log("InputData: ", inputData);
     const tempATR = [];
     const tempProp = [];
     const tempAggregatedValues = [];
     inputData &&
       inputData.map((item) => {
-        const singelAtr = (item?.preferred_tax?.value / item?.prop_val?.value) * 100
-        tempATR.push(
-          isNaN(singelAtr) ? 0 : singelAtr
-        );
+        const singelAtr =
+          (item?.preferred_tax?.value / item?.prop_val?.value) * 100;
+        tempATR.push(isNaN(singelAtr) ? 0 : singelAtr);
         tempProp.push(item.prop_val.value);
-        atrValue.current = tempATR
+        atrValue.current = tempATR;
         propValue.current = tempProp;
       });
 
@@ -128,6 +126,15 @@ const Summary = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            marginHorizontal: 10,
+          }}
+        >
+          <Heading text={"Original ATR vs Prop Value"} />
+        </View>
         {data && (
           <View style={{ flex: 1, alignItems: "center" }}>
             {urduTextForAtr.current === 1 ? (
@@ -136,8 +143,9 @@ const Summary = ({ navigation }) => {
                   styles.propertyText,
                   {
                     color: "red",
-                    marginTop: 50,
+                    marginVertical: 20,
                     fontSize: 23,
+                    marginHorizontal: 10,
                   },
                 ]}
               >
@@ -149,8 +157,9 @@ const Summary = ({ navigation }) => {
                   styles.propertyText,
                   {
                     color: "red",
-                    marginTop: 50,
+                    marginVertical: 20,
                     fontSize: 23,
+                    marginHorizontal: 10,
                   },
                 ]}
               >
@@ -172,8 +181,13 @@ const Summary = ({ navigation }) => {
             ) : null}
             {isUIReady && (
               <>
-                <View style={{ flex: 1, alignItems: "center" }}>
-                  <Heading text={"Original ATR vs Prop Value"} />
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    marginHorizontal: 10,
+                  }}
+                >
                   <ATRGraphChart color={"blue"} />
                 </View>
               </>

@@ -24,7 +24,7 @@ const ATRPlot = ({ navigation }) => {
                   color: "red",
                   marginVertical: 20,
                   fontSize: 23,
-                  marginHorizontal: 10,
+                  marginHorizontal: "10%",
                 },
               ]}
             >
@@ -38,7 +38,7 @@ const ATRPlot = ({ navigation }) => {
                   color: "red",
                   marginVertical: 20,
                   fontSize: 23,
-                  marginHorizontal: 10,
+                  marginHorizontal: "10%",
                 },
               ]}
             >

@@ -89,7 +89,6 @@ const PropertyDetails = ({ navigation }) => {
     // const propertiesData = require("../../assets/Prefillapp_pilot_data.json");
     const propertiesData = require("../../assets/final_data.json");
     setData(propertiesData);
-
     startTimeDash2.current = getFormattedDate();
   }, []);
 
@@ -300,7 +299,7 @@ const PropertyDetails = ({ navigation }) => {
                 marginTop: 30,
                 fontSize: 17,
                 fontWeight: "bold",
-                marginHorizontal: 20,
+                marginHorizontal: "10%",
                 textAlign: "center",
               }}
             >
@@ -352,7 +351,7 @@ const PropertyDetails = ({ navigation }) => {
                 marginTop: 30,
                 fontSize: 17,
                 fontWeight: "bold",
-                marginHorizontal: 20,
+                marginHorizontal: "10%",
                 textAlign: "center",
               }}
             >

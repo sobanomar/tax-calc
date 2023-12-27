@@ -65,9 +65,9 @@ const RevenueAnalysis = ({ navigation }) => {
         const response = await calculateRevenueAnalysis(finalData.current);
         // console.log(response.ok);
 
-        if (response.status === 200) {
+        if (response.ok) {
           // Legitimate response
-          const data = response.data;
+          const data = await response.json();
 
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(false);

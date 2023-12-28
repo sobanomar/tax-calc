@@ -44,7 +44,7 @@ const RangeSliderInput = () => {
       {options.map((option) => (
         <TouchableOpacity
           key={option.id}
-          style={[styles.button, option.selected && styles.selectedButton]}
+          style={[styles.button, option.selected && option.value === 'شارٹ فال' ? styles.selectedButtonRed : (option.selected && option.value === 'اضافی فنڈ' ? styles.selectedButtonGreen : null)]}
           onPress={() => handleOptionPress(option)}
         >
           <Text>{option.label}</Text>
@@ -77,10 +77,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
   },
-  selectedButton: {
-    backgroundColor: 'green', // Change to your desired highlight color
+  selectedButtonRed: {
+    backgroundColor: 'red',
+  },
+  selectedButtonGreen: {
+    backgroundColor: 'green',
   },
 });
 
 export default RangeSliderInput;
-

@@ -1,6 +1,6 @@
 import Slider from "@react-native-community/slider";
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 
 const IndividualSlider = ({ text, value, setValue }) => {
   const formatPercentage = (value) => {
@@ -22,7 +22,7 @@ const IndividualSlider = ({ text, value, setValue }) => {
         <View style={styles.container}>
           <Text>{formatPercentage(value)}</Text>
         </View>
-        <Slider
+        {/* <Slider
           style={styles.slider}
           minimumValue={1}
           maximumValue={100}
@@ -35,6 +35,24 @@ const IndividualSlider = ({ text, value, setValue }) => {
             setValue(value);
           }}
           lowerLimit={1}
+        /> */}
+        <TextInput
+          style={{
+            height: 40,
+            width:
+              Dimensions.get("window").width -
+              Dimensions.get("window").width / 3,
+            borderColor: "#000",
+            borderWidth: 1,
+            marginBottom: 10,
+            padding: 10,
+            borderRadius: 5,
+            color: "#000",
+          }}
+          pointerEvents={"auto"}
+          placeholder="Type here..."
+          onChangeText={(e) => setValue(e)}
+          keyboardType="numeric"
         />
       </View>
     </View>

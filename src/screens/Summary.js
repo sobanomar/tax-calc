@@ -108,11 +108,12 @@ const Summary = ({ navigation }) => {
     return { slopeSign };
   };
 
-  urduTextForAtr.current = linearRegression(
-    idFilteredData.current,
-    atrValue.current
-  ).slopeSign;
-
+  if (idFilteredData.current !== null) {
+    urduTextForAtr.current = linearRegression(
+      idFilteredData.current,
+      atrValue.current
+    ).slopeSign;
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>

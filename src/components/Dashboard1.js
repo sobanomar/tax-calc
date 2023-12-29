@@ -50,7 +50,6 @@ const Dashboard1 = ({ navigation }) => {
 
   const handleSetEndTime = () => {
     return getFormattedDate();
-
   };
 
   const handleSubmit = () => {
@@ -66,7 +65,7 @@ const Dashboard1 = ({ navigation }) => {
         House4: inputValues.house4,
         House5: inputValues.house5,
       };
-      data_dash1.current = data
+      data_dash1.current = data;
       setIsSubmitted(true);
     }
     axios
@@ -282,13 +281,14 @@ const Dashboard1 = ({ navigation }) => {
     return answer;
   };
 
-
   const linearRegression = (taxRates) => {
-    const yValues = [parseFloat(taxRates.house1),
-    parseFloat(taxRates.house2),
-    parseFloat(taxRates.house3),
-    parseFloat(taxRates.house4),
-    parseFloat(taxRates.house5)];
+    const yValues = [
+      parseFloat(taxRates.house1),
+      parseFloat(taxRates.house2),
+      parseFloat(taxRates.house3),
+      parseFloat(taxRates.house4),
+      parseFloat(taxRates.house5),
+    ];
     const xValues = [1, 2, 3, 4, 5];
     const n = yValues.length;
     let sumX = 0;
@@ -469,13 +469,20 @@ const Dashboard1 = ({ navigation }) => {
                         fontWeight: "bold",
                         textAlign: "center",
                         fontSize: 18,
-                        color: "black"
+                        color: "black",
                       }}
                     >
                       گھر {house.substring(5)} کے لئے آپ کے مطابق بتائے گئے ٹیکس
-                      <Text style={{ color: "red" }}> {formatNumberWithCommas(inputValues[house])} (PKR) </Text>
+                      <Text style={{ color: "red" }}>
+                        {" "}
+                        {formatNumberWithCommas(inputValues[house])} (PKR){" "}
+                      </Text>
                       پہ اوسط ٹیکس کی شرح
-                      <Text style={{ color: "red" }}> {taxRates[house]}% </Text>  ہے
+                      <Text style={{ color: "red" }}>
+                        {" "}
+                        {taxRates[house]}%{" "}
+                      </Text>{" "}
+                      ہے
                     </Text>
                   )}
                   <TextInput
@@ -520,26 +527,50 @@ const Dashboard1 = ({ navigation }) => {
             {isSubmitted && (
               <>
                 {linearRegression(taxRates).slopeSign === 1 ? (
-                  <Text style={[styles.propertyText, {
-                    color: "green",
-                    marginTop: 50,
-                    fontSize: 23,
-                  }]}>
-                    "آپکے مطابق لاہور میں زیادہ قیمت زیادہ ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ زیادہ ہے"                  </Text>
+                  <Text
+                    style={[
+                      styles.propertyText,
+                      {
+                        color: "green",
+                        marginTop: 50,
+                        fontSize: 23,
+                      },
+                    ]}
+                  >
+                    "آپکے مطابق لاہور میں زیادہ قیمت زیادہ ٹیکس کی شرح والا نظام
+                    رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی
+                    پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ زیادہ ہے"{" "}
+                  </Text>
                 ) : linearRegression(taxRates).slopeSign === -1 ? (
-                  <Text style={[styles.propertyText, {
-                    color: "red",
-                    marginTop: 50,
-                    fontSize: 23,
-                  }]}>
-                    "آپکے مطابق لاہور میں زیادہ قیمت کم ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ کم ہے"                  </Text>
+                  <Text
+                    style={[
+                      styles.propertyText,
+                      {
+                        color: "red",
+                        marginTop: 50,
+                        fontSize: 23,
+                      },
+                    ]}
+                  >
+                    "آپکے مطابق لاہور میں زیادہ قیمت کم ٹیکس کی شرح والا نظام
+                    رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی
+                    پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ کم ہے"{" "}
+                  </Text>
                 ) : linearRegression(taxRates).slopeSign === 0 ? (
-                  <Text style={[styles.propertyText, {
-                    color: "black",
-                    marginTop: 50,
-                    fontSize: 23,
-                  }]}>
-                    "آپکے مطابق لاہور میں زیادہ قیمت یکساں ٹیکس کی شرح والا نظام رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ یکساں ہے"                  </Text>
+                  <Text
+                    style={[
+                      styles.propertyText,
+                      {
+                        color: "black",
+                        marginTop: 50,
+                        fontSize: 23,
+                      },
+                    ]}
+                  >
+                    "آپکے مطابق لاہور میں زیادہ قیمت یکساں ٹیکس کی شرح والا نظام
+                    رائج ہے۔ جہاں زیادہ قیمت والی پراپرٹیز پر کم قیمت والی
+                    پراپرٹیز کے مقابلے میں ٹیکس کا بوجھ یکساں ہے"{" "}
+                  </Text>
                 ) : null}
                 {calculateWaffles(inputValues) === 2 ? (
                   <Text style={[styles.propertyText, { marginBottom: 100 }]}>
@@ -560,7 +591,7 @@ const Dashboard1 = ({ navigation }) => {
 
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Text style={{ marginVertical: 10, fontSize: 20 }}>
-                    گھر کی قیمت (کڑوڑوں میں) / اوسط پروپرٹی ٹیکس  کی شرح{" "}
+                    گھر کی قیمت (کڑوڑوں میں) / اوسط پروپرٹی ٹیکس کی شرح{" "}
                   </Text>
                   <View>
                     <LineChart

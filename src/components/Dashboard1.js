@@ -26,7 +26,7 @@ const Dashboard1 = ({ navigation }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
 
-  const { startTimeDash1, endTimeDash1, data_dash1 } = useMyContext();
+  const { startTimeDash1, data_dash1 } = useMyContext();
 
   useEffect(() => {
     startTimeDash1.current = getFormattedDate();
@@ -110,7 +110,6 @@ const Dashboard1 = ({ navigation }) => {
       ...prevRates,
       [house]: percentage.toFixed(3),
     }));
-    // console.log(isFormFilled);
     let filled = false;
     if (
       inputValues.house1 !== "" &&

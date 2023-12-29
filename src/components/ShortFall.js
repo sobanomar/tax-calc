@@ -13,13 +13,12 @@ const ShortFall = () => {
   const [textInputs, setTextInputs] = useState(Array(8).fill("")); // State for text input values
 
   const handleSliderChange = (index, value) => {
-    console.log("survey funds value: ", survey_funds_values);
     const newadditional_funds_values = [...survey_funds_values];
     newadditional_funds_values[index] = isNaN(value)
       ? 0
       : value === ""
-      ? 0
-      : parseInt(value);
+        ? 0
+        : parseInt(value);
 
     setsurvey_funds_values(newadditional_funds_values);
 
@@ -34,7 +33,6 @@ const ShortFall = () => {
     const [firstFour] = [survey_funds_values.slice(0, 4)];
 
     const sumFirstFour = firstFour.reduce((acc, val) => acc + val, 0);
-    console.log("Sum first four:", sumFirstFour);
     // Check the condition for the first four values
     if (sumFirstFour !== 100) {
       setsurvey_funds_values([0, 0, 0, 0, 0, 0, 0, 0]);

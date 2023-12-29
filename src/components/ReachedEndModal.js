@@ -12,12 +12,18 @@ import { CommonActions } from "@react-navigation/native";
 const ReachedEndModal = ({ refresh }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
   const {
     survey_funds_values,
     dashboardId_2,
     selectedValue,
     setsurvey_funds_values,
+    setSelectedValue,
+    setInputData,
+    setDashboardId_2,
+    setNameDash2,
+    chartData,
+    idFilteredData,
+    data_dash1,
   } = useMyContext();
 
   const toggleModal = async () => {
@@ -73,6 +79,13 @@ const ReachedEndModal = ({ refresh }) => {
   //   navigation.navigate("HomeStack");
   // };
   const handleOkPress = () => {
+    // Reset all state values and refs in DataContext.js
+    setInputData([]);
+    setDashboardId_2("");
+    setNameDash2("");
+    setSelectedValue(null);
+    setsurvey_funds_values([0, 0, 0, 0, 0, 0, 0, 0]);
+
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

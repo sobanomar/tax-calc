@@ -22,9 +22,6 @@ const RevenueAnalysis = ({ navigation }) => {
     inputData,
     idFilteredData,
     startTimeDash2,
-    endTimeDash1,
-    data_dash1,
-    dashboardId_2,
     namedash2,
   } = useMyContext();
 
@@ -43,8 +40,6 @@ const RevenueAnalysis = ({ navigation }) => {
     useState(false);
 
   useEffect(() => {
-    // console.log(Dimensions.get("window").width);
-    // Create Array 3 for each corresponding pair
     if (idFilteredData.current && inputData) {
       finalData.current = generateArray3ForEachPair(
         idFilteredData.current,
@@ -75,12 +70,10 @@ const RevenueAnalysis = ({ navigation }) => {
       try {
         // Assuming finalData.current is your data
         const response = await calculateRevenueAnalysis(finalData.current);
-        // console.log(response.ok);
 
         if (response.ok) {
           // Legitimate response
           const data = await response.json();
-          // console.log("Response: ", data);
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(false);
           setApiResponse(data);
@@ -134,7 +127,6 @@ const RevenueAnalysis = ({ navigation }) => {
         i < Math.min(idFilteredData.current.length, inputData.length);
         i++
       ) {
-        // console.log(startTimeDash2.current);
         const item1 = idFilteredData.current[i];
         const item2 = inputData[i];
 

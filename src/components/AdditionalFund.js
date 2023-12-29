@@ -11,13 +11,12 @@ const AdditionalFund = () => {
   const [refresh, setRefresh] = useState(false);
 
   const handleSliderChange = (index, value) => {
-    console.log("survey funds value: ", survey_funds_values);
     const newadditional_funds_values = [...survey_funds_values];
     newadditional_funds_values[index] = isNaN(value)
       ? 0
       : value === ""
-      ? 0
-      : parseInt(value);
+        ? 0
+        : parseInt(value);
     setsurvey_funds_values(newadditional_funds_values);
   };
 

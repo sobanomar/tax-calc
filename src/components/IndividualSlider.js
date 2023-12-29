@@ -19,7 +19,7 @@ const IndividualSlider = forwardRef(({ text, value, setValue }, ref) => {
       <Text>{text}</Text>
       <View>
         <View style={styles.container}>
-          <Text>{formatPercentage(value)}</Text>
+          <Text>{isNaN(value) ? 0 : formatPercentage(value)}</Text>
         </View>
         {/* <Slider
           ref={ref} // Attach the ref to the Slider component
@@ -50,6 +50,7 @@ const IndividualSlider = forwardRef(({ text, value, setValue }, ref) => {
             borderRadius: 5,
             color: "#000",
           }}
+          value={isNaN(value) ? "" : value === 0 ? "" : value}
           pointerEvents={"auto"}
           placeholder="Type here..."
           onChangeText={(e) => setValue(e)}

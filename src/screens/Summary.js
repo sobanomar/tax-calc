@@ -276,6 +276,7 @@ const Summary = ({ navigation }) => {
                                       borderWidth: 1,
                                       borderColor: "gray",
                                     }}
+                                    keyboardType="numeric"
                                     onChangeText={(e) => {
                                       const value = e;
                                       setInputData((prevData) => {

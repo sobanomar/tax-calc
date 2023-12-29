@@ -9,7 +9,7 @@ import { getFormattedDate } from "../Utils/getFormattedDate";
 import { useMyContext } from "../context/DataContext";
 import { CommonActions } from "@react-navigation/native";
 
-const ReachedEndModal = () => {
+const ReachedEndModal = ({ refresh }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -21,15 +21,25 @@ const ReachedEndModal = () => {
   } = useMyContext();
 
   const toggleModal = async () => {
-    try {
-      if (
-        survey_funds_values.length === 8 &&
-        survey_funds_values.slice(0, 4).reduce((acc, val) => acc + val, 0) <= 100 &&
-        survey_funds_values.slice(4, 8).reduce((acc, val) => acc + val, 0) <= 100
-      ) {
+    const [secondFour] = [survey_funds_values.slice(4, 8)];
+    const sumSecondFour = secondFour.reduce((acc, val) => acc + val, 0);
+    // Check the condition for the first four values
+    if (sumSecondFour !== 100) {
+      const newArr = survey_funds_values;
+      for (let i = 4; i < 8; i++) {
+        newArr[i] = 0;
+      }
+      setsurvey_funds_values(newArr);
+      refresh();
+      alert(
+        "کل 100 فیصد کے برابر ہونا چاہئے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔"
+      );
+    } else {
+      try {
         const data = {
           prop_id: dashboardId_2,
-          type: selectedValue === "اضافی فنڈ" ? "Additional Funds" : "Short Fall",
+          type:
+            selectedValue === "اضافی فنڈ" ? "Additional Funds" : "Short Fall",
           spending: survey_funds_values[0],
           budget_support: survey_funds_values[1],
           international_debt: survey_funds_values[2],
@@ -47,23 +57,17 @@ const ReachedEndModal = () => {
         );
         console.log("Data saved successfully:");
         setModalVisible(!modalVisible);
-      } else {
-        throw new Error(
-          "براہ کرم تمام فیلڈز کو مکمل کریں اور ہر چار ان پٹس کے گروہ کی قیمتیں 100 سے زیادہ نہ ہوں"
-        );
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle specific Axios (API) errors here
-        alert("Please check your internet connection and try again");
-      } else {
-        // Handle other types of errors here
-        alert(error.message);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Handle specific Axios (API) errors here
+          alert("Please check your internet connection and try again");
+        } else {
+          // Handle other types of errors here
+          alert(error.message);
+        }
       }
     }
   };
-
-
 
   // const handleOkPress = () => {
   //   navigation.navigate("HomeStack");
@@ -87,12 +91,6 @@ const ReachedEndModal = () => {
           backgroundColor: "rgb(204, 204, 255)",
           marginTop: 20, // Adjust spacing as needed
         }}
-      // disabled={
-      //   !(survey_funds_values.length === 8 &&
-      //     survey_funds_values.slice(0, 4).reduce((acc, val) => acc + val, 0) <= 100 &&
-      //     survey_funds_values.slice(4, 8).reduce((acc, val) => acc + val, 0) <= 100)
-      // }
-
       >
         Submit
       </Button>

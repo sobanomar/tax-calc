@@ -16,16 +16,15 @@ export const MyProvider = ({ children }) => {
   const endTimeDash1 = useRef(null);
   const startTimeDash2 = useRef(null);
   const endTimeDash2 = useRef(null);
-  const [survey_funds_values, setsurvey_funds_values] = useState([]);
-
+  const [survey_funds_values, setsurvey_funds_values] = useState([
+    0, 0, 0, 0, 0, 0, 0, 0,
+  ]);
 
   const urduText1 = "آپ کے دیے گئے جوابات کے مطابق لاہور میں";
   const urduText2 = "زیادہ قیمت زیادہ ٹیکس کی شرح والا نظام رائج ہے";
   const urduText3 = "زیادہ قیمت کم ٹیکس کی شرح کا نظام رائج ہے";
-  const urduText4 = "یکساں ٹیکس کی شرح والا نظام رائج ہے"
+  const urduText4 = "یکساں ٹیکس کی شرح والا نظام رائج ہے";
   const urduTextForAtr = useRef(null);
-
-
 
   return (
     <MyContext.Provider
@@ -51,7 +50,7 @@ export const MyProvider = ({ children }) => {
         urduText2,
         urduText1,
         urduText4,
-        urduTextForAtr
+        urduTextForAtr,
       }}
     >
       {children}

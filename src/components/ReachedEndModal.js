@@ -19,34 +19,51 @@ const ReachedEndModal = () => {
     selectedValue,
     setsurvey_funds_values,
   } = useMyContext();
-  const toggleModal = () => {
-    const data = {
-      prop_id: dashboardId_2,
-      type: selectedValue === "اضافی فنڈ" ? "Additional Funds" : "Short Fall",
-      spending: survey_funds_values[0],
-      budget_support: survey_funds_values[1],
-      international_debt: survey_funds_values[2],
-      property_tax: survey_funds_values[3],
-      high_residential: survey_funds_values[4],
-      medium_residential: survey_funds_values[5],
-      high_commercial: survey_funds_values[6],
-      medium_commercial: survey_funds_values[7],
-      end_survey_time: getFormattedDate(),
-    };
-    // Saving data for Survey on google sheets3
-    axios
-      .post(
-        "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
-        data
-      )
-      .then((response) => {
+
+  const toggleModal = async () => {
+    try {
+      if (
+        survey_funds_values.length === 8 &&
+        survey_funds_values.slice(0, 4).reduce((acc, val) => acc + val, 0) <= 100 &&
+        survey_funds_values.slice(4, 8).reduce((acc, val) => acc + val, 0) <= 100
+      ) {
+        const data = {
+          prop_id: dashboardId_2,
+          type: selectedValue === "اضافی فنڈ" ? "Additional Funds" : "Short Fall",
+          spending: survey_funds_values[0],
+          budget_support: survey_funds_values[1],
+          international_debt: survey_funds_values[2],
+          property_tax: survey_funds_values[3],
+          high_residential: survey_funds_values[4],
+          medium_residential: survey_funds_values[5],
+          high_commercial: survey_funds_values[6],
+          medium_commercial: survey_funds_values[7],
+          end_survey_time: getFormattedDate(),
+        };
+        // Saving data for Survey on google sheets3
+        await axios.post(
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
+          data
+        );
         console.log("Data saved successfully:");
         setModalVisible(!modalVisible);
-      })
-      .catch((error) => {
-        alert("Error saving data. Please submit again.");
-      });
+      } else {
+        throw new Error(
+          "براہ کرم تمام فیلڈز کو مکمل کریں اور ہر چار ان پٹس کے گروہ کی قیمتیں 100 سے زیادہ نہ ہوں"
+        );
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle specific Axios (API) errors here
+        alert("Please check your internet connection and try again");
+      } else {
+        // Handle other types of errors here
+        alert(error.message);
+      }
+    }
   };
+
+
 
   // const handleOkPress = () => {
   //   navigation.navigate("HomeStack");
@@ -70,6 +87,12 @@ const ReachedEndModal = () => {
           backgroundColor: "rgb(204, 204, 255)",
           marginTop: 20, // Adjust spacing as needed
         }}
+      // disabled={
+      //   !(survey_funds_values.length === 8 &&
+      //     survey_funds_values.slice(0, 4).reduce((acc, val) => acc + val, 0) <= 100 &&
+      //     survey_funds_values.slice(4, 8).reduce((acc, val) => acc + val, 0) <= 100)
+      // }
+
       >
         Submit
       </Button>

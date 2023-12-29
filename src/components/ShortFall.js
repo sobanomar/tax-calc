@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
@@ -6,12 +6,81 @@ import ReachedEndModal from "./ReachedEndModal";
 
 const ShortFall = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
+  const [firstFourSum, setFirstFourSum] = useState(0);
+  const [secondFourSum, setSecondFourSum] = useState(0);
+  const [textInputs, setTextInputs] = useState(Array(8).fill("")); // State for text input values
+
   const handleSliderChange = (index, value) => {
     const newadditional_funds_values = [...survey_funds_values];
-    newadditional_funds_values[index] = value;
+    newadditional_funds_values[index] = parseInt(value);
     setsurvey_funds_values(newadditional_funds_values);
+
+    // Update the text input values
+    const newTextInputs = newadditional_funds_values.map((value) => String(value));
+    setTextInputs(newTextInputs);
   };
 
+
+  useEffect(() => {
+    console.log('useEffect triggered');
+    // Calculate the sum of the first four values
+    const [firstFour, secondFour] = [
+      survey_funds_values.slice(0, 4),
+      survey_funds_values.slice(4, 8),
+    ];
+
+    const sumFirstFour = firstFour.reduce((acc, val) => acc + val, 0);
+    setFirstFourSum(sumFirstFour);
+
+    const sumSecondFour = secondFour.reduce((acc, val) => acc + val, 0);
+    setSecondFourSum(sumSecondFour);
+
+    // Check the condition for the first four values
+    if (sumFirstFour > 100) {
+      alert(
+        'کل فیصد 100 سے زیادہ نہیں ہونا چاہیے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔'
+      );
+
+      // Set the text inputs to the corresponding values of firstFour
+      const newTextInputs = firstFour.map((value) => String(value));
+      setTextInputs(newTextInputs);
+
+      // Reset the values and text inputs
+      setsurvey_funds_values([]);
+      setTextInputs(Array(8).fill(''));
+    }
+
+    // Check the condition for the next four values
+    if (sumSecondFour > 100) {
+      alert(
+        'کل فیصد 100 سے زیادہ نہیں ہونا چاہیے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔'
+      );
+
+      // Reset only the second set of values
+      setsurvey_funds_values((prevValues) => [
+        prevValues[0],
+        prevValues[1],
+        prevValues[2],
+        prevValues[3],
+        ...Array(4), // Set the next four values to an empty array
+      ]);
+
+      // Reset only the second set of text inputs
+      setTextInputs((prevTextInputs) => [
+        prevTextInputs[0],
+        prevTextInputs[1],
+        prevTextInputs[2],
+        prevTextInputs[3],
+        '',
+        '',
+        '',
+        '',
+      ]);
+    }
+  }, [survey_funds_values]);
+
+  console.log("survey_funds_values", survey_funds_values);
+  console.log("survey_funds_values.length", survey_funds_values.length);
 
   return (
     <View

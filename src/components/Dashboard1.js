@@ -69,6 +69,17 @@ const Dashboard1 = ({ navigation }) => {
       data_dash1.current = data
       setIsSubmitted(true);
     }
+    axios
+      .post(
+        "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet1",
+        data_dash1.current
+      )
+      .then((response) => {
+        console.log("Data saved successfully:");
+      })
+      .catch((error) => {
+        alert("Please check your internet connection and try again");
+      });
   };
 
   const [inputValues, setInputValues] = useState({

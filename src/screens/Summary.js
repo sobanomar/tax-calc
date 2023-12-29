@@ -22,7 +22,7 @@ const Summary = ({ navigation }) => {
   const propValue = useRef([]);
   const aggregatedPropValues = useRef([]);
   const aggregatedAtrValues = useRef([]);
-  const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
+  const initialSliderValues = [];
   const {
     inputData,
     setInputData,

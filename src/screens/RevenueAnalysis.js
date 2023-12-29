@@ -160,18 +160,6 @@ const RevenueAnalysis = ({ navigation }) => {
       }
       axios
         .post(
-          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet1",
-          data_dash1.current
-        )
-        .then((response) => {
-          console.log("Data saved successfully:");
-        })
-        .catch((error) => {
-          alert("Error saving data. Please submit again.");
-        });
-
-      axios
-        .post(
           "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet2",
           sheet_data
         )
@@ -277,7 +265,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-            apiResponse?.total_revenue[0] > 5.45 ? (
+              apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

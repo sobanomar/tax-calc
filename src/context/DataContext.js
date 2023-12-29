@@ -16,9 +16,7 @@ export const MyProvider = ({ children }) => {
   const endTimeDash1 = useRef(null);
   const startTimeDash2 = useRef(null);
   const endTimeDash2 = useRef(null);
-  const [survey_funds_values, setsurvey_funds_values] = useState([
-    0, 0, 0, 0, 0, 0, 0, 0,
-  ]);
+  const [survey_funds_values, setsurvey_funds_values] = useState([]);
 
 
   const urduText1 = "آپ کے دیے گئے جوابات کے مطابق لاہور میں";

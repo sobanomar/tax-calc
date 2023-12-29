@@ -1,18 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
+import { Button } from "react-native-paper";
 
 const ShortFall = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
+  const [isNext, setIsNext] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [secondFourSum, setSecondFourSum] = useState(0);
+  const [textInputs, setTextInputs] = useState(Array(8).fill("")); // State for text input values
+
   const handleSliderChange = (index, value) => {
     const newadditional_funds_values = [...survey_funds_values];
-    newadditional_funds_values[index] = value;
+    newadditional_funds_values[index] = isNaN(value)
+      ? 0
+      : value === ""
+        ? 0
+        : parseInt(value);
+
     setsurvey_funds_values(newadditional_funds_values);
+
+    // Update the text input values
+    const newTextInputs = newadditional_funds_values.map((value) =>
+      String(value)
+    );
+    setTextInputs(newTextInputs);
   };
 
+  const handleNextPress = () => {
+    const [firstFour] = [survey_funds_values.slice(0, 4)];
 
+    const sumFirstFour = firstFour.reduce((acc, val) => acc + val, 0);
+    // Check the condition for the first four values
+    if (sumFirstFour !== 100) {
+      setsurvey_funds_values([0, 0, 0, 0, 0, 0, 0, 0]);
+      alert(
+        "کل 100 فیصد کے برابر ہونا چاہئے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔"
+      );
+    } else {
+      setIsNext(true);
+    }
+  };
+
+  const refreshValues = () => {
+    setRefresh(!refresh);
+  };
   return (
     <View
       style={{
@@ -47,8 +81,19 @@ const ShortFall = () => {
         value={survey_funds_values[3]}
         setValue={(value) => handleSliderChange(3, value)}
       />
+      <Button
+        onPress={handleNextPress}
+        mode="contained"
+        labelStyle={{ color: "#000" }}
+        style={{
+          backgroundColor: "rgb(204, 204, 255)",
+          marginTop: 20, // Adjust spacing as needed
+        }}
+      >
+        Next
+      </Button>
 
-      {survey_funds_values[3] > 0 && (
+      {isNext && (
         <>
           <Text style={styles.text}>
             آپ جو اضافی ٹیکس بڑھائیں گے، ان میں سے آپ درج ذیل میں سے کتنا فیصد
@@ -78,9 +123,9 @@ const ShortFall = () => {
             value={survey_funds_values[7]}
             setValue={(value) => handleSliderChange(7, value)}
           />
+          <ReachedEndModal refresh={refreshValues} />
         </>
       )}
-      <ReachedEndModal />
     </View>
   );
 };

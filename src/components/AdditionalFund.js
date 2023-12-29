@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-paper";
 import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
 
 const AdditionalFund = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
+  const [isNext, setIsNext] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
   const handleSliderChange = (index, value) => {
     const newadditional_funds_values = [...survey_funds_values];
-    newadditional_funds_values[index] = value;
+    newadditional_funds_values[index] = isNaN(value)
+      ? 0
+      : value === ""
+        ? 0
+        : parseInt(value);
     setsurvey_funds_values(newadditional_funds_values);
+  };
+
+  const handleNextPress = () => {
+    const [firstFour] = [survey_funds_values.slice(0, 4)];
+
+    const sumFirstFour = firstFour.reduce((acc, val) => acc + val, 0);
+    // Check the condition for the first four values
+    if (sumFirstFour !== 100) {
+      setsurvey_funds_values([0, 0, 0, 0, 0, 0, 0, 0]);
+      alert(
+        "کل 100 فیصد کے برابر ہونا چاہئے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔"
+      );
+    } else {
+      setIsNext(true);
+    }
+  };
+
+  const refreshValues = () => {
+    setRefresh(!refresh);
   };
 
   return (
@@ -45,8 +72,18 @@ const AdditionalFund = () => {
         value={survey_funds_values[3]}
         setValue={(value) => handleSliderChange(3, value)}
       />
-
-      {survey_funds_values[3] > 0 && (
+      <Button
+        onPress={handleNextPress}
+        mode="contained"
+        labelStyle={{ color: "#000" }}
+        style={{
+          backgroundColor: "rgb(204, 204, 255)",
+          marginTop: 20, // Adjust spacing as needed
+        }}
+      >
+        Next
+      </Button>
+      {isNext && (
         <>
           <Text style={styles.text}>
             آپ جو ٹیکس کم کریں گے ان میں سے آپ درج ذیل ٹیکسوں میں سے کتنے فیصد
@@ -76,9 +113,9 @@ const AdditionalFund = () => {
             value={survey_funds_values[7]}
             setValue={(value) => handleSliderChange(7, value)}
           />
+          <ReachedEndModal refresh={refreshValues} />
         </>
       )}
-      <ReachedEndModal />
     </View>
   );
 };

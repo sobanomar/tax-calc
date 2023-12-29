@@ -9,43 +9,64 @@ import { getFormattedDate } from "../Utils/getFormattedDate";
 import { useMyContext } from "../context/DataContext";
 import { CommonActions } from "@react-navigation/native";
 
-const ReachedEndModal = () => {
+const ReachedEndModal = ({ refresh }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const initialSliderValues = [0, 0, 0, 0, 0, 0, 0, 0];
   const {
     survey_funds_values,
     dashboardId_2,
     selectedValue,
     setsurvey_funds_values,
+    resetValues,
   } = useMyContext();
-  const toggleModal = () => {
-    const data = {
-      prop_id: dashboardId_2,
-      type: selectedValue === "اضافی فنڈ" ? "Additional Funds" : "Short Fall",
-      spending: survey_funds_values[0],
-      budget_support: survey_funds_values[1],
-      international_debt: survey_funds_values[2],
-      property_tax: survey_funds_values[3],
-      high_residential: survey_funds_values[4],
-      medium_residential: survey_funds_values[5],
-      high_commercial: survey_funds_values[6],
-      medium_commercial: survey_funds_values[7],
-      end_survey_time: getFormattedDate(),
-    };
-    // Saving data for Survey on google sheets3
-    axios
-      .post(
-        "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
-        data
-      )
-      .then((response) => {
+
+  const toggleModal = async () => {
+    const [secondFour] = [survey_funds_values.slice(4, 8)];
+    const sumSecondFour = secondFour.reduce((acc, val) => acc + val, 0);
+    // Check the condition for the first four values
+    if (sumSecondFour !== 100) {
+      const newArr = survey_funds_values;
+      for (let i = 4; i < 8; i++) {
+        newArr[i] = 0;
+      }
+      setsurvey_funds_values(newArr);
+      refresh();
+      alert(
+        "کل 100 فیصد کے برابر ہونا چاہئے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔"
+      );
+    } else {
+      try {
+        const data = {
+          prop_id: dashboardId_2,
+          type:
+            selectedValue === "اضافی فنڈ" ? "Additional Funds" : "Short Fall",
+          spending: survey_funds_values[0],
+          budget_support: survey_funds_values[1],
+          international_debt: survey_funds_values[2],
+          property_tax: survey_funds_values[3],
+          high_residential: survey_funds_values[4],
+          medium_residential: survey_funds_values[5],
+          high_commercial: survey_funds_values[6],
+          medium_commercial: survey_funds_values[7],
+          end_survey_time: getFormattedDate(),
+        };
+        // Saving data for Survey on google sheets3
+        await axios.post(
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet3",
+          data
+        );
         console.log("Data saved successfully:");
         setModalVisible(!modalVisible);
-      })
-      .catch((error) => {
-        alert("Error saving data. Please submit again.");
-      });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Handle specific Axios (API) errors here
+          alert("Please check your internet connection and try again");
+        } else {
+          // Handle other types of errors here
+          alert(error.message);
+        }
+      }
+    }
   };
 
   // const handleOkPress = () => {
@@ -58,6 +79,7 @@ const ReachedEndModal = () => {
         routes: [{ name: "HomeStack" }],
       })
     );
+    resetValues();
   };
 
   return (

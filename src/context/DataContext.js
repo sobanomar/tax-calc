@@ -20,14 +20,27 @@ export const MyProvider = ({ children }) => {
     0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
-
   const urduText1 = "آپ کے دیے گئے جوابات کے مطابق لاہور میں";
   const urduText2 = "زیادہ قیمت زیادہ ٹیکس کی شرح والا نظام رائج ہے";
   const urduText3 = "زیادہ قیمت کم ٹیکس کی شرح کا نظام رائج ہے";
-  const urduText4 = "یکساں ٹیکس کی شرح والا نظام رائج ہے"
+  const urduText4 = "یکساں ٹیکس کی شرح والا نظام رائج ہے";
   const urduTextForAtr = useRef(null);
 
+  const resetValues = () => {
+    setInputData([]);
+    setDashboardId_2("");
+    setNameDash2("");
+    setSelectedValue(null);
+    setsurvey_funds_values([0, 0, 0, 0, 0, 0, 0, 0]);
 
+    chartData.current = null;
+    idFilteredData.current = null;
+    data_dash1.current = null;
+    startTimeDash1.current = null;
+    endTimeDash1.current = null;
+    startTimeDash2.current = null;
+    endTimeDash2.current = null;
+  };
 
   return (
     <MyContext.Provider
@@ -53,7 +66,8 @@ export const MyProvider = ({ children }) => {
         urduText2,
         urduText1,
         urduText4,
-        urduTextForAtr
+        urduTextForAtr,
+        resetValues,
       }}
     >
       {children}

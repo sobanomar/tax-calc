@@ -152,9 +152,7 @@ const PropertyDetails = ({ navigation }) => {
 
     const newData = { ...formData };
 
-    if (preferredTaxLiability > 0) {
-      newData.preferred_tax.value = preferredTaxLiability;
-    }
+    newData.preferred_tax.value = preferredTaxLiability;
 
     if (currentTaxLiability > 0) {
       newData.current_tax.value = currentTaxLiability;
@@ -301,8 +299,9 @@ const PropertyDetails = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${propertyNumber.current + 1
-                } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے پسند کردہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>{`${formatNumberWithCommas(
                 preferredTaxLiability
               )} روپے`}</Text>
@@ -329,7 +328,7 @@ const PropertyDetails = ({ navigation }) => {
               preferredTaxLiability !== 0 ? preferredTaxLiability : ""
             }
             keyboardType="numeric"
-          // required={true}
+            // required={true}
           />
           <InputField
             editable={dashboardId_2.length === 0}
@@ -337,7 +336,7 @@ const PropertyDetails = ({ navigation }) => {
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
             handleInputChange={(value) => {
-              value === "-99" && setPreferredTaxLiability(0);
+              if (value === "-99") setPreferredTaxLiability(0);
               setNoPreferredTaxLiability(value.toString());
             }}
             value={noPreferredTaxLiability !== 0 ? noPreferredTaxLiability : ""}
@@ -352,8 +351,9 @@ const PropertyDetails = ({ navigation }) => {
                 textAlign: "center",
               }}
             >
-              {`پراپرٹی ${propertyNumber.current + 1
-                } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
+              {`پراپرٹی ${
+                propertyNumber.current + 1
+              } کے لیئے آپ کے مطابق موجودہ پراپرٹی ٹیکس کی رقم `}
               <Text style={{ color: "red" }}>
                 {`${formatNumberWithCommas(currentTaxLiability)}`} روپے
               </Text>

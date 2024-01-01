@@ -282,7 +282,11 @@ const Summary = ({ navigation }) => {
                                         return newData;
                                       });
                                     }}
-                                    defaultValue={item[data].value}
+                                    defaultValue={
+                                      item[data].value === 0
+                                        ? "0"
+                                        : item[data].value
+                                    }
                                   />
                                 )}
                               </View>

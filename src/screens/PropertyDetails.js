@@ -152,11 +152,11 @@ const PropertyDetails = ({ navigation }) => {
 
     const newData = { ...formData };
 
+    console.log("preferred_tax_liability: ", preferredTaxLiability);
     newData.preferred_tax.value = preferredTaxLiability;
 
-    if (currentTaxLiability > 0) {
-      newData.current_tax.value = currentTaxLiability;
-    }
+    console.log("current_tax: ", currentTaxLiability);
+    newData.current_tax.value = currentTaxLiability;
 
     setInputData((prevInputData) => {
       const updatedData = [...prevInputData];

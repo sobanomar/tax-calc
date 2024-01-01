@@ -35,19 +35,20 @@ const RevenueAnalysis = ({ navigation }) => {
   const [reCalculateRevenueAnalysis, setReCalculateRevenueAnalysis] =
     useState(false);
 
-  idFilteredData.current !== null &&
-    useEffect(() => {
-      // console.log(Dimensions.get("window").width);
-      // Create Array 3 for each corresponding pair
+  useEffect(() => {
+    // console.log(Dimensions.get("window").width);
+    // Create Array 3 for each corresponding pair
+    if (idFilteredData.current !== null) {
       if (inputData) {
         finalData.current = generateArray3ForEachPair(
           idFilteredData.current,
           inputData
         );
       }
+    }
 
-      // Log the result
-    }, [inputData, idFilteredData, reCalculateRevenueAnalysis]);
+    // Log the result
+  }, [inputData, idFilteredData, reCalculateRevenueAnalysis]);
 
   const handleReload = () => {
     setReCalculateRevenueAnalysis(!reCalculateRevenueAnalysis);
@@ -107,7 +108,6 @@ const RevenueAnalysis = ({ navigation }) => {
         // Saving data for Dashbaord 1 on google sheets
       } catch (error) {
         console.error("Error :", error.message);
-
         // Handle errors here
       }
     };
@@ -119,56 +119,52 @@ const RevenueAnalysis = ({ navigation }) => {
 
   const start_time = startTimeDash2.current;
 
-  idFilteredData.current !== null &&
-    useEffect(() => {
-      const postOnSheet = () => {
-        const sheet_data = [];
+  useEffect(() => {
+    const postOnSheet = () => {
+      const sheet_data = [];
 
-        for (
-          let i = 0;
-          i < Math.min(idFilteredData.current.length, inputData.length);
-          i++
-        ) {
-          // console.log(startTimeDash2.current);
-          const item1 = idFilteredData.current[i];
-          const item2 = inputData[i];
+      for (
+        let i = 0;
+        i < Math.min(idFilteredData.current.length, inputData.length);
+        i++
+      ) {
+        // console.log(startTimeDash2.current);
+        const item1 = idFilteredData.current[i];
+        const item2 = inputData[i];
 
-          const data1 = {
-            start_time: start_time,
-            enumerator_name: namedash2,
-            prop_id: parseInt(item2.prop_id.value),
-            number_of_property: parseInt(item2.num.value),
-            prop_val: parseInt(item2.prop_val.value),
-            preferred_tax_liability: parseInt(item2.preferred_tax.value),
-            tax_liability_current: parseInt(item2.current_tax.value),
-            atr_preferred:
-              (parseFloat(item2.preferred_tax.value) /
-                parseFloat(item1.prop_val)) *
-              100,
-            atr_current:
-              (parseFloat(item2.current_tax.value) /
-                parseFloat(item1.prop_val)) *
-              100,
-            revenue_value: apiResponse.total_revenue[0],
-          };
-
-          sheet_data.push(data1);
-        }
-        axios
-          .post(
-            "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet2",
-            sheet_data
-          )
-          .then((response) => {
-            console.log("Data saved successfully:");
-          })
-          .catch((error) => {
-            alert("Error saving data. Please submit again.");
-          });
-      };
-
-      apiResponse && postOnSheet();
-    }, [apiResponse]);
+        const data1 = {
+          start_time: start_time,
+          enumerator_name: namedash2,
+          prop_id: parseInt(item2.prop_id.value),
+          number_of_property: parseInt(item2.num.value),
+          prop_val: parseInt(item2.prop_val.value),
+          preferred_tax_liability: parseInt(item2.preferred_tax.value),
+          tax_liability_current: parseInt(item2.current_tax.value),
+          atr_preferred:
+            (parseFloat(item2.preferred_tax.value) /
+              parseFloat(item1.prop_val)) *
+            100,
+          atr_current:
+            (parseFloat(item2.current_tax.value) / parseFloat(item1.prop_val)) *
+            100,
+          revenue_value: apiResponse.total_revenue[0],
+        };
+        sheet_data.push(data1);
+      }
+      axios
+        .post(
+          "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet2",
+          sheet_data
+        )
+        .then((response) => {
+          console.log("Data saved successfully:");
+        })
+        .catch((error) => {
+          alert("Error saving data. Please submit again.");
+        });
+    };
+    idFilteredData.current !== null && apiResponse && postOnSheet();
+  }, [apiResponse]);
 
   if (!isConnectedToInternet && apiResponse === null) {
     return (

@@ -112,13 +112,13 @@ const ShortFall = () => {
             setValue={(value) => handleSliderChange(5, value)}
           />
           <IndividualSlider
-            text={"زیادہ قیمت والی تجارتی جائیدادوں پر ٹیکس کی شرح میں اضافہ"}
+            text={"زیادہ قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
             value={survey_funds_values[6]}
             setValue={(value) => handleSliderChange(6, value)}
           />
           <IndividualSlider
             text={
-              "درمیانے/کم قیمت والی تجارتی جائیدادوں پر ٹیکس کی شرح میں اضافہ"
+              "درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"
             }
             value={survey_funds_values[7]}
             setValue={(value) => handleSliderChange(7, value)}

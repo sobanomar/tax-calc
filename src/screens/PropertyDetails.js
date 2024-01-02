@@ -152,13 +152,8 @@ const PropertyDetails = ({ navigation }) => {
 
     const newData = { ...formData };
 
-    if (preferredTaxLiability > 0) {
-      newData.preferred_tax.value = preferredTaxLiability;
-    }
-
-    if (currentTaxLiability > 0) {
-      newData.current_tax.value = currentTaxLiability;
-    }
+    newData.preferred_tax.value = preferredTaxLiability;
+    newData.current_tax.value = currentTaxLiability;
 
     setInputData((prevInputData) => {
       const updatedData = [...prevInputData];
@@ -337,7 +332,7 @@ const PropertyDetails = ({ navigation }) => {
               "اگر جواب دہندہ پراپرٹی ٹیکس کا اندازہ نہیں لگا سکا تو -99 درج کریں"
             }
             handleInputChange={(value) => {
-              value === "-99" && setPreferredTaxLiability(0);
+              if (value === "-99") setPreferredTaxLiability(0);
               setNoPreferredTaxLiability(value.toString());
             }}
             value={noPreferredTaxLiability !== 0 ? noPreferredTaxLiability : ""}

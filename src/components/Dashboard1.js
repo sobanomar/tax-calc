@@ -70,7 +70,7 @@ const Dashboard1 = ({ navigation }) => {
     }
     axios
       .post(
-        "https://sheet.best/api/sheets/77c9dbee-d31a-4611-b602-745598fceb84/tabs/Sheet1",
+        "https://sheet.best/api/sheets/0a60219d-2b6d-44c6-ad46-61dde7a90090/tabs/Sheet1",
         data_dash1.current
       )
       .then((response) => {

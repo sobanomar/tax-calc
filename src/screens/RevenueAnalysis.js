@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
+  Modal,
   StyleSheet,
   Text,
   View,
@@ -16,6 +17,9 @@ import RangeSliderInput from "../components/RangeSliderInput";
 import { useMyContext } from "../context/DataContext";
 import { calculateRevenueAnalysis } from "../services/CalculateRevenueAnalysis";
 import { addEventListener } from "@react-native-community/netinfo";
+import { BlurView } from "expo-blur";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { CommonActions } from "@react-navigation/native";
 
 const RevenueAnalysis = ({ navigation }) => {
   const { inputData, idFilteredData, startTimeDash2, namedash2 } =
@@ -27,6 +31,7 @@ const RevenueAnalysis = ({ navigation }) => {
   const [isConnectedToInternet, setIsConnectedToInternet] = useState(false);
   const [apiResponse, setApiResponse] = useState(null);
   const [isCalculatingRevenue, setIsCalculatingRevenue] = useState(false);
+  const [isErrorModal, setIsErrorModal] = useState(false);
   const [retry, setRetry] = useState(false);
   const [errorData, setErrorData] = useState(false);
   const [isErrorCalculatingRevenue, setIsErrorCalculatingRevenue] =
@@ -35,19 +40,21 @@ const RevenueAnalysis = ({ navigation }) => {
   const [reCalculateRevenueAnalysis, setReCalculateRevenueAnalysis] =
     useState(false);
 
-  idFilteredData.current !== null &&
-    useEffect(() => {
-      // console.log(Dimensions.get("window").width);
-      // Create Array 3 for each corresponding pair
+  const { resetValues } = useMyContext();
+
+  useEffect(() => {
+    // Create Array 3 for each corresponding pair
+    if (idFilteredData.current !== null) {
       if (inputData) {
         finalData.current = generateArray3ForEachPair(
           idFilteredData.current,
           inputData
         );
       }
+    }
 
-      // Log the result
-    }, [inputData, idFilteredData, reCalculateRevenueAnalysis]);
+    // Log the result
+  }, [inputData, idFilteredData, reCalculateRevenueAnalysis]);
 
   const handleReload = () => {
     setReCalculateRevenueAnalysis(!reCalculateRevenueAnalysis);
@@ -66,15 +73,11 @@ const RevenueAnalysis = ({ navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
+      {
         // Assuming finalData.current is your data
         const response = await calculateRevenueAnalysis(finalData.current);
-        // console.log(response.ok);
-
-        if (response.ok) {
-          // Legitimate response
+        if (response.status === 200) {
           const data = await response.json();
-          // console.log("Response: ", data);
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(false);
           setApiResponse(data);
@@ -95,20 +98,15 @@ const RevenueAnalysis = ({ navigation }) => {
 
           setChartData(chartData);
           // Perform rendering logic here
-        } else {
-          // Error response
-          const error = response;
-          console.error("Error response:", error);
-          setErrorData(error);
+        } else if (response.status === 500) {
+          setErrorData("Internal Server Error");
           setIsCalculatingRevenue(false);
           setIsErrorCalculatingRevenue(true);
+        } else {
+          setIsErrorModal(true);
         }
 
         // Saving data for Dashbaord 1 on google sheets
-      } catch (error) {
-        console.error("Error :", error.message);
-
-        // Handle errors here
       }
     };
 
@@ -119,56 +117,95 @@ const RevenueAnalysis = ({ navigation }) => {
 
   const start_time = startTimeDash2.current;
 
-  idFilteredData.current !== null &&
-    useEffect(() => {
-      const postOnSheet = () => {
-        const sheet_data = [];
+  useEffect(() => {
+    const postOnSheet = () => {
+      const sheet_data = [];
 
-        for (
-          let i = 0;
-          i < Math.min(idFilteredData.current.length, inputData.length);
-          i++
-        ) {
-          // console.log(startTimeDash2.current);
-          const item1 = idFilteredData.current[i];
-          const item2 = inputData[i];
+      for (
+        let i = 0;
+        i < Math.min(idFilteredData.current.length, inputData.length);
+        i++
+      ) {
+        const item1 = idFilteredData.current[i];
+        const item2 = inputData[i];
 
-          const data1 = {
-            start_time: start_time,
-            enumerator_name: namedash2,
-            prop_id: parseInt(item2.prop_id.value),
-            number_of_property: parseInt(item2.num.value),
-            prop_val: parseInt(item2.prop_val.value),
-            preferred_tax_liability: parseInt(item2.preferred_tax.value),
-            tax_liability_current: parseInt(item2.current_tax.value),
-            atr_preferred:
-              (parseFloat(item2.preferred_tax.value) /
-                parseFloat(item1.prop_val)) *
-              100,
-            atr_current:
-              (parseFloat(item2.current_tax.value) /
-                parseFloat(item1.prop_val)) *
-              100,
-            revenue_value: apiResponse.total_revenue[0],
-          };
+        const data1 = {
+          start_time: start_time,
+          enumerator_name: namedash2,
+          prop_id: parseInt(item2.prop_id.value),
+          number_of_property: parseInt(item2.num.value),
+          prop_val: parseInt(item2.prop_val.value),
+          preferred_tax_liability: parseInt(item2.preferred_tax.value),
+          tax_liability_current: parseInt(item2.current_tax.value),
+          atr_preferred:
+            (parseFloat(item2.preferred_tax.value) /
+              parseFloat(item1.prop_val)) *
+            100,
+          atr_current:
+            (parseFloat(item2.current_tax.value) / parseFloat(item1.prop_val)) *
+            100,
+          revenue_value: isErrorModal ? 0 : apiResponse.total_revenue[0],
+        };
+        sheet_data.push(data1);
+      }
+      axios
+        .post(
+          "https://sheet.best/api/sheets/536f0797-f92d-4796-a408-9c59977e4f43/tabs/Sheet2",
+          sheet_data
+        )
+        .then((response) => {
+          console.log("Data saved successfully:");
+        })
+        .catch((error) => {
+          alert("Error saving data. Please submit again.");
+        });
+    };
+    if (apiResponse !== null || isErrorModal !== false) {
+      idFilteredData.current !== null && postOnSheet();
+    }
+  }, [apiResponse, isErrorModal]);
 
-          sheet_data.push(data1);
-        }
-        axios
-          .post(
-            "https://sheet.best/api/sheets/536f0797-f92d-4796-a408-9c59977e4f43/tabs/Sheet2",
-            sheet_data
-          )
-          .then((response) => {
-            console.log("Data saved successfully:");
-          })
-          .catch((error) => {
-            alert("Error saving data. Please submit again.");
-          });
-      };
+  const handleOkPress = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "HomeStack" }],
+      })
+    );
+    resetValues();
+  };
 
-      apiResponse && postOnSheet();
-    }, [apiResponse]);
+  if (isErrorModal) {
+    return (
+      <View style={styles.containerModal}>
+        <Modal transparent={true} animationType="slide" visible={isErrorModal}>
+          <BlurView
+            style={styles.blurView}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          >
+            <SafeAreaView style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text>آپ کے دیے گئے جوابات درست نہیں۔</Text>
+                <Button
+                  onPress={handleOkPress}
+                  mode="contained"
+                  labelStyle={{ color: "#000" }}
+                  style={{
+                    backgroundColor: "rgb(204, 204, 255)",
+                    marginTop: 20, // Adjust spacing as needed
+                  }}
+                >
+                  Okay
+                </Button>
+              </View>
+            </SafeAreaView>
+          </BlurView>
+        </Modal>
+      </View>
+    );
+  }
 
   if (!isConnectedToInternet && apiResponse === null) {
     return (
@@ -261,7 +298,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-              apiResponse?.total_revenue[0] > 5.45 ? (
+            apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>
@@ -362,6 +399,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  containerModal: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+  },
+  blurView: {
+    flex: 1,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    width: "90%",
   },
   text: {
     textAlign: "center",

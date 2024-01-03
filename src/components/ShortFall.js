@@ -4,6 +4,7 @@ import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
 import { Button } from "react-native-paper";
+import PieChartJS from "./PieChart";
 
 const ShortFall = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
@@ -17,8 +18,8 @@ const ShortFall = () => {
     newadditional_funds_values[index] = isNaN(value)
       ? 0
       : value === ""
-        ? 0
-        : parseInt(value);
+      ? 0
+      : parseInt(value);
 
     setsurvey_funds_values(newadditional_funds_values);
 
@@ -55,6 +56,7 @@ const ShortFall = () => {
         alignItems: "center",
       }}
     >
+      <PieChartJS values={survey_funds_values.slice(0, 4)} />
       <Text style={styles.text}>
         اس سے حکومت کو کم خدمات فراہم کرنے یا ٹیکس بڑھانے کی ضرورت پیدا ہوگی۔ اس
         کمی کو پورا کرنے کے لیے، آپ درج ذیل میں سے ہر ایک میں کتنے فیصد اضافہ
@@ -95,6 +97,7 @@ const ShortFall = () => {
 
       {isNext && (
         <>
+          <PieChartJS values={survey_funds_values.slice(4, 8)} />
           <Text style={styles.text}>
             آپ جو اضافی ٹیکس بڑھائیں گے، ان میں سے آپ درج ذیل میں سے کتنا فیصد
             بڑھائیں گے۔
@@ -117,9 +120,7 @@ const ShortFall = () => {
             setValue={(value) => handleSliderChange(6, value)}
           />
           <IndividualSlider
-            text={
-              "درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"
-            }
+            text={"درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
             value={survey_funds_values[7]}
             setValue={(value) => handleSliderChange(7, value)}
           />

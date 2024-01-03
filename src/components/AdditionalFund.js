@@ -4,6 +4,7 @@ import { Button } from "react-native-paper";
 import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
+import PieChartJS from "./PieChart";
 
 const AdditionalFund = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
@@ -15,8 +16,8 @@ const AdditionalFund = () => {
     newadditional_funds_values[index] = isNaN(value)
       ? 0
       : value === ""
-        ? 0
-        : parseInt(value);
+      ? 0
+      : parseInt(value);
     setsurvey_funds_values(newadditional_funds_values);
   };
 
@@ -47,11 +48,11 @@ const AdditionalFund = () => {
         alignItems: "center",
       }}
     >
+      <PieChartJS values={survey_funds_values.slice(0, 4)} />
       <Text style={styles.text}>
         اس سے حکومت کے لیے مزید سہولیات فراہم کرنے یا ٹیکس کم کرنے کا امکان پیدا
         ہو گا۔ اس اضافی فنڈ کا کتنے فیصد آپ درج ذیل پر خرچ کریں گے۔
       </Text>
-
       <IndividualSlider
         text={"عوامی سہولیات پر اخراجات میں اضافہ"}
         value={survey_funds_values[0]}
@@ -85,6 +86,7 @@ const AdditionalFund = () => {
       </Button>
       {isNext && (
         <>
+          <PieChartJS values={survey_funds_values.slice(4, 8)} />
           <Text style={styles.text}>
             آپ جو ٹیکس کم کریں گے ان میں سے آپ درج ذیل ٹیکسوں میں سے کتنے فیصد
             کم کریں گے۔
@@ -107,9 +109,7 @@ const AdditionalFund = () => {
             setValue={(value) => handleSliderChange(6, value)}
           />
           <IndividualSlider
-            text={
-              "درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"
-            }
+            text={"درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
             value={survey_funds_values[7]}
             setValue={(value) => handleSliderChange(7, value)}
           />

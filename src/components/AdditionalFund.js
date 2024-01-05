@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
@@ -44,76 +44,101 @@ const AdditionalFund = () => {
     <View
       style={{
         marginVertical: 20,
-        justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <PieChartJS values={survey_funds_values.slice(0, 4)} />
       <Text style={styles.text}>
         اس سے حکومت کے لیے مزید سہولیات فراہم کرنے یا ٹیکس کم کرنے کا امکان پیدا
         ہو گا۔ اس اضافی فنڈ کا کتنے فیصد آپ درج ذیل پر خرچ کریں گے۔
       </Text>
-      <IndividualSlider
-        text={"عوامی سہولیات پر اخراجات میں اضافہ"}
-        value={survey_funds_values[0]}
-        setValue={(value) => handleSliderChange(0, value)}
-      />
-      <IndividualSlider
-        text={"صوبائی/وفاقی حکومت سے بجٹ سپورٹ میں کمی"}
-        value={survey_funds_values[1]}
-        setValue={(value) => handleSliderChange(1, value)}
-      />
-      <IndividualSlider
-        text={"بین الاقوامی ڈونرز کے واجب الاداقرض کی ادائیگی "}
-        value={survey_funds_values[2]}
-        setValue={(value) => handleSliderChange(2, value)}
-      />
-      <IndividualSlider
-        text={"پراپرٹی ٹیکس کم کرنا"}
-        value={survey_funds_values[3]}
-        setValue={(value) => handleSliderChange(3, value)}
-      />
-      <Button
-        onPress={handleNextPress}
-        mode="contained"
-        labelStyle={{ color: "#000" }}
+      <View
         style={{
-          backgroundColor: "rgb(204, 204, 255)",
-          marginTop: 20, // Adjust spacing as needed
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+          marginVertical: 20,
         }}
       >
-        Next
-      </Button>
+        <PieChartJS values={survey_funds_values.slice(0, 4)} />
+        <View>
+          <IndividualSlider
+            text={"عوامی سہولیات پر اخراجات میں اضافہ"}
+            value={survey_funds_values[0]}
+            setValue={(value) => handleSliderChange(0, value)}
+          />
+          <IndividualSlider
+            text={"صوبائی/وفاقی حکومت سے بجٹ سپورٹ میں کمی"}
+            value={survey_funds_values[1]}
+            setValue={(value) => handleSliderChange(1, value)}
+          />
+          <IndividualSlider
+            text={"بین الاقوامی ڈونرز کے واجب الاداقرض کی ادائیگی "}
+            value={survey_funds_values[2]}
+            setValue={(value) => handleSliderChange(2, value)}
+          />
+          <IndividualSlider
+            text={"پراپرٹی ٹیکس کم کرنا"}
+            value={survey_funds_values[3]}
+            setValue={(value) => handleSliderChange(3, value)}
+          />
+          <Button
+            onPress={handleNextPress}
+            mode="contained"
+            labelStyle={{ color: "#000" }}
+            style={{
+              backgroundColor: "rgb(204, 204, 255)",
+              marginVertical: 20, // Adjust spacing as needed
+            }}
+          >
+            Next
+          </Button>
+        </View>
+      </View>
+
       {isNext && (
         <>
-          <PieChartJS values={survey_funds_values.slice(4, 8)} />
           <Text style={styles.text}>
             آپ جو ٹیکس کم کریں گے ان میں سے آپ درج ذیل ٹیکسوں میں سے کتنے فیصد
             کم کریں گے۔
           </Text>
-          <IndividualSlider
-            text={"زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کم کرنا"}
-            value={survey_funds_values[4]}
-            setValue={(value) => handleSliderChange(4, value)}
-          />
-          <IndividualSlider
-            text={
-              "درمیانی/کم قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کو کم کرنا"
-            }
-            value={survey_funds_values[5]}
-            setValue={(value) => handleSliderChange(5, value)}
-          />
-          <IndividualSlider
-            text={"اعلی قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح کو کم کرن"}
-            value={survey_funds_values[6]}
-            setValue={(value) => handleSliderChange(6, value)}
-          />
-          <IndividualSlider
-            text={"درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
-            value={survey_funds_values[7]}
-            setValue={(value) => handleSliderChange(7, value)}
-          />
-          <ReachedEndModal refresh={refreshValues} />
+          <View
+            style={{
+              flexDirection: "row",
+
+              alignContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <PieChartJS values={survey_funds_values.slice(4, 8)} />
+
+            <View>
+              <IndividualSlider
+                text={"زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کم کرنا"}
+                value={survey_funds_values[4]}
+                setValue={(value) => handleSliderChange(4, value)}
+              />
+              <IndividualSlider
+                text={
+                  "درمیانی/کم قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کو کم کرنا"
+                }
+                value={survey_funds_values[5]}
+                setValue={(value) => handleSliderChange(5, value)}
+              />
+              <IndividualSlider
+                text={"اعلی قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح کو کم کرن"}
+                value={survey_funds_values[6]}
+                setValue={(value) => handleSliderChange(6, value)}
+              />
+              <IndividualSlider
+                text={
+                  "درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"
+                }
+                value={survey_funds_values[7]}
+                setValue={(value) => handleSliderChange(7, value)}
+              />
+              <ReachedEndModal refresh={refreshValues} />
+            </View>
+          </View>
         </>
       )}
     </View>
@@ -125,8 +150,9 @@ export default AdditionalFund;
 const styles = StyleSheet.create({
   text: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
     lineHeight: 24,
+    width: Dimensions.get("window").width / 1.5,
     marginVertical: 10,
   },
 });

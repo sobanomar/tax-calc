@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
@@ -48,83 +48,108 @@ const ShortFall = () => {
   const refreshValues = () => {
     setRefresh(!refresh);
   };
+
   return (
     <View
       style={{
         marginVertical: 20,
-        justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <PieChartJS values={survey_funds_values.slice(0, 4)} />
       <Text style={styles.text}>
         اس سے حکومت کو کم خدمات فراہم کرنے یا ٹیکس بڑھانے کی ضرورت پیدا ہوگی۔ اس
         کمی کو پورا کرنے کے لیے، آپ درج ذیل میں سے ہر ایک میں کتنے فیصد اضافہ
         کریں گے
       </Text>
-
-      <IndividualSlider
-        text={"سہولیات پر اخراجات کو کم کرنا "}
-        value={survey_funds_values[0]}
-        setValue={(value) => handleSliderChange(0, value)}
-      />
-      <IndividualSlider
-        text={"صوبائی/وفاقی حکومت سے مزید بجٹ سپورٹ کی درخواست کرنا "}
-        value={survey_funds_values[1]}
-        setValue={(value) => handleSliderChange(1, value)}
-      />
-      <IndividualSlider
-        text={"مزید بین الاقو امی قرض حاصل کرنا"}
-        value={survey_funds_values[2]}
-        setValue={(value) => handleSliderChange(2, value)}
-      />
-      <IndividualSlider
-        text={"پراپرٹی ٹیکس میں اضافہ "}
-        value={survey_funds_values[3]}
-        setValue={(value) => handleSliderChange(3, value)}
-      />
-      <Button
-        onPress={handleNextPress}
-        mode="contained"
-        labelStyle={{ color: "#000" }}
+      <View
         style={{
-          backgroundColor: "rgb(204, 204, 255)",
-          marginTop: 20, // Adjust spacing as needed
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+          marginVertical: 20,
         }}
       >
-        Next
-      </Button>
+        <PieChartJS values={survey_funds_values.slice(0, 4)} />
+        <View>
+          <IndividualSlider
+            text={"سہولیات پر اخراجات کو کم کرنا "}
+            value={survey_funds_values[0]}
+            setValue={(value) => handleSliderChange(0, value)}
+          />
+          <IndividualSlider
+            text={"صوبائی/وفاقی حکومت سے مزید بجٹ سپورٹ کی درخواست کرنا "}
+            value={survey_funds_values[1]}
+            setValue={(value) => handleSliderChange(1, value)}
+          />
+          <IndividualSlider
+            text={"مزید بین الاقو امی قرض حاصل کرنا"}
+            value={survey_funds_values[2]}
+            setValue={(value) => handleSliderChange(2, value)}
+          />
+          <IndividualSlider
+            text={"پراپرٹی ٹیکس میں اضافہ "}
+            value={survey_funds_values[3]}
+            setValue={(value) => handleSliderChange(3, value)}
+          />
+          <Button
+            onPress={handleNextPress}
+            mode="contained"
+            labelStyle={{ color: "#000" }}
+            style={{
+              backgroundColor: "rgb(204, 204, 255)",
+              marginTop: 20, // Adjust spacing as needed
+            }}
+          >
+            Next
+          </Button>
+        </View>
+      </View>
 
       {isNext && (
         <>
-          <PieChartJS values={survey_funds_values.slice(4, 8)} />
           <Text style={styles.text}>
             آپ جو اضافی ٹیکس بڑھائیں گے، ان میں سے آپ درج ذیل میں سے کتنا فیصد
             بڑھائیں گے۔
           </Text>
-          <IndividualSlider
-            text={"زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ"}
-            value={survey_funds_values[4]}
-            setValue={(value) => handleSliderChange(4, value)}
-          />
-          <IndividualSlider
-            text={
-              "درمیانی/کم قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ "
-            }
-            value={survey_funds_values[5]}
-            setValue={(value) => handleSliderChange(5, value)}
-          />
-          <IndividualSlider
-            text={"زیادہ قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
-            value={survey_funds_values[6]}
-            setValue={(value) => handleSliderChange(6, value)}
-          />
-          <IndividualSlider
-            text={"درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
-            value={survey_funds_values[7]}
-            setValue={(value) => handleSliderChange(7, value)}
-          />
-          <ReachedEndModal refresh={refreshValues} />
+          <View
+            style={{
+              flexDirection: "row",
+              alignContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <PieChartJS values={survey_funds_values.slice(4, 8)} />
+
+            <View>
+              <IndividualSlider
+                text={
+                  "زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ"
+                }
+                value={survey_funds_values[4]}
+                setValue={(value) => handleSliderChange(4, value)}
+              />
+              <IndividualSlider
+                text={
+                  "درمیانی/کم قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ "
+                }
+                value={survey_funds_values[5]}
+                setValue={(value) => handleSliderChange(5, value)}
+              />
+              <IndividualSlider
+                text={"زیادہ قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"}
+                value={survey_funds_values[6]}
+                setValue={(value) => handleSliderChange(6, value)}
+              />
+              <IndividualSlider
+                text={
+                  "درمیانے/کم قیمت والی کمرشل پراپرٹی پر ٹیکس کی شرح میں اضافہ"
+                }
+                value={survey_funds_values[7]}
+                setValue={(value) => handleSliderChange(7, value)}
+              />
+              <ReachedEndModal refresh={refreshValues} />
+            </View>
+          </View>
         </>
       )}
     </View>
@@ -136,8 +161,9 @@ export default ShortFall;
 const styles = StyleSheet.create({
   text: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
     lineHeight: 24,
+    width: Dimensions.get("window").width / 1.5,
     marginVertical: 10,
   },
 });

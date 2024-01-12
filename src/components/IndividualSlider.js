@@ -40,7 +40,7 @@ const IndividualSlider = forwardRef(({ text, value, setValue }, ref) => {
           ref={ref}
           style={{
             height: 40,
-            width: Dimensions.get("window").width / 3,
+            width: Dimensions.get("window").width / 3.5,
             borderColor: "#000",
             borderWidth: 1,
             marginBottom: 10,

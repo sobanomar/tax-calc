@@ -5,6 +5,7 @@ import { useMyContext } from "../context/DataContext";
 import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
 import PieChartJS from "./PieChart";
+import PieChartInfo from "./PieChartInfo";
 
 const AdditionalFund = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
@@ -61,6 +62,28 @@ const AdditionalFund = () => {
       >
         <PieChartJS values={survey_funds_values.slice(0, 4)} />
         <View>
+          <PieChartInfo
+            color={"#ADD8E6"}
+            text={"عوامی سہولتوں میں اضافہ"}
+            percentage={survey_funds_values[0]}
+          />
+          <PieChartInfo
+            color={"green"}
+            text={"بجٹ سپورٹ میں کمی"}
+            percentage={survey_funds_values[1]}
+          />
+          <PieChartInfo
+            color={"red"}
+            text={"قرض کی ادائیگی"}
+            percentage={survey_funds_values[2]}
+          />
+          <PieChartInfo
+            color={"white"}
+            text={"جائیداد ٹیکس میں کمی"}
+            percentage={survey_funds_values[3]}
+          />
+        </View>
+        <View style={{ width: Dimensions.get("window").width / 3.5 }}>
           <IndividualSlider
             text={"عوامی سہولیات پر اخراجات میں اضافہ"}
             value={survey_funds_values[0]}
@@ -104,14 +127,34 @@ const AdditionalFund = () => {
           <View
             style={{
               flexDirection: "row",
-
               alignContent: "center",
               alignItems: "center",
             }}
           >
             <PieChartJS values={survey_funds_values.slice(4, 8)} />
-
             <View>
+              <PieChartInfo
+                color={"#ADD8E6"}
+                text={"زیادہ قیمت والی رہائشی پراپرٹیز کے ٹیکس میں قمی"}
+                percentage={survey_funds_values[4]}
+              />
+              <PieChartInfo
+                color={"green"}
+                text={"کم قیمت والی رہائشی پراپرٹیز کے ٹیکس میں قمی"}
+                percentage={survey_funds_values[5]}
+              />
+              <PieChartInfo
+                color={"red"}
+                text={"زیادہ قیمت والی تجارتی پراپرٹیز کے ٹیکس میں قمی"}
+                percentage={survey_funds_values[6]}
+              />
+              <PieChartInfo
+                color={"white"}
+                text={"کم قیمت والی تجارتی پراپرٹیز کے ٹیکس میں قمی"}
+                percentage={survey_funds_values[7]}
+              />
+            </View>
+            <View style={{ width: Dimensions.get("window").width / 3.5 }}>
               <IndividualSlider
                 text={"زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح کم کرنا"}
                 value={survey_funds_values[4]}
@@ -152,6 +195,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     lineHeight: 24,
+    color: "#000",
     width: Dimensions.get("window").width / 1.5,
     marginVertical: 10,
   },

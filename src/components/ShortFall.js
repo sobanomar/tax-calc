@@ -5,6 +5,7 @@ import IndividualSlider from "./IndividualSlider";
 import ReachedEndModal from "./ReachedEndModal";
 import { Button } from "react-native-paper";
 import PieChartJS from "./PieChart";
+import PieChartInfo from "./PieChartInfo";
 
 const ShortFall = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
@@ -71,6 +72,28 @@ const ShortFall = () => {
       >
         <PieChartJS values={survey_funds_values.slice(0, 4)} />
         <View>
+          <PieChartInfo
+            color={"#ADD8E6"}
+            text={"عوامی سہولتوں میں کمی"}
+            percentage={survey_funds_values[4]}
+          />
+          <PieChartInfo
+            color={"green"}
+            text={"بجٹ سپورٹ میں اضافہ"}
+            percentage={survey_funds_values[5]}
+          />
+          <PieChartInfo
+            color={"red"}
+            text={"قرض میں اضافہ"}
+            percentage={survey_funds_values[6]}
+          />
+          <PieChartInfo
+            color={"white"}
+            text={"جائیداد ٹیکس میں اضافى"}
+            percentage={survey_funds_values[7]}
+          />
+        </View>
+        <View style={{ width: Dimensions.get("window").width / 3.5 }}>
           <IndividualSlider
             text={"سہولیات پر اخراجات کو کم کرنا "}
             value={survey_funds_values[0]}
@@ -119,12 +142,31 @@ const ShortFall = () => {
             }}
           >
             <PieChartJS values={survey_funds_values.slice(4, 8)} />
-
             <View>
+              <PieChartInfo
+                color={"#ADD8E6"}
+                text={"زیادہ قیمت والی رہائشی پراپرٹیز کے ٹیکس میں اضافہ"}
+                percentage={survey_funds_values[4]}
+              />
+              <PieChartInfo
+                color={"green"}
+                text={"کم قیمت والی رہائشی پراپرٹیز کے ٹیکس میں اضافہ"}
+                percentage={survey_funds_values[5]}
+              />
+              <PieChartInfo
+                color={"red"}
+                text={"زیادہ قیمت والی تجارتی پراپرٹیز کے ٹیکس میں اضافہ"}
+                percentage={survey_funds_values[6]}
+              />
+              <PieChartInfo
+                color={"white"}
+                text={"کم قیمت والی تجارتی پراپرٹیز کے ٹیکس میں قمی"}
+                percentage={survey_funds_values[7]}
+              />
+            </View>
+            <View style={{ width: Dimensions.get("window").width / 3.5 }}>
               <IndividualSlider
-                text={
-                  "زیادہ قیمت والی رہائشی جائیدادوں پر ٹیکس کی شرح میں اضافہ"
-                }
+                text={"کم قیمت والی تجارتی پراپرٹیز کے ٹیکس میں اضافہ"}
                 value={survey_funds_values[4]}
                 setValue={(value) => handleSliderChange(4, value)}
               />

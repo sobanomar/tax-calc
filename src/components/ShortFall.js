@@ -19,8 +19,8 @@ const ShortFall = () => {
     newadditional_funds_values[index] = isNaN(value)
       ? 0
       : value === ""
-      ? 0
-      : parseInt(value);
+        ? 0
+        : parseInt(value);
 
     setsurvey_funds_values(newadditional_funds_values);
 
@@ -73,22 +73,22 @@ const ShortFall = () => {
         <PieChartJS values={survey_funds_values.slice(0, 4)} />
         <View>
           <PieChartInfo
-            color={"#ADD8E6"}
+            color={"red"}
             text={"عوامی سہولتوں میں کمی"}
             percentage={survey_funds_values[4]}
           />
           <PieChartInfo
-            color={"green"}
+            color={"blue"}
             text={"بجٹ سپورٹ میں اضافہ"}
             percentage={survey_funds_values[5]}
           />
           <PieChartInfo
-            color={"red"}
+            color={"green"}
             text={"قرض میں اضافہ"}
             percentage={survey_funds_values[6]}
           />
           <PieChartInfo
-            color={"white"}
+            color={"yellow"}
             text={"جائیداد ٹیکس میں اضافى"}
             percentage={survey_funds_values[7]}
           />
@@ -144,22 +144,22 @@ const ShortFall = () => {
             <PieChartJS values={survey_funds_values.slice(4, 8)} />
             <View>
               <PieChartInfo
-                color={"#ADD8E6"}
+                color={"red"}
                 text={"زیادہ قیمت والی رہائشی پراپرٹیز کے ٹیکس میں اضافہ"}
                 percentage={survey_funds_values[4]}
               />
               <PieChartInfo
-                color={"green"}
+                color={"blue"}
                 text={"کم قیمت والی رہائشی پراپرٹیز کے ٹیکس میں اضافہ"}
                 percentage={survey_funds_values[5]}
               />
               <PieChartInfo
-                color={"red"}
+                color={"green"}
                 text={"زیادہ قیمت والی تجارتی پراپرٹیز کے ٹیکس میں اضافہ"}
                 percentage={survey_funds_values[6]}
               />
               <PieChartInfo
-                color={"white"}
+                color={"yellow"}
                 text={"کم قیمت والی تجارتی پراپرٹیز کے ٹیکس میں قمی"}
                 percentage={survey_funds_values[7]}
               />

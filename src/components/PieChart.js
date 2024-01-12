@@ -6,25 +6,25 @@ const PieChartJS = ({ values }) => {
   const data = [
     {
       percentage: values[0],
-      color: "rgba(131, 167, 234, 1)",
+      color: "red", // Red color
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
       percentage: values[1],
-      color: "green",
+      color: "blue", // Blue color
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
       percentage: values[2],
-      color: "red",
+      color: "green", // Green color
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
       percentage: values[3],
-      color: "#ffffff",
+      color: "yellow", // Yellow color
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },

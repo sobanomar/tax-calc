@@ -75,22 +75,22 @@ const ShortFall = () => {
           <PieChartInfo
             color={"red"}
             text={"عوامی سہولتوں میں کمی"}
-            percentage={survey_funds_values[4]}
+            percentage={survey_funds_values[0]}
           />
           <PieChartInfo
             color={"blue"}
             text={"بجٹ سپورٹ میں اضافہ"}
-            percentage={survey_funds_values[5]}
+            percentage={survey_funds_values[1]}
           />
           <PieChartInfo
             color={"green"}
             text={"قرض میں اضافہ"}
-            percentage={survey_funds_values[6]}
+            percentage={survey_funds_values[2]}
           />
           <PieChartInfo
             color={"yellow"}
             text={"جائیداد ٹیکس میں اضافى"}
-            percentage={survey_funds_values[7]}
+            percentage={survey_funds_values[3]}
           />
         </View>
         <View style={{ width: Dimensions.get("window").width / 3.5 }}>

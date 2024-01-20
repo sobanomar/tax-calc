@@ -20,6 +20,7 @@ import { addEventListener } from "@react-native-community/netinfo";
 import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CommonActions } from "@react-navigation/native";
+import { getFormattedDate } from "../Utils/getFormattedDate";
 
 const RevenueAnalysis = ({ navigation }) => {
   const { inputData, idFilteredData, startTimeDash2, namedash2 } =
@@ -145,12 +146,13 @@ const RevenueAnalysis = ({ navigation }) => {
             (parseFloat(item2.current_tax.value) / parseFloat(item1.prop_val)) *
             100,
           revenue_value: isErrorModal ? 0 : apiResponse.total_revenue[0],
+          end_time: getFormattedDate(),
         };
         sheet_data.push(data1);
       }
       axios
         .post(
-          "https://sheet.best/api/sheets/536f0797-f92d-4796-a408-9c59977e4f43/tabs/Sheet2",
+          "https://sheet.best/api/sheets/3f21e5f8-732e-4f82-b96e-99d78358d696/tabs/Sheet2",
           sheet_data
         )
         .then((response) => {
@@ -298,7 +300,7 @@ const RevenueAnalysis = ({ navigation }) => {
           </Text>
           <Text>
             {apiResponse?.total_revenue &&
-            apiResponse?.total_revenue[0] > 5.45 ? (
+              apiResponse?.total_revenue[0] > 5.45 ? (
               <>
                 <Text> کے</Text>
                 <Text style={styles.greenText}> اضافی فنڈز</Text>

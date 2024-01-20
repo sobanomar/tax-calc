@@ -85,7 +85,8 @@ const PropertyDetails = ({ navigation }) => {
 
   useEffect(() => {
     // const propertiesData = require("../../assets/Prefillapp_pilot_data.json");
-    const propertiesData = require("../../assets/final_data.json");
+    // const propertiesData = require("../../assets/final_data.json");
+    const propertiesData = require("../../assets/Prefillapp_complete_data_v2.json");
     setData(propertiesData);
     startTimeDash2.current = getFormattedDate();
   }, []);
@@ -161,8 +162,8 @@ const PropertyDetails = ({ navigation }) => {
       return updatedData;
     });
 
-    if (propertyNumber.current === 10) navigation.navigate("Summary");
-    if (propertyNumber.current < 10) {
+    if (propertyNumber.current === 8) navigation.navigate("Summary");
+    if (propertyNumber.current < 8) {
       setPreferredTaxLiability(0);
       setCurrentTaxLiability(0);
       propertyNumber.current = propertyNumber.current + 1;

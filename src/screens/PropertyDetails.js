@@ -86,7 +86,8 @@ const PropertyDetails = ({ navigation }) => {
   useEffect(() => {
     // const propertiesData = require("../../assets/Prefillapp_pilot_data.json");
     // const propertiesData = require("../../assets/final_data.json");
-    const propertiesData = require("../../assets/Prefillapp_complete_data_v2.json");
+    // const propertiesData = require("../../assets/Prefillapp_complete_data_v2.json");
+    const propertiesData = require("../../assets/Prefillapp_complete_data_v2(2).json");
     setData(propertiesData);
     startTimeDash2.current = getFormattedDate();
   }, []);

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tax calculation",
-    "slug": "tax-calculation",
+    "name": "TaxCalculationApp",
+    "slug": "tax-app",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -32,9 +32,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "637348d8-3bf0-43b7-a054-005fbd78a545"
+        "projectId": "8e4ec5c9-4da2-4d54-817f-221ceda7039c"
       }
     },
-    "owner": "hassan0184"
+    "owner": "talha-ayub"
   }
 }

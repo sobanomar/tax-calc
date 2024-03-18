@@ -39,3 +39,7 @@ If you have any questions or suggestions, feel free to reach out to Soban Umar:
 
 Name: Soban Umar
 Email: sobanumar0@gmail.com
+
+#APK Command
+To create an build for Android use this command for APK:
+eas build -p android --profile preview

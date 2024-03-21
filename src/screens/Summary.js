@@ -53,8 +53,8 @@ const Summary = ({ navigation }) => {
       });
 
     // Aggregating prop values
-    for (let i = 0; i < propValue.current.length; i += 3) {
-      const group = propValue.current.slice(i, i + 3); // Extract a group of four data points
+    for (let i = 0; i < propValue.current.length; i += 2) {
+      const group = propValue.current.slice(i, i + 2); // Extract a group of four data points
       const sum = group.reduce((total, value) => total + value, 0); // Calculate sum
       const average = sum / group.length; // Calculate average
       const scientificNotation = average.toExponential();
@@ -68,17 +68,30 @@ const Summary = ({ navigation }) => {
     setData(inputData);
   };
 
-  const handleNextPress = () => {
-    navigation.navigate("ATRPlot");
-  };
+  // Create an array of objects where each object contains both the property value and the corresponding ATR value
+  const combinedData = propValue.current.map((value, index) => ({
+    propValue: value,
+    atrValue: atrValue.current[index]
+  }));
 
+  // Sort the combinedData array based on the property values
+  combinedData.sort((a, b) => parseFloat(a.propValue) - parseFloat(b.propValue));
+
+  // Separate the sorted ATR values from the combinedData array
+  const sortedAtrValues = combinedData.map(item => item.atrValue);
+
+  // Update chartData.current with sorted ATR values
   chartData.current = {
     labels: aggregatedPropValues.current.sort((a, b) => a - b),
     datasets: [
       {
-        data: atrValue.current,
+        data: sortedAtrValues,
       },
     ],
+  };
+
+  const handleNextPress = () => {
+    navigation.navigate("ATRPlot");
   };
 
   const linearRegression = (xValues, yValues) => {

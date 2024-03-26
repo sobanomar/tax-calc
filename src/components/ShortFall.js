@@ -11,8 +11,7 @@ const ShortFall = () => {
   const { survey_funds_values, setsurvey_funds_values } = useMyContext();
   const [isNext, setIsNext] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [secondFourSum, setSecondFourSum] = useState(0);
-  const [textInputs, setTextInputs] = useState(Array(8).fill("")); // State for text input values
+  const [isFirstIndexZero, setIsFirstIndexZero] = useState(false); // Initialize as state variable
 
   const handleSliderChange = (index, value) => {
     const newadditional_funds_values = [...survey_funds_values];
@@ -23,25 +22,22 @@ const ShortFall = () => {
         : parseInt(value);
 
     setsurvey_funds_values(newadditional_funds_values);
-
-    // Update the text input values
-    const newTextInputs = newadditional_funds_values.map((value) =>
-      String(value)
-    );
-    setTextInputs(newTextInputs);
   };
 
   const handleNextPress = () => {
     const [firstFour] = [survey_funds_values.slice(0, 4)];
-
     const sumFirstFour = firstFour.reduce((acc, val) => acc + val, 0);
-    // Check the condition for the first four values
+
     if (sumFirstFour !== 100) {
+      // Reset values and show alert
       setsurvey_funds_values([0, 0, 0, 0, 0, 0, 0, 0]);
-      alert(
-        "کل 100 فیصد کے برابر ہونا چاہئے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔"
-      );
+      alert("کل 100 فیصد کے برابر ہونا چاہئے۔ براہ کرم چار قیمتیں دوبارہ درج کریں۔");
+    } else if (survey_funds_values[0] === 0) {
+      // Move to ReachedEndModal if the first index value is zero
+      setIsNext(true);
+      setIsFirstIndexZero(true);
     } else {
+      // Proceed to next step
       setIsNext(true);
     }
   };
@@ -128,7 +124,7 @@ const ShortFall = () => {
         </View>
       </View>
 
-      {isNext && (
+      {isNext && survey_funds_values[0] !== 0 && (
         <>
           <Text style={styles.text}>
             آپ جو اضافی ٹیکس بڑھائیں گے، ان میں سے آپ درج ذیل میں سے کتنا فیصد
@@ -189,9 +185,17 @@ const ShortFall = () => {
                 value={survey_funds_values[7]}
                 setValue={(value) => handleSliderChange(7, value)}
               />
-              <ReachedEndModal refresh={refreshValues} />
+              <ReachedEndModal refresh={refreshValues} isFirstIndexZero={isFirstIndexZero} />
             </View>
           </View>
+        </>
+      )}
+      {(isNext && survey_funds_values[0] == 0 && 
+        <>
+          <ReachedEndModal
+            refresh={refreshValues}
+            isFirstIndexZero={isFirstIndexZero}
+          />
         </>
       )}
     </View>
